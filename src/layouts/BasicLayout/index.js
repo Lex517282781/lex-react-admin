@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
@@ -42,17 +42,12 @@ const getRouterMap = (routers, appPreset) => {
 
 const memoizeOneGetRouterMap = memoizeOne(getRouterMap, isEqual);
 
-class BasicLayout extends Component {
+class BasicLayout extends PureComponent {
   render() {
     const routerMap = memoizeOneGetRouterMap(appRouter, appMap);
 
     return (
       <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => <Redirect to={`/${appRouter[0].key}`} push />}
-        />
         {Object.entries(routerMap).map(([key, value]) => {
           if (value.redirect) {
             return (
@@ -71,6 +66,7 @@ class BasicLayout extends Component {
             return null;
           }
         })}
+        <Route render={() => <Redirect to={`/${appRouter[0].key}`} push />} />
       </Switch>
     );
   }
