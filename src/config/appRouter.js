@@ -3,13 +3,13 @@ const router = [
     key: 'dashboard',
     children: [
       {
-        path: 'analysis'
+        key: 'analysis'
       },
       {
-        path: 'monitor'
+        key: 'monitor'
       },
       {
-        path: 'workplace'
+        key: 'workplace'
       }
     ]
   },
@@ -17,13 +17,13 @@ const router = [
     key: 'form',
     children: [
       {
-        path: 'basic'
+        key: 'basic'
       },
       {
-        path: 'step'
+        key: 'step'
       },
       {
-        path: 'advanced'
+        key: 'advanced'
       }
     ]
   },
@@ -31,13 +31,13 @@ const router = [
     key: 'list',
     children: [
       {
-        path: 'search'
+        key: 'search'
       },
       {
-        path: 'basic'
+        key: 'basic'
       },
       {
-        path: 'card'
+        key: 'card'
       }
     ]
   },
@@ -45,13 +45,13 @@ const router = [
     key: 'profile',
     children: [
       {
-        path: 'basic'
+        key: 'basic'
       },
       {
-        path: 'advanced'
+        key: 'advanced'
       },
       {
-        path: 'card'
+        key: 'card'
       }
     ]
   },
@@ -59,10 +59,10 @@ const router = [
     key: 'result',
     children: [
       {
-        path: 'success'
+        key: 'success'
       },
       {
-        path: 'fail'
+        key: 'fail'
       }
     ]
   },
@@ -70,16 +70,16 @@ const router = [
     key: 'exception',
     children: [
       {
-        path: 'notpermission'
+        key: 'notpermission'
       },
       {
-        path: 'notfind'
+        key: 'notfind'
       },
       {
-        path: 'servererror'
+        key: 'servererror'
       },
       {
-        path: 'trigger'
+        key: 'trigger'
       }
     ]
   },
@@ -87,10 +87,10 @@ const router = [
     key: 'account',
     children: [
       {
-        path: 'center'
+        key: 'center'
       },
       {
-        path: 'settings'
+        key: 'settings'
       }
     ]
   }

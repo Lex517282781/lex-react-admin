@@ -1,10 +1,13 @@
 import React from 'react';
-import { DatePicker } from 'antd';
+import { BrowserRouter } from 'react-router-dom';
+import BasicLayout from '@/layouts/BasicLayout';
 
 function App() {
   return (
     <div className="App">
-      <DatePicker></DatePicker>
+      <BrowserRouter>
+        <BasicLayout></BasicLayout>
+      </BrowserRouter>
     </div>
   );
 }
