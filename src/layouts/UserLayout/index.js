@@ -1,50 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Icon } from 'antd';
-import memoizeOne from 'memoize-one';
-import isEqual from 'lodash/isEqual';
 import userRouter from '@/config/userRouter';
 import userMap from '@/config/userMap';
+import getRouterMap from '@/utils/getRouterMap';
 import GlobalFooter from '@/components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
 import logo from '@/assets/imgs/logo.svg';
 import styles from './style.less';
-
-// 暂时只支持二级路由
-const getRouterMap = (routers, userPreset) => {
-  const routerMap = {};
-  const flattenRoutersData = (data, parent) => {
-    data.forEach(router => {
-      let mapKey = '';
-
-      if (parent) {
-        mapKey = `/${parent.key}/${router.key}`;
-      } else {
-        mapKey = `/${router.key}`;
-      }
-
-      let presetKey = mapKey.replace(/\//g, '.');
-
-      routerMap[mapKey] = userPreset[`menu${presetKey}`];
-
-      if (router.children) {
-        // 配置默认跳转链接
-        const firstRouterKey = router.children[0].key;
-        routerMap[mapKey] = {
-          ...routerMap[mapKey],
-          redirect: `/${router.key}/${firstRouterKey}`
-        };
-        flattenRoutersData(router.children, router);
-      }
-    });
-  };
-
-  flattenRoutersData(routers);
-
-  return routerMap;
-};
-
-const memoizeOneGetRouterMap = memoizeOne(getRouterMap, isEqual);
 
 const links = [
   {
@@ -83,7 +46,7 @@ class UserLayout extends PureComponent {
   // }
 
   render() {
-    const routerMap = memoizeOneGetRouterMap(userRouter, userMap);
+    const routerMap = getRouterMap(userRouter, userMap);
 
     const routers = (
       <Switch>
