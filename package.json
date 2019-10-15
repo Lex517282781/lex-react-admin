@@ -16,6 +16,7 @@
     "babel-preset-react-app": "^9.0.2",
     "camelcase": "^5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
+    "classnames": "^2.2.6",
     "css-loader": "2.1.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "5.1.0",
@@ -39,6 +40,7 @@
     "lodash": "^4.17.15",
     "memoize-one": "^5.1.1",
     "mini-css-extract-plugin": "0.8.0",
+    "omit": "^1.0.1",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -46,6 +48,7 @@
     "postcss-normalize": "7.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
+    "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-app-polyfill": "^1.0.4",
     "react-dev-utils": "^9.1.0",
@@ -142,14 +145,14 @@
         {
           "libraryName": "antd",
           "libraryDirectory": "es",
-          "style": "css"
+          "style": true
         }
       ]
     ]
   },
   "devDependencies": {
     "babel-plugin-import": "^1.12.2",
-    "less": "^3.10.3",
+    "less": "^2.7.2",
     "less-loader": "^5.0.0"
   }
 }
