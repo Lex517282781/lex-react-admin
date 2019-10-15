@@ -51,6 +51,8 @@ const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const lessRegex = /\.less$/; // 新增less配置
 const lessModuleRegex = /\.module\.less$/;
+const antdRegex = /node_modules|antd\.less/;
+const antd2lessModuleReg = /node_modules|antd\.less|\.module\.less$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -499,12 +501,23 @@ module.exports = function(webpackEnv) {
             },
             {
               test: lessRegex,
-              exclude: lessModuleRegex,
+              exclude: antd2lessModuleReg,
               use: getStyleLoaders(
                 {
                   importLoaders: 1, // 值是1
                   modules: true, // 增加这个可以通过模块方式来访问css
                   sourceMap: isEnvProduction && shouldUseSourceMap
+                },
+                'less-loader'
+              ),
+              sideEffects: true
+            },
+            {
+              test: lessRegex,
+              include: antdRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 1 // 值是1
                 },
                 'less-loader'
               ),
