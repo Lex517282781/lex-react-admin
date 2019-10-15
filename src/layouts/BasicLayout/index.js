@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
-// import asyncComponent from '@/components/asyncComponent';
 import appRouter from '@/config/appRouter';
 import appMap from '@/config/appMap';
 
