@@ -1,13 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.less';
+import { AppContainer } from 'react-hot-loader';
+import { Provider } from 'react-redux';
 import Routers from './Routers';
-// import 'animate.css';
+import store from './store';
+import { ConfigProvider } from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import 'moment/locale/zh-cn';
+import './index.less';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<Routers />, document.getElementById('root'));
+const render = Component => {
+  ReactDOM.render(
+    <AppContainer>
+      <Provider store={store}>
+        <ConfigProvider locale={zh_CN}>
+          <Component />
+        </ConfigProvider>
+      </Provider>
+    </AppContainer>,
+    document.getElementById('root')
+  );
+};
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+render(Routers);
+
+if (module.hot) {
+  module.hot.accept(Routers, () => {
+    render(Routers);
+  });
+}
+
 serviceWorker.unregister();

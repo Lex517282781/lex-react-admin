@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
-import { Spin, Tag, Menu, Icon, Avatar, Tooltip, message } from 'antd';
+import { Spin, Tag, Menu, Icon, Avatar, Tooltip } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
-import NoticeIcon from '../NoticeIcon';
-import HeaderSearch from '../HeaderSearch';
-import HeaderDropdown from '../HeaderDropdown';
-import SelectLang from '../SelectLang';
-import styles from './style.less';
+import NoticeIcon from '@/components/NoticeIcon';
+import HeaderSearch from '@/components/HeaderSearch';
+import HeaderDropdown from '@/components/HeaderDropdown';
+import SelectLang from '@/components/SelectLang';
+import styles from '../style.less';
 
 class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
@@ -55,37 +55,39 @@ class GlobalHeaderRight extends PureComponent {
 
   changeReadState = clickedItem => {
     const { id } = clickedItem;
-    console.log(id);
+    console.log(
+      `dispatch({
+        type: 'global/changeNoticeReadState',
+        payload: ${id},
+      })`
+    );
+  };
+
+  fetchMoreNotices = tabProps => {
+    const { list, name } = tabProps;
+    const { notices = [] } = this.props;
+    const lastItemId = notices[notices.length - 1].id;
+    console.log(`dispatch({
+      type: 'global/fetchMoreNotices',
+      payload: {
+        lastItemId: ${lastItemId},
+        type: ${name},
+        offset: ${list.length},
+      },
+    });`);
   };
 
   render() {
-    const currentUser = {
-      name: 'Serati Ma',
-      avatar:
-        'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
-      userid: '00000001',
-      email: 'antdesign@alipay.com',
-      signature: '海纳百川，有容乃大',
-      title: '交互专家',
-      group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
-      tags: [
-        { key: '0', label: '很有想法的' },
-        { key: '1', label: '专注设计' },
-        { key: '2', label: '辣~' },
-        { key: '3', label: '大长腿' },
-        { key: '4', label: '川妹子' },
-        { key: '5', label: '海纳百川' }
-      ],
-      notifyCount: 12,
-      unreadCount: 11,
-      country: 'China',
-      geographic: {
-        province: { label: '浙江省', key: '330000' },
-        city: { label: '杭州市', key: '330100' }
-      },
-      address: '西湖区工专路 77 号',
-      phone: '0752-268888888'
-    };
+    const {
+      currentUser,
+      fetchingMoreNotices,
+      fetchingNotices,
+      loadedAllNotices,
+      onNoticeVisibleChange,
+      onNoticeClear,
+      skeletonCount,
+      theme
+    } = this.props;
 
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]}>
@@ -108,11 +110,13 @@ class GlobalHeaderRight extends PureComponent {
         </Menu.Item>
       </Menu>
     );
+    const loadMoreProps = {
+      skeletonCount,
+      loadedAll: loadedAllNotices,
+      loading: fetchingMoreNotices
+    };
     const noticeData = this.getNoticeData();
     const unreadMsg = this.getUnreadData(noticeData);
-
-    let theme = 'dark';
-
     let className = styles.right;
     if (theme === 'dark') {
       className = `${styles.right}  ${styles.dark}`;
@@ -148,7 +152,6 @@ class GlobalHeaderRight extends PureComponent {
             console.log(item, tabProps); // eslint-disable-line
             this.changeReadState(item, tabProps);
           }}
-          loading={false}
           locale={{
             emptyText: '暂无数据',
             clear: '清空了',
@@ -157,32 +160,36 @@ class GlobalHeaderRight extends PureComponent {
             message: '消息',
             event: '待办'
           }}
-          onViewMore={() => message.info('Click on view more')}
+          onClear={onNoticeClear}
+          onLoadMore={this.fetchMoreNotices}
+          onPopupVisibleChange={onNoticeVisibleChange}
+          loading={fetchingNotices}
           clearClose
         >
           <NoticeIcon.Tab
             count={unreadMsg.notification}
             list={noticeData.notification}
-            title="notification"
+            title="通知"
+            name="notification"
             emptyText="你已查看所有通知"
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
-            showViewMore
+            {...loadMoreProps}
           />
           <NoticeIcon.Tab
             count={unreadMsg.message}
             list={noticeData.message}
-            title="message"
+            title="消息"
             emptyText="您已读完所有消息"
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
-            showViewMore
+            {...loadMoreProps}
           />
           <NoticeIcon.Tab
             count={unreadMsg.event}
             list={noticeData.event}
-            title="event"
+            title="待办"
             emptyText="你已完成所有待办"
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
-            showViewMore
+            {...loadMoreProps}
           />
         </NoticeIcon>
         {currentUser.name ? (
