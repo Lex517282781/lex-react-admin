@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-class DashboardAnalysis extends Component {
+class ListBasic extends Component {
   render() {
-    return <div>DashboardAnalysis</div>;
+    return <div>ListBasic</div>;
   }
 }
 
-export default DashboardAnalysis;
+export default ListBasic;

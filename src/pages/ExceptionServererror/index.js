@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-class DashboardAnalysis extends Component {
+class ExceptionServererror extends Component {
   render() {
-    return <div>DashboardAnalysis</div>;
+    return <div>ExceptionServererror</div>;
   }
 }
 
-export default DashboardAnalysis;
+export default ExceptionServererror;
