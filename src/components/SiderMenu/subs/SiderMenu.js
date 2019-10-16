@@ -75,6 +75,7 @@ class SiderMenu extends PureComponent {
       [styles.fixSiderbar]: fixSiderbar,
       [styles.light]: theme === 'light'
     });
+
     return (
       <Sider
         trigger={null}
@@ -83,7 +84,7 @@ class SiderMenu extends PureComponent {
         breakpoint="lg"
         onCollapse={collapse => {
           if (firstMount || !isMobile) {
-            onCollapse({ collapse });
+            onCollapse({ collapsed: collapse });
           }
         }}
         width={256}
