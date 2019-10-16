@@ -47,20 +47,21 @@ class HeaderView extends Component {
   };
 
   handleMenuClick = ({ key }) => {
+    const { history } = this.props;
     if (key === 'userCenter') {
-      console.log('个人中心');
+      history.push('/account/center');
       return;
     }
     if (key === 'triggerError') {
-      console.log('错误页面');
+      history.push('/exception/trigger');
       return;
     }
     if (key === 'userinfo') {
-      console.log('个人信息');
+      history.push('/account/settings');
       return;
     }
     if (key === 'logout') {
-      console.log('退出');
+      history.replace('/user/login');
     }
   };
 

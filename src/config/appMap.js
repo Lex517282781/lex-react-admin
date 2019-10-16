@@ -49,9 +49,6 @@ const routerMap = {
   'menu.profile.advanced': {
     component: asyncComponent(() => import('@/pages/ProfileAdvanced'))
   },
-  'menu.profile.card': {
-    component: asyncComponent(() => import('@/pages/ProfileCard'))
-  },
 
   'menu.result': {
     icon: 'check-circle-o'

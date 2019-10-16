@@ -84,13 +84,14 @@ class GlobalHeaderRight extends PureComponent {
       fetchingNotices,
       loadedAllNotices,
       onNoticeVisibleChange,
+      onMenuClick,
       onNoticeClear,
       skeletonCount,
       theme
     } = this.props;
 
     const menu = (
-      <Menu className={styles.menu} selectedKeys={[]}>
+      <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">
           <Icon type="user" />
           个人中心

@@ -51,9 +51,6 @@ const router = [
       },
       {
         key: 'advanced'
-      },
-      {
-        key: 'card'
       }
     ]
   },

@@ -180,16 +180,16 @@ const initState = {
         authority: ['admin', 'user'],
         children: [
           {
-            path: '/form/basic-form',
+            path: '/form/basic',
             name: '基础表单',
             exact: true,
-            locale: 'menu.form.basicform'
+            locale: 'menu.form.basic'
           },
           {
-            path: '/form/step-form',
+            path: '/form/step',
             name: '分步表单',
             hideChildrenInMenu: true,
-            locale: 'menu.form.stepform',
+            locale: 'menu.form.step',
             children: [
               {
                 path: '/form/step-form/info',
@@ -212,11 +212,11 @@ const initState = {
             ]
           },
           {
-            path: '/form/advanced-form',
+            path: '/form/advanced',
             name: '高级表单',
             authority: ['admin'],
             exact: true,
-            locale: 'menu.form.advancedform'
+            locale: 'menu.form.advanced'
           }
         ]
       },
@@ -228,22 +228,22 @@ const initState = {
         authority: ['admin', 'user'],
         children: [
           {
-            path: '/list/table-list',
+            path: '/list/search',
             name: '查询表格',
             exact: true,
-            locale: 'menu.list.searchtable'
+            locale: 'menu.list.search'
           },
           {
-            path: '/list/basic-list',
+            path: '/list/basic',
             name: '标准列表',
             exact: true,
-            locale: 'menu.list.basiclist'
+            locale: 'menu.list.basic'
           },
           {
-            path: '/list/card-list',
+            path: '/list/card',
             name: '卡片列表',
             exact: true,
-            locale: 'menu.list.cardlist'
+            locale: 'menu.list.card'
           },
           {
             path: '/list/search',
