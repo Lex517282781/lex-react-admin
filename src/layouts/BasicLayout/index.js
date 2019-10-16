@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 // import FooterView from '../FooterView';
 import Header from '../HeaderView';
 import Media from 'react-media';
+import SiderMenu from '@/components/SiderMenu';
 import logo from '@/assets/imgs/logo.svg';
 import appRouter from '@/config/appRouter';
 import appMap from '@/config/appMap';
@@ -22,21 +23,42 @@ class BasicLayout extends PureComponent {
   };
 
   render() {
-    const { isMobile } = this.props;
+    const {
+      navTheme,
+      layout: PropsLayout,
+      // location: { pathname },
+      isMobile,
+      menuData,
+      // breadcrumbNameMap,
+      fixedHeader
+    } = this.props;
 
+    const isTop = PropsLayout === 'topmenu';
     const routerMap = getRouterMap(appRouter, appMap);
+
+    const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
 
     const layout = (
       <Layout>
+        {isTop && !isMobile ? null : (
+          <SiderMenu
+            logo={logo}
+            theme={navTheme}
+            onCollapse={this.handleMenuCollapse}
+            menuData={menuData}
+            isMobile={isMobile}
+            {...this.props}
+          />
+        )}
         <Layout>
           <Header
-            // menuData={menuData}
+            menuData={menuData}
             handleMenuCollapse={this.handleMenuCollapse}
             logo={logo}
             isMobile={isMobile}
             {...this.props}
           />
-          <Content className={styles.content}>
+          <Content className={styles.content} style={contentStyle}>
             <Switch>
               {Object.entries(routerMap).map(([key, value]) => {
                 if (value.redirect) {
@@ -74,7 +96,20 @@ class BasicLayout extends PureComponent {
   }
 }
 
-export default connect()(props => (
+const mapStateToProps = state => ({
+  collapsed: state.common.global.collapsed,
+  layout: state.common.setting.layout,
+  menuData: state.common.menu.menuData,
+  breadcrumbNameMap: state.common.menu.breadcrumbNameMap,
+  ...state.common.setting
+});
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(props => (
   <Media query="(max-width: 599px)">
     {isMobile => <BasicLayout {...props} isMobile={isMobile} />}
   </Media>
