@@ -1,0 +1,1 @@
+export const GLOBAL_UPDATE = 'COMMON/GLOBAL_UPDATE';

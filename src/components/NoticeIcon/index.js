@@ -8,7 +8,7 @@ import styles from './style.less';
 
 const { TabPane } = Tabs;
 
-export default class NoticeIcon extends PureComponent {
+class NoticeIcon extends PureComponent {
   static Tab = TabPane;
 
   static defaultProps = {
@@ -162,3 +162,5 @@ export default class NoticeIcon extends PureComponent {
     );
   }
 }
+
+export default NoticeIcon;

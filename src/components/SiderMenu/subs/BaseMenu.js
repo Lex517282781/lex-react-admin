@@ -106,7 +106,9 @@ class BaseMenu extends PureComponent {
         onClick={
           isMobile
             ? () => {
-                onCollapse(true);
+                onCollapse({
+                  collapsed: true
+                });
               }
             : undefined
         }

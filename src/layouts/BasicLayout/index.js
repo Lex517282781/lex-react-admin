@@ -1,25 +1,82 @@
 import React, { PureComponent } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { actionCreators as commonActionCreators } from '@/store/common';
 import { Layout } from 'antd';
-// import FooterView from '../FooterView';
+import { ContainerQuery } from 'react-container-query';
+import classNames from 'classnames';
+import Footer from '../FooterView';
 import Header from '../HeaderView';
 import Media from 'react-media';
 import SiderMenu from '@/components/SiderMenu';
+import Context from '../context/MenuContext';
 import logo from '@/assets/imgs/logo.svg';
 import appRouter from '@/config/appRouter';
 import appMap from '@/config/appMap';
 import getRouterMap from '@/utils/getRouterMap';
 import styles from './index.js';
 
+// lazy load SettingDrawer
+const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
+
 const { Content } = Layout;
 
+const query = {
+  'screen-xs': {
+    maxWidth: 575
+  },
+  'screen-sm': {
+    minWidth: 576,
+    maxWidth: 767
+  },
+  'screen-md': {
+    minWidth: 768,
+    maxWidth: 991
+  },
+  'screen-lg': {
+    minWidth: 992,
+    maxWidth: 1199
+  },
+  'screen-xl': {
+    minWidth: 1200,
+    maxWidth: 1599
+  },
+  'screen-xxl': {
+    minWidth: 1600
+  }
+};
+
 class BasicLayout extends PureComponent {
+  getContext() {
+    const { location, breadcrumbNameMap } = this.props;
+    return {
+      location,
+      breadcrumbNameMap
+    };
+  }
+
+  getLayoutStyle = () => {
+    const { fixSiderbar, isMobile, collapsed, layout } = this.props;
+    if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
+      return {
+        paddingLeft: collapsed ? '80px' : '256px'
+      };
+    }
+    return null;
+  };
+
   handleMenuCollapse = collapsed => {
-    console.log(`dispatch({
-      type: 'global/changeLayoutCollapsed',
-      payload: collapsed
-    });`);
+    const { global_update } = this.props;
+    global_update(collapsed);
+  };
+
+  renderSettingDrawer = () => {
+    // Do not render SettingDrawer in production
+    // unless it is deployed in preview.pro.ant.design as demo
+    if (process.env.NODE_ENV === 'production') {
+      return null;
+    }
+    return <SettingDrawer />;
   };
 
   render() {
@@ -50,7 +107,12 @@ class BasicLayout extends PureComponent {
             {...this.props}
           />
         )}
-        <Layout>
+        <Layout
+          style={{
+            ...this.getLayoutStyle(),
+            minHeight: '100vh'
+          }}
+        >
           <Header
             menuData={menuData}
             handleMenuCollapse={this.handleMenuCollapse}
@@ -88,11 +150,22 @@ class BasicLayout extends PureComponent {
               />
             </Switch>
           </Content>
+          <Footer />
         </Layout>
       </Layout>
     );
 
-    return layout;
+    return (
+      <React.Fragment>
+        <ContainerQuery query={query}>
+          {params => (
+            <Context.Provider value={this.getContext()}>
+              <div className={classNames(params)}>{layout}</div>
+            </Context.Provider>
+          )}
+        </ContainerQuery>
+      </React.Fragment>
+    );
   }
 }
 
@@ -104,7 +177,9 @@ const mapStateToProps = state => ({
   ...state.common.setting
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  global_update: commonActionCreators.global_update
+};
 
 export default connect(
   mapStateToProps,

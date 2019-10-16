@@ -20,7 +20,9 @@ class GlobalHeader extends PureComponent {
 
   toggle = () => {
     const { collapsed, onCollapse } = this.props;
-    onCollapse(!collapsed);
+    onCollapse({
+      collapsed: !collapsed
+    });
     this.triggerResizeEvent();
   };
 

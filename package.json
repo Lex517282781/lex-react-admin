@@ -58,6 +58,8 @@
     "rc-animate": "^2.10.1",
     "react": "^16.10.2",
     "react-app-polyfill": "^1.0.4",
+    "react-container-query": "^0.11.0",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dev-utils": "^9.1.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.10.2",

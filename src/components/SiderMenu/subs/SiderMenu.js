@@ -5,9 +5,14 @@ import { Link } from 'react-router-dom';
 import styles from '../style.less';
 import PageLoading from '@/components/PageLoading';
 import { getDefaultCollapsedSubMenus } from '../tools';
+import setting from '@/config/defaultSettings';
+
+const { title } = setting;
 
 const BaseMenu = React.lazy(() => import('./BaseMenu'));
 const { Sider } = Layout;
+
+let firstMount = true;
 
 class SiderMenu extends PureComponent {
   constructor(props) {
@@ -17,11 +22,19 @@ class SiderMenu extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    firstMount = false;
+  }
+
   static getDerivedStateFromProps(props, state) {
-    const { pathname } = state;
-    if (props.location.pathname !== pathname) {
+    const { pathname, flatMenuKeysLen } = state;
+    if (
+      props.location.pathname !== pathname ||
+      props.flatMenuKeys.length !== flatMenuKeysLen
+    ) {
       return {
         pathname: props.location.pathname,
+        flatMenuKeysLen: props.flatMenuKeys.length,
         openKeys: getDefaultCollapsedSubMenus(props)
       };
     }
@@ -47,7 +60,14 @@ class SiderMenu extends PureComponent {
   };
 
   render() {
-    const { logo, collapsed, onCollapse, fixSiderbar, theme } = this.props;
+    const {
+      logo,
+      collapsed,
+      onCollapse,
+      fixSiderbar,
+      theme,
+      isMobile
+    } = this.props;
     const { openKeys } = this.state;
     const defaultProps = collapsed ? {} : { openKeys };
 
@@ -61,7 +81,11 @@ class SiderMenu extends PureComponent {
         collapsible
         collapsed={collapsed}
         breakpoint="lg"
-        onCollapse={onCollapse}
+        onCollapse={collapse => {
+          if (firstMount || !isMobile) {
+            onCollapse({ collapse });
+          }
+        }}
         width={256}
         theme={theme}
         className={siderClassName}
@@ -69,7 +93,7 @@ class SiderMenu extends PureComponent {
         <div className={styles.logo} id="logo">
           <Link to="/">
             <img src={logo} alt="logo" />
-            <h1>Ant Design Pro</h1>
+            <h1>{title}</h1>
           </Link>
         </div>
         <Suspense fallback={<PageLoading />}>

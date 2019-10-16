@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Layout, message } from 'antd';
 import Animate from 'rc-animate';
 import GlobalHeader from '@/components/GlobalHeader';
+import TopNavHeader from '@/components/TopNavHeader';
 import styles from './style.less';
 
 const { Header } = Layout;
@@ -105,7 +106,7 @@ class HeaderView extends Component {
 
   render() {
     const { isMobile, handleMenuCollapse, setting } = this.props;
-    const { layout, fixedHeader } = setting; // navTheme,
+    const { layout, navTheme, fixedHeader } = setting;
     const { visible } = this.state;
     const isTop = layout === 'topmenu';
     const width = this.getHeadWidth();
@@ -115,7 +116,9 @@ class HeaderView extends Component {
         className={fixedHeader ? styles.fixedHeader : ''}
       >
         {isTop && !isMobile ? (
-          <GlobalHeader
+          <TopNavHeader
+            theme={navTheme}
+            mode="horizontal"
             onCollapse={handleMenuCollapse}
             onNoticeClear={this.handleNoticeClear}
             onMenuClick={this.handleMenuClick}
@@ -123,15 +126,6 @@ class HeaderView extends Component {
             {...this.props}
           />
         ) : (
-          // <TopNavHeader
-          //   theme={navTheme}
-          //   mode="horizontal"
-          //   onCollapse={handleMenuCollapse}
-          //   onNoticeClear={this.handleNoticeClear}
-          //   onMenuClick={this.handleMenuClick}
-          //   onNoticeVisibleChange={this.handleNoticeVisibleChange}
-          //   {...this.props}
-          // />
           <GlobalHeader
             onCollapse={handleMenuCollapse}
             onNoticeClear={this.handleNoticeClear}
