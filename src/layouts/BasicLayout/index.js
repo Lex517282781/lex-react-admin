@@ -1,9 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Suspense, PureComponent } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actionCreators as commonActionCreators } from '@/store/common';
 import { Layout } from 'antd';
 import { ContainerQuery } from 'react-container-query';
+import DocumentTitle from 'react-document-title';
 import classNames from 'classnames';
 import Footer from '../FooterView';
 import Header from '../HeaderView';
@@ -14,6 +15,7 @@ import logo from '@/assets/imgs/logo.svg';
 import appRouter from '@/config/appRouter';
 import appMap from '@/config/appMap';
 import getRouterMap from '@/utils/getRouterMap';
+import getPageTitle from '@/utils/getPageTitle';
 import styles from './index.js';
 
 // lazy load SettingDrawer
@@ -83,10 +85,10 @@ class BasicLayout extends PureComponent {
     const {
       navTheme,
       layout: PropsLayout,
-      // location: { pathname },
+      location: { pathname },
       isMobile,
       menuData,
-      // breadcrumbNameMap,
+      breadcrumbNameMap,
       fixedHeader
     } = this.props;
 
@@ -157,13 +159,16 @@ class BasicLayout extends PureComponent {
 
     return (
       <React.Fragment>
-        <ContainerQuery query={query}>
-          {params => (
-            <Context.Provider value={this.getContext()}>
-              <div className={classNames(params)}>{layout}</div>
-            </Context.Provider>
-          )}
-        </ContainerQuery>
+        <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
+          <ContainerQuery query={query}>
+            {params => (
+              <Context.Provider value={this.getContext()}>
+                <div className={classNames(params)}>{layout}</div>
+              </Context.Provider>
+            )}
+          </ContainerQuery>
+        </DocumentTitle>
+        <Suspense fallback={null}>{this.renderSettingDrawer()}</Suspense>
       </React.Fragment>
     );
   }
