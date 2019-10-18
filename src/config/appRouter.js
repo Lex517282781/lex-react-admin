@@ -30,7 +30,21 @@ const router = [
       },
       {
         key: 'step',
-        component: asyncComponent(() => import('@/pages/FormStep'))
+        hideChildrenInMenu: true,
+        children: [
+          {
+            key: 'info',
+            component: asyncComponent(() => import('@/pages/FormStep'))
+          },
+          {
+            key: 'confirm',
+            component: asyncComponent(() => import('@/pages/FormStep'))
+          },
+          {
+            key: 'result',
+            component: asyncComponent(() => import('@/pages/FormStep'))
+          }
+        ]
       },
       {
         key: 'advanced',
@@ -53,6 +67,23 @@ const router = [
       {
         key: 'card',
         component: asyncComponent(() => import('@/pages/ListCard'))
+      },
+      {
+        key: 'searchinfo',
+        children: [
+          {
+            key: 'articles',
+            component: asyncComponent(() => import('@/pages/ListCard'))
+          },
+          {
+            key: 'projects',
+            component: asyncComponent(() => import('@/pages/ListCard'))
+          },
+          {
+            key: 'applications',
+            component: asyncComponent(() => import('@/pages/ListCard'))
+          }
+        ]
       }
     ]
   },
@@ -62,6 +93,12 @@ const router = [
     children: [
       {
         key: 'basic',
+        component: asyncComponent(() => import('@/pages/ProfileBasic'))
+      },
+      {
+        key: 'basic',
+        query: '/:id',
+        hideInMenu: true,
         component: asyncComponent(() => import('@/pages/ProfileBasic'))
       },
       {
@@ -104,6 +141,7 @@ const router = [
       },
       {
         key: 'trigger',
+        hideInMenu: true,
         component: asyncComponent(() => import('@/pages/ExceptionTrigger'))
       }
     ]

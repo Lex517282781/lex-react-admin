@@ -46,19 +46,19 @@ const menuData = [
         locale: 'menu.form.step',
         children: [
           {
-            path: '/form/step-form/info',
+            path: '/form/step/info',
             name: '分步表单（填写转账信息）',
             exact: true,
             locale: 'menu.form.stepform.info'
           },
           {
-            path: '/form/step-form/confirm',
+            path: '/form/step/confirm',
             name: '分步表单（确认转账信息）',
             exact: true,
             locale: 'menu.form.stepform.confirm'
           },
           {
-            path: '/form/step-form/result',
+            path: '/form/step/result',
             name: '分步表单（完成）',
             exact: true,
             locale: 'menu.form.stepform.result'
@@ -100,24 +100,24 @@ const menuData = [
         locale: 'menu.list.card'
       },
       {
-        path: '/list/search',
+        path: '/list/searchinfo',
         name: '搜索列表',
         locale: 'menu.list.searchlist',
         children: [
           {
-            path: '/list/search/articles',
+            path: '/list/searchinfo/articles',
             name: '搜索列表（文章）',
             exact: true,
             locale: 'menu.list.searchlist.articles'
           },
           {
-            path: '/list/search/projects',
+            path: '/list/searchinfo/projects',
             name: '搜索列表（项目）',
             exact: true,
             locale: 'menu.list.searchlist.projects'
           },
           {
-            path: '/list/search/applications',
+            path: '/list/searchinfo/applications',
             name: '搜索列表（应用）',
             exact: true,
             locale: 'menu.list.searchlist.applications'
@@ -177,19 +177,19 @@ const menuData = [
     authority: ['admin', 'user'],
     children: [
       {
-        path: '/exception/403',
+        path: '/exception/notpermission',
         name: '403',
         exact: true,
         locale: 'menu.exception.not-permission'
       },
       {
-        path: '/exception/404',
+        path: '/exception/notfind',
         name: '404',
         exact: true,
         locale: 'menu.exception.not-find'
       },
       {
-        path: '/exception/500',
+        path: '/exception/servererror',
         name: '500',
         exact: true,
         locale: 'menu.exception.server-error'

@@ -1,14 +1,14 @@
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
 // 暂时只支持二级路由
-// 通过config/router中的路由 生成关键数据map 如：{ '/dashboard': {}, '/dashboard/analysis' }
+// 通过config/router中的路由 生成详细的list 如：{ '/dashboard': {}, '/dashboard/analysis' }
 const getDetailRouter = routers => {
   const formatRouter = (data, parent) => {
     data.forEach(router => {
       let path = '';
 
       if (parent) {
-        path = `/${parent.key}/${router.key}`;
+        path = `${parent.path}/${router.key}`;
       } else {
         path = `/${router.key}`;
       }
@@ -16,11 +16,13 @@ const getDetailRouter = routers => {
       let presetKey = path.replace(/\//g, '.');
 
       router.path = path;
+      if (router.query) router.path = router.path + router.query;
+      
       router.locale = `menu${presetKey}`;
       if (router.children) {
         // 配置默认跳转链接
         const firstRouterKey = router.children[0].key;
-        router.redirect = `/${router.key}/${firstRouterKey}`;
+        router.redirect = `${router.path}/${firstRouterKey}`;
         formatRouter(router.children, router);
       }
     });

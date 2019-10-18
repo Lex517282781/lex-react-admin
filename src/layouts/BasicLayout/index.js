@@ -94,6 +94,8 @@ class BasicLayout extends PureComponent {
     const isTop = PropsLayout === 'topmenu';
     const routerMap = getRouterMap(appRouter);
 
+    console.log(routerMap)
+
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
 
     const layout = (
