@@ -2,8 +2,21 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
+
 // 暂时只支持二级路由
-// 通过config/router中的路由 生成详细的list 如：{ '/dashboard': {}, '/dashboard/analysis' }
+/* 通过config/router中的路由 生成详细的list 如：
+[
+  {
+    key: 'dashboard',
+    icon: 'dashboard',
+    name: '统计页',
+    path: '/dashboard',
+    redirect: '/dashboard/analysis',
+    locale: "menu.dashboard",
+    children: []
+  }
+]
+*/
 const getDetailRouter = routers => {
   const formatRouter = (data, parent) => {
     data.forEach(router => {

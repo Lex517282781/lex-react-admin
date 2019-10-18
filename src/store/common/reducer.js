@@ -1,6 +1,13 @@
 import * as types from './types';
 import setting from '@/config/defaultSettings';
-import { user, notices, menuData, breadcrumbNameMap } from '@/mock/common';
+import { user, notices } from '@/mock/common';
+// todo  这里暂时开启全部权限
+import appRouter from '@/config/appRouter';
+import getDetailRouter from '@/utils/getDetailRouter';
+import getRouterMap from '@/utils/getRouterMap';
+
+const menuData = getDetailRouter(appRouter);
+const breadcrumbNameMap = getRouterMap(appRouter);
 
 const initState = {
   setting,

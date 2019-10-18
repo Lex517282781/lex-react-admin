@@ -17,9 +17,11 @@ const getPageTitle = (pathname, breadcrumbNameMap) => {
   if (!currRouterData) {
     return title;
   }
-  const pageName = currRouterData.name;
+  const locale = currRouterData.locale;
 
-  return `${pageName} - ${title}`;
+  return locale;
+
+  // return `${pageName} - ${title}`;
 };
 
 export default memoizeOne(getPageTitle, isEqual);

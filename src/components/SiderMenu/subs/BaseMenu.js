@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import { urlToList } from '@/utils/pathTools';
 import { getMenuMatches } from '../tools';
 import { isUrl } from '@/utils/tools';
-import appRouter from '@/config/appRouter';
-import getDetailRouter from '@/utils/getDetailRouter';
 import styles from '../style.less';
 
 const { SubMenu } = Menu;
@@ -148,12 +146,10 @@ class BaseMenu extends PureComponent {
         openKeys: openKeys.length === 0 ? [...selectedKeys] : openKeys
       };
     }
-    const { handleOpenChange, style } = this.props; // , menuData
+    const { handleOpenChange, style, menuData } = this.props;
     const cls = classNames(className, {
       'top-nav-menu': mode === 'horizontal'
     });
-
-    const menuData = getDetailRouter(appRouter);
 
     return (
       <Menu

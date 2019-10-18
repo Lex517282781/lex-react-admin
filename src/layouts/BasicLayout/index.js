@@ -1,6 +1,7 @@
 import React, { Suspense, PureComponent } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { actionCreators as commonActionCreators } from '@/store/common';
 import { Layout } from 'antd';
 import { ContainerQuery } from 'react-container-query';
@@ -48,6 +49,14 @@ const query = {
 };
 
 class BasicLayout extends PureComponent {
+  componentDidMount() {
+    console.log('----- BasicLayout s -----');
+    console.log('1: 获取当前用户信息');
+    console.log('2: 获取当前后台设置');
+    console.log('3: 获取菜单权限');
+    console.log('----- BasicLayout e -----');
+  }
+
   getContext() {
     const { location, breadcrumbNameMap } = this.props;
     return {
@@ -88,7 +97,8 @@ class BasicLayout extends PureComponent {
       isMobile,
       menuData,
       breadcrumbNameMap,
-      fixedHeader
+      fixedHeader,
+      intl: { formatMessage }
     } = this.props;
 
     const isTop = PropsLayout === 'topmenu';
@@ -103,9 +113,9 @@ class BasicLayout extends PureComponent {
             logo={logo}
             theme={navTheme}
             onCollapse={this.handleMenuCollapse}
-            menuData={menuData}
             isMobile={isMobile}
             {...this.props}
+            menuData={menuData}
           />
         )}
         <Layout
@@ -156,9 +166,12 @@ class BasicLayout extends PureComponent {
       </Layout>
     );
 
+    const title = getPageTitle(pathname, breadcrumbNameMap);
+    const localTitle = formatMessage({ id: title });
+
     return (
       <React.Fragment>
-        <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
+        <DocumentTitle title={localTitle}>
           <ContainerQuery query={query}>
             {params => (
               <Context.Provider value={this.getContext()}>
@@ -188,8 +201,10 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(props => (
-  <Media query="(max-width: 599px)">
-    {isMobile => <BasicLayout {...props} isMobile={isMobile} />}
-  </Media>
-));
+)(
+  injectIntl(props => (
+    <Media query="(max-width: 599px)">
+      {isMobile => <BasicLayout {...props} isMobile={isMobile} />}
+    </Media>
+  ))
+);
