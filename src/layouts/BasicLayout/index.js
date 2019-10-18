@@ -50,7 +50,7 @@ const query = {
 
 class BasicLayout extends PureComponent {
   componentDidMount() {
-    console.log('----- BasicLayout s -----');
+    console.log('----- todo: BasicLayout s -----');
     console.log('1: 获取当前用户信息');
     console.log('2: 获取当前后台设置');
     console.log('3: 获取菜单权限');

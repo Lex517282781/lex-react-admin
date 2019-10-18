@@ -1,13 +1,16 @@
 import * as types from './types';
 import setting from '@/config/defaultSettings';
-import { user, notices } from '@/mock/common';
-// todo  这里暂时开启全部权限
+import { user, notices, menuData as mockMenuData } from '@/mock/common';
 import appRouter from '@/config/appRouter';
 import getDetailRouter from '@/utils/getDetailRouter';
 import getRouterMap from '@/utils/getRouterMap';
+import { authorityOpen } from '@/config/env';
 
-const menuData = getDetailRouter(appRouter);
-const breadcrumbNameMap = getRouterMap(appRouter);
+// 可以根据开发环境选择是否开启权限
+let routers = authorityOpen ? mockMenuData : appRouter;
+
+const menuData = getDetailRouter(routers);
+const breadcrumbNameMap = getRouterMap(routers);
 
 const initState = {
   setting,
