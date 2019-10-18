@@ -1,3 +1,5 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
 // 暂时只支持二级路由
@@ -17,6 +19,7 @@ const getRouterMap = routers => {
       let presetKey = path.replace(/\//g, '.');
       router.path = path;
       router.locale = `menu${presetKey}`;
+      router.name = <FormattedMessage id={router.locale} />;
 
       if (router.query) router.path = router.path + router.query;
       routerMap[router.path] = router;
