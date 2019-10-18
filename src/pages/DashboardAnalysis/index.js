@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import GridContent from '@/components/PageHeaderWrapper/GridContent';
 
 class DashboardAnalysis extends Component {
   render() {
-    return <div>DashboardAnalysis</div>;
+    return <GridContent>DashboardAnalysis</GridContent>;
   }
 }
 
-export default DashboardAnalysis;
+const mapStateToProps = state => ({
+  contentWidth: state.common.setting.contentWidth
+});
+
+export default connect(mapStateToProps)(DashboardAnalysis);
