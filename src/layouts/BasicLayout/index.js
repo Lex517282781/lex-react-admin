@@ -13,7 +13,6 @@ import SiderMenu from '@/components/SiderMenu';
 import Context from '../context/MenuContext';
 import logo from '@/assets/imgs/logo.svg';
 import appRouter from '@/config/appRouter';
-import appMap from '@/config/appMap';
 import getRouterMap from '@/utils/getRouterMap';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './index.js';
@@ -93,7 +92,7 @@ class BasicLayout extends PureComponent {
     } = this.props;
 
     const isTop = PropsLayout === 'topmenu';
-    const routerMap = getRouterMap(appRouter, appMap);
+    const routerMap = getRouterMap(appRouter);
 
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
 

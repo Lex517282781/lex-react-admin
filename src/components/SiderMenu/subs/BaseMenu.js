@@ -57,6 +57,7 @@ class BaseMenu extends PureComponent {
       item.children.some(child => child.name)
     ) {
       const { name } = item;
+      console.log(name)
       return (
         <SubMenu
           title={
@@ -150,6 +151,8 @@ class BaseMenu extends PureComponent {
     const cls = classNames(className, {
       'top-nav-menu': mode === 'horizontal'
     });
+
+    console.log(menuData)
 
     return (
       <Menu

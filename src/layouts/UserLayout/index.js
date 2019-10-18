@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Icon } from 'antd';
 import userRouter from '@/config/userRouter';
-import userMap from '@/config/userMap';
 import getRouterMap from '@/utils/getRouterMap';
 import GlobalFooter from '@/components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
@@ -46,7 +45,7 @@ class UserLayout extends PureComponent {
   // }
 
   render() {
-    const routerMap = getRouterMap(userRouter, userMap);
+    const routerMap = getRouterMap(userRouter);
 
     const routers = (
       <Switch>
