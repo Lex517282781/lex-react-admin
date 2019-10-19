@@ -2,6 +2,7 @@
 import {
   visitData,
   visitData2,
+  radarData,
   salesData,
   searchData,
   offlineData,
@@ -14,6 +15,7 @@ import {
 const initState = {
   visitData,
   visitData2,
+  radarData,
   salesData,
   searchData,
   offlineData,

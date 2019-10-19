@@ -16,7 +16,8 @@ const initState = {
   setting,
   user: {
     list: [],
-    currentUser: user
+    currentUser: user,
+    loading: false
   },
   global: {
     collapsed: false,
