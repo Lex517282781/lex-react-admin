@@ -8,6 +8,7 @@ import { reducer as dashboardworkplaceReducer } from '@/pages/DashboardWorkplace
 
 import { reducer as formbasicReducer } from '@/pages/FormBasic/store';
 import { reducer as formstepReducer } from '@/pages/FormStep/store';
+import { reducer as formadvancedReducer } from '@/pages/FormAdvanced/store';
 
 const reducer = combineReducers({
   common: commonReducer,
@@ -16,7 +17,8 @@ const reducer = combineReducers({
   dashboardworkplace: dashboardworkplaceReducer,
 
   formbasic: formbasicReducer,
-  formstep: formstepReducer
+  formstep: formstepReducer,
+  formadvanced: formadvancedReducer
 });
 
 export default reducer;
