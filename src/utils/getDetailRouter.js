@@ -17,7 +17,7 @@ import isEqual from 'lodash/isEqual';
   }
 ]
 */
-const getDetailRouter = routers => {
+const getDetailRouter = (routers) => {
   const formatRouter = (data, parent) => {
     data.forEach(router => {
       let path = '';
@@ -29,16 +29,16 @@ const getDetailRouter = routers => {
       }
 
       let presetKey = path.replace(/\//g, '.');
-
       router.path = path;
+      router.parentPath = parent ? parent.path : '/';
       if (router.query) router.path = router.path + router.query;
-
       router.locale = `menu${presetKey}`;
       router.name = <FormattedMessage id={router.locale} />;
       if (router.children) {
         // 配置默认跳转链接
         const firstRouterKey = router.children[0].key;
-        router.redirect = `${router.path}/${firstRouterKey}`;
+        if (!router.hideChildrenInMenu)
+          router.redirect = `${router.path}/${firstRouterKey}`;
         formatRouter(router.children, router);
       }
     });

@@ -31,18 +31,25 @@ const router = [
       {
         key: 'step',
         hideChildrenInMenu: true,
+        component: asyncComponent(() => import('@/pages/FormStep')),
         children: [
           {
             key: 'info',
-            component: asyncComponent(() => import('@/pages/FormStep'))
+            component: asyncComponent(() =>
+              import('@/pages/FormStep/FormStepInfo')
+            )
           },
           {
             key: 'confirm',
-            component: asyncComponent(() => import('@/pages/FormStep'))
+            component: asyncComponent(() =>
+              import('@/pages/FormStep/FormStepConfirm')
+            )
           },
           {
             key: 'result',
-            component: asyncComponent(() => import('@/pages/FormStep'))
+            component: asyncComponent(() =>
+              import('@/pages/FormStep/FormStepResult')
+            )
           }
         ]
       },

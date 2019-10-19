@@ -13,7 +13,6 @@ import Media from 'react-media';
 import SiderMenu from '@/components/SiderMenu';
 import Context from '../context/MenuContext';
 import logo from '@/assets/imgs/logo.svg';
-import appRouter from '@/config/appRouter';
 import getRouterMap from '@/utils/getRouterMap';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './style.less';
@@ -102,7 +101,7 @@ class BasicLayout extends PureComponent {
     } = this.props;
 
     const isTop = PropsLayout === 'topmenu';
-    const routerMap = getRouterMap(appRouter);
+    const routerMap = getRouterMap(menuData);
 
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
 
@@ -133,22 +132,30 @@ class BasicLayout extends PureComponent {
           />
           <Content className={styles.content} style={contentStyle}>
             <Switch>
-              {Object.entries(routerMap).map(([key, value]) => {
+              {Object.values(routerMap).map(value => {
+                if (
+                  // 隐藏子菜单的时候 不需要在这里做页面判断跳转 因为是在页面中显示子路由 所以需要在那个页面中做路由判断
+                  routerMap[value.parentPath] &&
+                  routerMap[value.parentPath].hideChildrenInMenu
+                ) {
+                  return null;
+                }
                 if (value.redirect) {
                   return (
                     <Route
-                      key={key}
+                      key={value.path}
                       exact
-                      path={key}
+                      path={value.path}
                       render={() => <Redirect to={value.redirect} push />}
                     />
                   );
                 } else if (value.component) {
                   return (
                     <Route
-                      key={key}
-                      exact
-                      path={key}
+                      key={value.path}
+                      // 对于隐藏子菜单 在页面中显示的父路由 不需要精准匹配
+                      exact={!value.hideChildrenInMenu}
+                      path={value.path}
                       component={value.component}
                     />
                   );
@@ -156,9 +163,7 @@ class BasicLayout extends PureComponent {
                   return null;
                 }
               })}
-              <Route
-                render={() => <Redirect to={`/${appRouter[0].key}`} push />}
-              />
+              <Route render={() => <Redirect to={menuData[0].path} push />} />
             </Switch>
           </Content>
           <Footer />
