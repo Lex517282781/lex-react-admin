@@ -207,7 +207,7 @@ class TableForm extends PureComponent {
             if (record.isNew) {
               return (
                 <span>
-                  <a href="##" onClick={e => this.saveRow(e, record.key)}>
+                  <a onClick={e => this.saveRow(e, record.key)}>
                     保存
                   </a>
                   <Divider type="vertical" />
@@ -215,18 +215,18 @@ class TableForm extends PureComponent {
                     title="是否要删除此行？"
                     onConfirm={() => this.remove(record.key)}
                   >
-                    <a href="##">删除</a>
+                    <a>删除</a>
                   </Popconfirm>
                 </span>
               );
             }
             return (
               <span>
-                <a href="##" onClick={e => this.saveRow(e, record.key)}>
+                <a onClick={e => this.saveRow(e, record.key)}>
                   保存
                 </a>
                 <Divider type="vertical" />
-                <a href="##" onClick={e => this.cancel(e, record.key)}>
+                <a onClick={e => this.cancel(e, record.key)}>
                   取消
                 </a>
               </span>
@@ -234,15 +234,13 @@ class TableForm extends PureComponent {
           }
           return (
             <span>
-              <a href="##" onClick={e => this.toggleEditable(e, record.key)}>
-                编辑
-              </a>
+              <a onClick={e => this.toggleEditable(e, record.key)}>编辑</a>
               <Divider type="vertical" />
               <Popconfirm
                 title="是否要删除此行？"
                 onConfirm={() => this.remove(record.key)}
               >
-                <a href="##">删除</a>
+                <a>删除</a>
               </Popconfirm>
             </span>
           );
