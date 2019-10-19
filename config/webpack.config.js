@@ -31,6 +31,27 @@ const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
 
+// getCSSModuleLocalIdent 替换 todo ?
+// const getCSSModuleLocalIdent = (context, localIdentName, localName) => {
+//   if (
+//     context.resourcePath.includes('node_modules') ||
+//     context.resourcePath.includes('ant.design.pro.less') ||
+//     context.resourcePath.includes('global.less')
+//   ) {
+//     return localName;
+//   }
+//   const match = context.resourcePath.match(/src(.*)/);
+//   if (match && match[1]) {
+//     const antdProPath = match[1].replace('.less', '');
+//     const arr = slash(antdProPath)
+//       .split('/')
+//       .map(a => a.replace(/([A-Z])/g, '-$1'))
+//       .map(a => a.toLowerCase());
+//     return `antd-pro${arr.join('-')}-${localName}`.replace(/--/g, '-');
+//   }
+//   return localName;
+// };
+
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk

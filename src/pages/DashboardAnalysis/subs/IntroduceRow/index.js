@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Row, Col, Icon, Tooltip } from 'antd';
 import numeral from 'numeral';
-import styles from '../style.less';
+import styles from '../../style.less';
 import {
   ChartCard,
   MiniArea,

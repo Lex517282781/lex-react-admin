@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+// import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import Routers from './Routers';
 import store from './store';
@@ -33,25 +33,25 @@ const locale = 'zh';
 
 const render = Component => {
   ReactDOM.render(
-    <AppContainer>
+    // <AppContainer>
       <Provider store={store}>
         <ConfigProvider locale={zhCN}>
           <IntlProvider locale={locale} messages={messages[locale]}>
             <Component />
           </IntlProvider>
         </ConfigProvider>
-      </Provider>
-    </AppContainer>,
+      </Provider>,
+    // </AppContainer>,
     document.getElementById('root')
   );
 };
 
 render(Routers);
 
-if (module.hot) {
-  module.hot.accept(Routers, () => {
-    render(Routers);
-  });
-}
+// if (module.hot) {
+//   module.hot.accept(Routers, () => {
+//     render(Routers);
+//   });
+// }
 
 serviceWorker.unregister();

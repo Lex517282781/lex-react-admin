@@ -16,7 +16,7 @@ import logo from '@/assets/imgs/logo.svg';
 import appRouter from '@/config/appRouter';
 import getRouterMap from '@/utils/getRouterMap';
 import getPageTitle from '@/utils/getPageTitle';
-import styles from './index.js';
+import styles from './style.less';
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));

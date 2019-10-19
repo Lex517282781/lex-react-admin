@@ -14,3 +14,18 @@
 
 解决 降低 less 版本
 在 webpack 中配置 antd 打包
+
+## less 解析 bug
+
+1. 在 less 文件中使用 CSS 原生的 calc()函数，得出的结果错误，在 less 中 calc(100% - 4rem) 等带单位混合运算会被 less 解析忽略单位，全部按照百分比计算，此例中的计算被 less 编译成 calc(96%)。
+
+原因分析
+less 的计算方式跟 calc 方法有重叠，两者在一起有冲突
+
+解决方案
+更改 calc()函数的形式
+
+/_编译错误的 css:calc(100% - 4rem)_/
+/_更改形式如下，以下两种方法皆可_/
+width:e("calc(100% - 4rem)");
+width:calc(~"100% - 4rem");

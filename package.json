@@ -184,6 +184,7 @@
     "babel-plugin-import": "^1.12.2",
     "less": "^2.7.2",
     "less-loader": "^5.0.0",
-    "react-hot-loader": "^4.12.15"
+    "react-hot-loader": "^4.12.15",
+    "slash2": "^2.0.0"
   }
 }
