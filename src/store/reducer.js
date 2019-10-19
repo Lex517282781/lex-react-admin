@@ -10,6 +10,8 @@ import { reducer as formbasicReducer } from '@/pages/FormBasic/store';
 import { reducer as formstepReducer } from '@/pages/FormStep/store';
 import { reducer as formadvancedReducer } from '@/pages/FormAdvanced/store';
 
+import { reducer as listsearchReducer } from '@/pages/ListSearch/store';
+
 const reducer = combineReducers({
   common: commonReducer,
   dashboardanalysis: dashboardanalysisReducer,
@@ -18,7 +20,9 @@ const reducer = combineReducers({
 
   formbasic: formbasicReducer,
   formstep: formstepReducer,
-  formadvanced: formadvancedReducer
+  formadvanced: formadvancedReducer,
+
+  listsearch: listsearchReducer
 });
 
 export default reducer;
