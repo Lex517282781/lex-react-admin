@@ -131,11 +131,6 @@ class ListSearchinfo extends Component {
             <Route render={() => <Redirect to={defaultRedirect} push />} />
           )}
         </Switch>
-        {/* <Switch>
-          {routes.map(item => (
-            <Route key={item.key} path={item.path} component={item.component} exact={item.exact} />
-          ))}
-        </Switch> */}
       </PageHeaderWrapper>
     );
   }

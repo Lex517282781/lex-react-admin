@@ -21,6 +21,8 @@ import { reducer as listapplicationsReducer } from '@/pages/ListApplications/sto
 import { reducer as profilebasicReducer } from '@/pages/ProfileBasic/store';
 import { reducer as profileadvancedReducer } from '@/pages/ProfileAdvanced/store';
 
+import { reducer as accountcenterReducer } from '@/pages/AccountCenter/store';
+
 const reducer = combineReducers({
   common: commonReducer,
   dashboardanalysis: dashboardanalysisReducer,
@@ -40,7 +42,9 @@ const reducer = combineReducers({
   listapplications: listapplicationsReducer,
 
   profilebasic: profilebasicReducer,
-  profileadvanced: profileadvancedReducer
+  profileadvanced: profileadvancedReducer,
+
+  accountcenter: accountcenterReducer
 });
 
 export default reducer;

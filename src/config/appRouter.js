@@ -160,7 +160,28 @@ const router = [
     children: [
       {
         key: 'center',
-        component: asyncComponent(() => import('@/pages/AccountCenter'))
+        component: asyncComponent(() => import('@/pages/AccountCenter')),
+        hideChildrenInMenu: true,
+        children: [
+          {
+            key: 'articles',
+            component: asyncComponent(() =>
+              import('@/pages/AccountCenter/subs/Articles')
+            )
+          },
+          {
+            key: 'projects',
+            component: asyncComponent(() =>
+              import('@/pages/AccountCenter/subs/Projects')
+            )
+          },
+          {
+            key: 'applications',
+            component: asyncComponent(() =>
+              import('@/pages/AccountCenter/subs/Applications')
+            )
+          }
+        ]
       },
       {
         key: 'settings',
