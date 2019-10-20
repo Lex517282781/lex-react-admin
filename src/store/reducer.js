@@ -14,6 +14,8 @@ import { reducer as listsearchReducer } from '@/pages/ListSearch/store';
 import { reducer as listbasicReducer } from '@/pages/ListBasic/store';
 import { reducer as listcardReducer } from '@/pages/ListCard/store';
 
+import { reducer as profilebasicReducer } from '@/pages/ProfileBasic/store';
+
 const reducer = combineReducers({
   common: commonReducer,
   dashboardanalysis: dashboardanalysisReducer,
@@ -26,7 +28,9 @@ const reducer = combineReducers({
 
   listsearch: listsearchReducer,
   listbasic: listbasicReducer,
-  listcard: listcardReducer
+  listcard: listcardReducer,
+
+  profilebasic: profilebasicReducer
 });
 
 export default reducer;
