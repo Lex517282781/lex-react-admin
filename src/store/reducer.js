@@ -22,6 +22,7 @@ import { reducer as profilebasicReducer } from '@/pages/ProfileBasic/store';
 import { reducer as profileadvancedReducer } from '@/pages/ProfileAdvanced/store';
 
 import { reducer as accountcenterReducer } from '@/pages/AccountCenter/store';
+import { reducer as accountsettingsReducer } from '@/pages/AccountSettings/store';
 
 const reducer = combineReducers({
   common: commonReducer,
@@ -44,7 +45,8 @@ const reducer = combineReducers({
   profilebasic: profilebasicReducer,
   profileadvanced: profileadvancedReducer,
 
-  accountcenter: accountcenterReducer
+  accountcenter: accountcenterReducer,
+  accountsettings: accountsettingsReducer
 });
 
 export default reducer;

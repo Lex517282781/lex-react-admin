@@ -185,7 +185,34 @@ const router = [
       },
       {
         key: 'settings',
-        component: asyncComponent(() => import('@/pages/AccountSettings'))
+        component: asyncComponent(() => import('@/pages/AccountSettings')),
+        hideChildrenInMenu: true,
+        children: [
+          {
+            key: 'base',
+            component: asyncComponent(() =>
+              import('@/pages/AccountSettings/subs/SettingBase')
+            )
+          },
+          {
+            key: 'security',
+            component: asyncComponent(() =>
+              import('@/pages/AccountSettings/subs/SettingSecurity')
+            )
+          },
+          {
+            key: 'binding',
+            component: asyncComponent(() =>
+              import('@/pages/AccountSettings/subs/SettingBinding')
+            )
+          },
+          {
+            key: 'notification',
+            component: asyncComponent(() =>
+              import('@/pages/AccountSettings/subs/NotificationView')
+            )
+          }
+        ]
       }
     ]
   }
