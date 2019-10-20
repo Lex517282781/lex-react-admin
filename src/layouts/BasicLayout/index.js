@@ -163,7 +163,7 @@ class BasicLayout extends PureComponent {
                   return null;
                 }
               })}
-              {/* <Route render={() => <Redirect to={menuData[0].path} push />} /> */}
+              <Route render={() => <Redirect to={menuData[0].path} push />} />
             </Switch>
           </Content>
           <Footer />
