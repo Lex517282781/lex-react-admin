@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Menu } from 'antd';
@@ -107,12 +108,51 @@ class AccountSettings extends Component {
     }
   };
 
+  getRouterData = () => {
+    const { location, breadcrumbNameMap } = this.props;
+
+    const currentRouter = breadcrumbNameMap[location.pathname];
+    let children = [];
+    let pathList = [];
+
+    if (currentRouter.children) {
+      children = currentRouter.children;
+      pathList = currentRouter.children.map(router => router.path);
+    } else {
+      children = breadcrumbNameMap[currentRouter.parentPath].children;
+      pathList = children.map(router => router.path);
+    }
+
+    const filterRouterMap = pathList.reduce(
+      (pre, next) => ({
+        ...pre,
+        [next]: breadcrumbNameMap[next]
+      }),
+      {}
+    );
+
+    return {
+      routerMap: filterRouterMap,
+      defaultRedirect: children[0] ? children[0].path : ''
+    };
+  };
+
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, match, location, breadcrumbNameMap } = this.props;
     if (!currentUser.userid) {
       return '';
     }
     const { mode, selectKey } = this.state;
+
+    const currentRouter = breadcrumbNameMap[location.pathname];
+
+    if (!currentRouter) {
+      const parentRouter = breadcrumbNameMap[match.path];
+      return <Redirect to={parentRouter.children[0].path} push />;
+    }
+
+    const { routerMap, defaultRedirect } = this.getRouterData();
+
     return (
       <GridContent>
         <div
@@ -132,7 +172,34 @@ class AccountSettings extends Component {
           </div>
           <div className={styles.right}>
             <div className={styles.title}>{this.getRightTitle()}</div>
-            123
+            <Switch>
+              {Object.values(routerMap).map(value => {
+                if (value.redirect) {
+                  return (
+                    <Route
+                      key={value.path}
+                      exact
+                      path={value.path}
+                      render={() => <Redirect to={value.redirect} push />}
+                    />
+                  );
+                } else if (value.component) {
+                  return (
+                    <Route
+                      key={value.path}
+                      exact
+                      path={value.path}
+                      component={value.component}
+                    />
+                  );
+                } else {
+                  return null;
+                }
+              })}
+              {defaultRedirect && (
+                <Route render={() => <Redirect to={defaultRedirect} push />} />
+              )}
+            </Switch>
           </div>
         </div>
       </GridContent>
@@ -141,7 +208,9 @@ class AccountSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.common.user.currentUser
+  currentUser: state.common.user.currentUser,
+  breadcrumbNameMap: state.common.menu.breadcrumbNameMap,
+  menuData: state.common.menu.menuData
 });
 
 const mapDispatchToProps = {};

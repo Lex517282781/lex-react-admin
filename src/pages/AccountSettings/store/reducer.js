@@ -2,11 +2,9 @@
 import { province, city } from '@/mock/custom/AccountSettings';
 
 const initState = {
-  notice: {
-    loading: false,
-    province,
-    city
-  }
+  loading: false,
+  province,
+  city
 };
 
 export default (state = initState, action) => {

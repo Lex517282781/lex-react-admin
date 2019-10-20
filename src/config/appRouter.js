@@ -197,13 +197,13 @@ const router = [
           {
             key: 'security',
             component: asyncComponent(() =>
-              import('@/pages/AccountSettings/subs/SettingSecurity')
+              import('@/pages/AccountSettings/subs/SettingsSecurity')
             )
           },
           {
             key: 'binding',
             component: asyncComponent(() =>
-              import('@/pages/AccountSettings/subs/SettingBinding')
+              import('@/pages/AccountSettings/subs/SettingsBinding')
             )
           },
           {

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Select, Spin } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -54,11 +54,11 @@ class GeographicView extends PureComponent {
   };
 
   selectProvinceItem = item => {
-    const { dispatch, onChange } = this.props;
-    dispatch({
+    const { onChange } = this.props;
+    console.log(`dispatch({
       type: 'geographic/fetchCity',
       payload: item.key
-    });
+    });`);
     onChange({
       province: item,
       city: nullSlectItem
@@ -75,6 +75,7 @@ class GeographicView extends PureComponent {
 
   conversionObject() {
     const { value } = this.props;
+    console.log(value);
     if (!value) {
       return {
         province: nullSlectItem,
