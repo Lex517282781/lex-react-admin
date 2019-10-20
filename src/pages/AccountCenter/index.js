@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Card, Row, Col, Icon, Avatar, Tag, Divider, Spin, Input } from 'antd';
@@ -103,14 +104,53 @@ class AccountCenter extends PureComponent {
     });
   };
 
+  getRouterData = () => {
+    const { location, breadcrumbNameMap } = this.props;
+
+    const currentRouter = breadcrumbNameMap[location.pathname];
+    let children = [];
+    let pathList = [];
+
+    if (currentRouter.children) {
+      children = currentRouter.children;
+      pathList = currentRouter.children.map(router => router.path);
+    } else {
+      children = breadcrumbNameMap[currentRouter.parentPath].children;
+      pathList = children.map(router => router.path);
+    }
+
+    const filterRouterMap = pathList.reduce(
+      (pre, next) => ({
+        ...pre,
+        [next]: breadcrumbNameMap[next]
+      }),
+      {}
+    );
+
+    return {
+      routerMap: filterRouterMap,
+      defaultRedirect: children[0] ? children[0].path : ''
+    };
+  };
+
   render() {
     const { newTags, inputVisible, inputValue } = this.state;
     const {
       user: { loading: currentUserLoading, currentUser },
       notice: { loading: noticeLoading, list: noticeList },
       match,
-      location
+      location,
+      breadcrumbNameMap
     } = this.props;
+
+    const currentRouter = breadcrumbNameMap[location.pathname];
+
+    if (!currentRouter) {
+      const parentRouter = breadcrumbNameMap[match.path];
+      return <Redirect to={parentRouter.children[0].path} push />;
+    }
+
+    const { routerMap, defaultRedirect } = this.getRouterData();
 
     return (
       <GridContent className={styles.userCenter}>
@@ -193,7 +233,44 @@ class AccountCenter extends PureComponent {
             </Card>
           </Col>
           <Col lg={17} md={24}>
-            123
+            <Card
+              className={styles.tabsCard}
+              bordered={false}
+              tabList={operationTabList}
+              activeTabKey={location.pathname.replace(`${match.path}/`, '')}
+              onTabChange={this.onTabChange}
+            >
+              <Switch>
+                {Object.values(routerMap).map(value => {
+                  if (value.redirect) {
+                    return (
+                      <Route
+                        key={value.path}
+                        exact
+                        path={value.path}
+                        render={() => <Redirect to={value.redirect} push />}
+                      />
+                    );
+                  } else if (value.component) {
+                    return (
+                      <Route
+                        key={value.path}
+                        exact
+                        path={value.path}
+                        component={value.component}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+                {defaultRedirect && (
+                  <Route
+                    render={() => <Redirect to={defaultRedirect} push />}
+                  />
+                )}
+              </Switch>
+            </Card>
           </Col>
         </Row>
       </GridContent>
@@ -203,7 +280,9 @@ class AccountCenter extends PureComponent {
 
 const mapStateToProps = state => ({
   user: state.common.user,
-  notice: state.accountcenter.notice
+  notice: state.accountcenter.notice,
+  breadcrumbNameMap: state.common.menu.breadcrumbNameMap,
+  menuData: state.common.menu.menuData
 });
 
 const mapDispatchToProps = {};
