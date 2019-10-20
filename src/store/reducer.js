@@ -15,6 +15,7 @@ import { reducer as listbasicReducer } from '@/pages/ListBasic/store';
 import { reducer as listcardReducer } from '@/pages/ListCard/store';
 
 import { reducer as profilebasicReducer } from '@/pages/ProfileBasic/store';
+import { reducer as profileadvancedReducer } from '@/pages/ProfileAdvanced/store';
 
 const reducer = combineReducers({
   common: commonReducer,
@@ -30,7 +31,8 @@ const reducer = combineReducers({
   listbasic: listbasicReducer,
   listcard: listcardReducer,
 
-  profilebasic: profilebasicReducer
+  profilebasic: profilebasicReducer,
+  profileadvanced: profileadvancedReducer
 });
 
 export default reducer;
