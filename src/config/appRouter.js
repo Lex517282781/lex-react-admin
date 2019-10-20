@@ -80,15 +80,15 @@ const router = [
         children: [
           {
             key: 'articles',
-            component: asyncComponent(() => import('@/pages/ListCard'))
+            component: asyncComponent(() => import('@/pages/ListArticles'))
           },
           {
             key: 'projects',
-            component: asyncComponent(() => import('@/pages/ListCard'))
+            component: asyncComponent(() => import('@/pages/ListProjects'))
           },
           {
             key: 'applications',
-            component: asyncComponent(() => import('@/pages/ListCard'))
+            component: asyncComponent(() => import('@/pages/ListApplications'))
           }
         ]
       }

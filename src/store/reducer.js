@@ -14,6 +14,10 @@ import { reducer as listsearchReducer } from '@/pages/ListSearch/store';
 import { reducer as listbasicReducer } from '@/pages/ListBasic/store';
 import { reducer as listcardReducer } from '@/pages/ListCard/store';
 
+import { reducer as listarticlesReducer } from '@/pages/ListArticles/store';
+import { reducer as listprojectsReducer } from '@/pages/ListProjects/store';
+import { reducer as listapplicationsReducer } from '@/pages/ListApplications/store';
+
 import { reducer as profilebasicReducer } from '@/pages/ProfileBasic/store';
 import { reducer as profileadvancedReducer } from '@/pages/ProfileAdvanced/store';
 
@@ -30,6 +34,10 @@ const reducer = combineReducers({
   listsearch: listsearchReducer,
   listbasic: listbasicReducer,
   listcard: listcardReducer,
+
+  listarticles: listarticlesReducer,
+  listprojects: listprojectsReducer,
+  listapplications: listapplicationsReducer,
 
   profilebasic: profilebasicReducer,
   profileadvanced: profileadvancedReducer

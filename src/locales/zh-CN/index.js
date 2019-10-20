@@ -1,6 +1,7 @@
 import menu from './common/menu';
 import exception from './common/exception';
 import result from './common/result';
+import component from './common/component';
 
 import analysis from './custom/analysis';
 import monitor from './custom/monitor';
@@ -20,6 +21,7 @@ export default {
   ...menu,
   ...exception,
   ...result,
+  ...component,
   ...analysis,
   ...monitor,
   ...form,
