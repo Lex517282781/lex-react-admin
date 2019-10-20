@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { injectIntl } from 'react-intl';
+import Exception from '@/components/Exception';
 
-class ExceptionNotfind extends Component {
-  render() {
-    return <div>ExceptionNotfind</div>;
-  }
-}
+const ExceptionNotfind = ({ intl: { formatMessage } }) => (
+  <Exception
+    type="404"
+    desc={formatMessage({ id: 'app.exception.description.404' })}
+    linkElement={Link}
+    backText={formatMessage({ id: 'app.exception.back' })}
+  />
+);
 
-export default ExceptionNotfind;
+export default injectIntl(ExceptionNotfind);
