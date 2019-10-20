@@ -11,6 +11,7 @@ import { reducer as formstepReducer } from '@/pages/FormStep/store';
 import { reducer as formadvancedReducer } from '@/pages/FormAdvanced/store';
 
 import { reducer as listsearchReducer } from '@/pages/ListSearch/store';
+import { reducer as listbasicReducer } from '@/pages/ListBasic/store';
 
 const reducer = combineReducers({
   common: commonReducer,
@@ -22,7 +23,8 @@ const reducer = combineReducers({
   formstep: formstepReducer,
   formadvanced: formadvancedReducer,
 
-  listsearch: listsearchReducer
+  listsearch: listsearchReducer,
+  listbasic: listbasicReducer
 });
 
 export default reducer;
