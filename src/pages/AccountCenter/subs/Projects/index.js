@@ -7,7 +7,9 @@ import styles from '@/pages/ListProjects/style.less';
 
 class Projects extends PureComponent {
   render() {
-    const { list } = this.props;
+    const {
+      tableData: { list }
+    } = this.props;
     return (
       <List
         className={styles.coverCardList}
@@ -48,7 +50,7 @@ class Projects extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  list: state.listprojects.tableData
+  tableData: state.listprojects.tableData
 });
 
 const mapDispatchToProps = {};

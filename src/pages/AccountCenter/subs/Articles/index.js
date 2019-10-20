@@ -6,7 +6,9 @@ import styles from './style.less';
 
 class Articles extends PureComponent {
   render() {
-    const { list } = this.props;
+    const {
+      tableData: { list }
+    } = this.props;
     const IconText = ({ type, text }) => (
       <span>
         <Icon type={type} style={{ marginRight: 8 }} />
@@ -52,7 +54,7 @@ class Articles extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  list: state.listarticles.tableData
+  tableData: state.listarticles.tableData
 });
 
 const mapDispatchToProps = {};

@@ -35,11 +35,14 @@ export default {
   'menu.exception.trigger': '触发错误',
   'menu.account': '个人页',
   'menu.account.center': '个人中心',
+  'menu.account.center.articles': '个人中心 文章',
+  'menu.account.center.applications': '个人中心 应用',
+  'menu.account.center.projects': '个人中心 项目',
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
   'menu.editor': '图形编辑器',
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
-  'menu.editor.koni': '拓扑编辑器',
+  'menu.editor.koni': '拓扑编辑器'
 };
