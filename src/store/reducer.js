@@ -12,6 +12,7 @@ import { reducer as formadvancedReducer } from '@/pages/FormAdvanced/store';
 
 import { reducer as listsearchReducer } from '@/pages/ListSearch/store';
 import { reducer as listbasicReducer } from '@/pages/ListBasic/store';
+import { reducer as listcardReducer } from '@/pages/ListCard/store';
 
 const reducer = combineReducers({
   common: commonReducer,
@@ -24,7 +25,8 @@ const reducer = combineReducers({
   formadvanced: formadvancedReducer,
 
   listsearch: listsearchReducer,
-  listbasic: listbasicReducer
+  listbasic: listbasicReducer,
+  listcard: listcardReducer
 });
 
 export default reducer;
