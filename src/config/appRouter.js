@@ -77,6 +77,7 @@ const router = [
       },
       {
         key: 'searchinfo',
+        component: asyncComponent(() => import('@/pages/ListSearchinfo')),
         children: [
           {
             key: 'articles',

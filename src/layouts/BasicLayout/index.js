@@ -134,9 +134,9 @@ class BasicLayout extends PureComponent {
             <Switch>
               {Object.values(routerMap).map(value => {
                 if (
-                  // 隐藏子菜单的时候 不需要在这里做页面判断跳转 因为是在页面中显示子路由 所以需要在那个页面中做路由判断
+                  // 子菜单的父级菜单也有组件的时候 不需要在这里做页面判断跳转 因为是在页面中显示子路由 所以是需要在那个页面中做路由判断 不需要进入这里判断
                   routerMap[value.parentPath] &&
-                  routerMap[value.parentPath].hideChildrenInMenu
+                  routerMap[value.parentPath].component
                 ) {
                   return null;
                 }
@@ -153,8 +153,8 @@ class BasicLayout extends PureComponent {
                   return (
                     <Route
                       key={value.path}
-                      // 对于隐藏子菜单 在页面中显示的父路由 不需要精准匹配
-                      exact={!value.hideChildrenInMenu}
+                      // 对于有子菜单 且 自己也有路由跳转的 不需要精准匹配
+                      exact={!(value.children && value.component)}
                       path={value.path}
                       component={value.component}
                     />

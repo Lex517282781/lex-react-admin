@@ -54,11 +54,14 @@ class FormStep extends PureComponent {
   };
 
   render() {
-    const { location, breadcrumbNameMap, menuData } = this.props;
+    const { match, location, breadcrumbNameMap } = this.props;
 
     const currentRouter = breadcrumbNameMap[location.pathname];
 
-    if (!currentRouter) return <Redirect to={menuData[0].path} push />;
+    if (!currentRouter) {
+      const parentRouter = breadcrumbNameMap[match.path];
+      return <Redirect to={parentRouter.children[0].path} push />;
+    }
 
     const { routerMap, defaultRedirect } = this.getRouterData();
 

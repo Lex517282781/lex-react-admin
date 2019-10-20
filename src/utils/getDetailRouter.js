@@ -17,7 +17,7 @@ import isEqual from 'lodash/isEqual';
   }
 ]
 */
-const getDetailRouter = (routers) => {
+const getDetailRouter = routers => {
   const formatRouter = (data, parent) => {
     data.forEach(router => {
       let path = '';
@@ -37,7 +37,7 @@ const getDetailRouter = (routers) => {
       if (router.children) {
         // 配置默认跳转链接
         const firstRouterKey = router.children[0].key;
-        if (!router.hideChildrenInMenu)
+        if (!router.component)
           router.redirect = `${router.path}/${firstRouterKey}`;
         formatRouter(router.children, router);
       }

@@ -29,7 +29,7 @@ const getRouterMap = routers => {
         // 配置默认跳转链接
         const firstRouterKey = router.children[0].key;
         // 菜单隐藏子路由 说明是在当前页面中展示子路由 在当前页面中
-        if (!router.hideChildrenInMenu)
+        if (!router.component)
           routerMap[router.path].redirect = `${router.path}/${firstRouterKey}`;
         flattenRoutersData(router.children, router);
       }
