@@ -29,3 +29,16 @@ less 的计算方式跟 calc 方法有重叠，两者在一起有冲突
 /_更改形式如下，以下两种方法皆可_/
 width:e("calc(100% - 4rem)");
 width:calc(~"100% - 4rem");
+
+## 修改地方
+
+## 用户登录页面 '/src/UserLayout'
+
+1. 标题
+2. logo
+3. 描述
+4. copyright
+
+### pages 可修改
+
+1. 建议保留 ExceptionNotfind ExceptionNotpermission ExceptionServererror ExceptionTrigger ExceptionUnauthorized user

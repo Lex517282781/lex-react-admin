@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { PageHeader, Tabs, Typography } from 'antd';
@@ -52,8 +52,12 @@ const PageHeaderWrapper = ({
   extraContent,
   hiddenBreadcrumb,
   intl: { formatMessage },
+  location,
+  breadcrumbNameMap,
   ...restProps
 }) => {
+  const currentPage = breadcrumbNameMap[location.pathname];
+
   return (
     <div
       style={{ margin: '-24px -24px 0' }}
@@ -80,7 +84,7 @@ const PageHeaderWrapper = ({
                           display: 'inline-block'
                         }}
                       >
-                        {title}
+                        {title || formatMessage({ id: currentPage.locale })}
                       </Title>
                     </>
                   }
@@ -136,7 +140,10 @@ const PageHeaderWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  contentWidth: state.common.setting.contentWidth
+  contentWidth: state.common.setting.contentWidth,
+  breadcrumbNameMap: state.common.menu.breadcrumbNameMap
 });
 
-export default connect(mapStateToProps)(injectIntl(PageHeaderWrapper));
+export default withRouter(
+  connect(mapStateToProps)(injectIntl(PageHeaderWrapper))
+);

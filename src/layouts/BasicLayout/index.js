@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import Footer from '../FooterView';
 import Header from '../HeaderView';
 import Media from 'react-media';
+import ExceptionUnauthorized from '@/pages/ExceptionUnauthorized';
 import SiderMenu from '@/components/SiderMenu';
 import Context from '../context/MenuContext';
 import logo from '@/assets/imgs/logo.svg';
@@ -99,6 +100,8 @@ class BasicLayout extends PureComponent {
       fixedHeader,
       intl: { formatMessage }
     } = this.props;
+
+    if (!menuData.length) return <ExceptionUnauthorized />;
 
     const isTop = PropsLayout === 'topmenu';
     const routerMap = getRouterMap(menuData);
