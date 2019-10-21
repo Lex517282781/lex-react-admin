@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Checkbox, Alert, Icon } from 'antd';
+import { connect } from 'react-redux';
+import { Checkbox, Alert, Icon, Modal } from 'antd';
+import { Link } from 'react-router-dom';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import Login from '@/components/Login';
 import styles from './style.less';
 
@@ -21,7 +24,13 @@ class LoginPage extends Component {
         if (err) {
           reject(err);
         } else {
+          const {
+            intl: { formatMessage }
+          } = this.props;
           console.log(values);
+          Modal.info({
+            title: formatMessage({ id: 'app.login.verification-code-warning' })
+          });
         }
       });
     });
@@ -53,10 +62,10 @@ class LoginPage extends Component {
 
   render() {
     const { type, autoLogin } = this.state;
-
-    const user = {
-      status: 'ok'
-    };
+    const {
+      intl: { formatMessage },
+      user
+    } = this.props;
 
     return (
       <div className={styles.main}>
@@ -68,42 +77,110 @@ class LoginPage extends Component {
             this.loginForm = form;
           }}
         >
-          <Tab key="account" tab="账户密码登录">
+          <Tab
+            key="account"
+            tab={formatMessage({ id: 'app.login.tab-login-credentials' })}
+          >
             {user.status === 'error' &&
               type === 'account' &&
-              this.renderMessage('用户名或者密码错误')}
-            <UserName name="userName" placeholder="请输入用户名" />
+              this.renderMessage(
+                formatMessage({ id: 'app.login.message-invalid-credentials' })
+              )}
+            <UserName
+              name="userName"
+              placeholder={`${formatMessage({
+                id: 'app.login.userName'
+              })}: admin or user`}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.userName.required' })
+                }
+              ]}
+            />
             <Password
               name="password"
-              placeholder="请输入密码"
-              onPressEnter={() =>
-                this.loginForm.validateFields(this.handleSubmit)
-              }
+              placeholder={`${formatMessage({
+                id: 'app.login.password'
+              })}: ant.design`}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.password.required' })
+                }
+              ]}
+              onPressEnter={e => {
+                e.preventDefault();
+                this.loginForm.validateFields(this.handleSubmit);
+              }}
             />
           </Tab>
-          <Tab key="mobile" tab="手机号登录">
+          <Tab
+            key="mobile"
+            tab={formatMessage({ id: 'app.login.tab-login-mobile' })}
+          >
             {user.status === 'error' &&
-              type === 'mobile' &&
-              this.renderMessage('用户名或者密码错误')}
-            <Mobile name="mobile" placeholder="手机号" />
+              user.type === 'mobile' &&
+              !user.loading &&
+              this.renderMessage(
+                formatMessage({
+                  id: 'app.login.message-invalid-verification-code'
+                })
+              )}
+            <Mobile
+              name="mobile"
+              placeholder={formatMessage({
+                id: 'form.phone-number.placeholder'
+              })}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({
+                    id: 'validation.phone-number.required'
+                  })
+                },
+                {
+                  pattern: /^1\d{10}$/,
+                  message: formatMessage({
+                    id: 'validation.phone-number.wrong-format'
+                  })
+                }
+              ]}
+            />
             <Captcha
               name="captcha"
-              placeholder="验证码"
+              placeholder={formatMessage({
+                id: 'form.verification-code.placeholder'
+              })}
               countDown={120}
               onGetCaptcha={this.onGetCaptcha}
-              getCaptchaButtonText="获取验证码"
-              getCaptchaSecondText="获取验证码1"
+              getCaptchaButtonText={formatMessage({ id: 'form.get-captcha' })}
+              getCaptchaSecondText={formatMessage({
+                id: 'form.captcha.second'
+              })}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({
+                    id: 'validation.verification-code.required'
+                  })
+                }
+              ]}
             />
           </Tab>
           <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-              记住我
+              <FormattedMessage id="app.login.remember-me" />
             </Checkbox>
-            <span style={{ float: 'right' }}>忘记密码</span>
+            <a style={{ float: 'right' }} href="">
+              <FormattedMessage id="app.login.forgot-password" />
+            </a>
           </div>
-          <Submit>登录</Submit>
+          <Submit loading={user.loading}>
+            <FormattedMessage id="app.login.login" />
+          </Submit>
           <div className={styles.other}>
-            其他登录方式
+            <FormattedMessage id="app.login.sign-in-with" />
             <Icon
               type="alipay-circle"
               className={styles.icon}
@@ -119,7 +196,9 @@ class LoginPage extends Component {
               className={styles.icon}
               theme="outlined"
             />
-            <span className={styles.register}>注册账户</span>
+            <Link className={styles.register} to="/user/register">
+              <FormattedMessage id="app.login.signup" />
+            </Link>
           </div>
         </Login>
       </div>
@@ -127,4 +206,13 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+const mapStateToProps = state => ({
+  user: state.common.user
+});
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(LoginPage));

@@ -17,7 +17,9 @@ const initState = {
   user: {
     list: [],
     currentUser: user,
-    loading: false
+    loading: false,
+    loginStatus: '',
+    registerStatus: ''
   },
   global: {
     collapsed: false,
