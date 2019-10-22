@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Spin, Tag, Menu, Icon, Avatar, Tooltip } from 'antd';
+import { Spin, Tag, Menu, Icon, Avatar, Tooltip, message } from 'antd';
 import moment from 'moment';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import NoticeIcon from '@/components/NoticeIcon';
 import HeaderSearch from '@/components/HeaderSearch';
@@ -80,55 +81,60 @@ class GlobalHeaderRight extends PureComponent {
   render() {
     const {
       currentUser,
-      fetchingMoreNotices,
       fetchingNotices,
-      loadedAllNotices,
       onNoticeVisibleChange,
       onMenuClick,
       onNoticeClear,
-      skeletonCount,
-      theme
+      theme,
+      intl: { formatMessage }
     } = this.props;
 
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">
           <Icon type="user" />
-          个人中心
+          <FormattedMessage
+            id="menu.account.center"
+            defaultMessage="account center"
+          />
         </Menu.Item>
         <Menu.Item key="userinfo">
           <Icon type="setting" />
-          个人设置
+          <FormattedMessage
+            id="menu.account.settings"
+            defaultMessage="account settings"
+          />
         </Menu.Item>
         <Menu.Item key="triggerError">
           <Icon type="close-circle" />
-          触发报错
+          <FormattedMessage
+            id="menu.account.trigger"
+            defaultMessage="Trigger Error"
+          />
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout">
           <Icon type="logout" />
-          退出登录
+          <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
         </Menu.Item>
       </Menu>
     );
-    const loadMoreProps = {
-      skeletonCount,
-      loadedAll: loadedAllNotices,
-      loading: fetchingMoreNotices
-    };
     const noticeData = this.getNoticeData();
     const unreadMsg = this.getUnreadData(noticeData);
     let className = styles.right;
     if (theme === 'dark') {
       className = `${styles.right}  ${styles.dark}`;
     }
-
     return (
       <div className={className}>
         <HeaderSearch
           className={`${styles.action} ${styles.search}`}
-          placeholder="站内搜索"
-          dataSource={['搜索提示一', '搜索提示二', '搜索提示三']}
+          placeholder={formatMessage({ id: 'component.globalHeader.search' })}
+          dataSource={[
+            formatMessage({ id: 'component.globalHeader.search.example1' }),
+            formatMessage({ id: 'component.globalHeader.search.example2' }),
+            formatMessage({ id: 'component.globalHeader.search.example3' })
+          ]}
           onSearch={value => {
             console.log('input', value); // eslint-disable-line
           }}
@@ -136,7 +142,7 @@ class GlobalHeaderRight extends PureComponent {
             console.log('enter', value); // eslint-disable-line
           }}
         />
-        <Tooltip title="使用文档">
+        <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
           <a
             target="_blank"
             href="https://pro.ant.design/docs/getting-started"
@@ -153,44 +159,51 @@ class GlobalHeaderRight extends PureComponent {
             console.log(item, tabProps); // eslint-disable-line
             this.changeReadState(item, tabProps);
           }}
+          loading={fetchingNotices}
           locale={{
-            emptyText: '暂无数据',
-            clear: '清空了',
-            viewMore: '查看更多',
-            notification: '通知',
-            message: '消息',
-            event: '待办'
+            emptyText: formatMessage({ id: 'component.noticeIcon.empty' }),
+            clear: formatMessage({ id: 'component.noticeIcon.clear' }),
+            viewMore: formatMessage({ id: 'component.noticeIcon.view-more' }),
+            notification: formatMessage({
+              id: 'component.globalHeader.notification'
+            }),
+            message: formatMessage({ id: 'component.globalHeader.message' }),
+            event: formatMessage({ id: 'component.globalHeader.event' })
           }}
           onClear={onNoticeClear}
-          onLoadMore={this.fetchMoreNotices}
           onPopupVisibleChange={onNoticeVisibleChange}
-          loading={fetchingNotices}
+          onViewMore={() => message.info('Click on view more')}
           clearClose
         >
           <NoticeIcon.Tab
             count={unreadMsg.notification}
             list={noticeData.notification}
-            title="通知"
-            name="notification"
-            emptyText="你已查看所有通知"
+            title="notification"
+            emptyText={formatMessage({
+              id: 'component.globalHeader.notification.empty'
+            })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
-            {...loadMoreProps}
+            showViewMore
           />
           <NoticeIcon.Tab
             count={unreadMsg.message}
             list={noticeData.message}
-            title="消息"
-            emptyText="您已读完所有消息"
+            title="message"
+            emptyText={formatMessage({
+              id: 'component.globalHeader.message.empty'
+            })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
-            {...loadMoreProps}
+            showViewMore
           />
           <NoticeIcon.Tab
             count={unreadMsg.event}
             list={noticeData.event}
-            title="待办"
-            emptyText="你已完成所有待办"
+            title="event"
+            emptyText={formatMessage({
+              id: 'component.globalHeader.event.empty'
+            })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
-            {...loadMoreProps}
+            showViewMore
           />
         </NoticeIcon>
         {currentUser.name ? (
@@ -214,4 +227,4 @@ class GlobalHeaderRight extends PureComponent {
   }
 }
 
-export default GlobalHeaderRight;
+export default injectIntl(GlobalHeaderRight);

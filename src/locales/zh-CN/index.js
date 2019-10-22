@@ -3,6 +3,7 @@ import exception from './common/exception';
 import result from './common/result';
 import component from './common/component';
 import settings from './common/settings';
+import globalHeader from './common/globalHeader';
 
 import analysis from './custom/analysis';
 import monitor from './custom/monitor';
@@ -24,6 +25,7 @@ export default {
   ...result,
   ...component,
   ...settings,
+  ...globalHeader,
   ...analysis,
   ...monitor,
   ...form,
