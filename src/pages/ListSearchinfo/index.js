@@ -7,15 +7,15 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 const tabList = [
   {
     key: 'articles',
-    tab: '文章'
+    name: '文章'
   },
   {
     key: 'projects',
-    tab: '项目'
+    name: '项目'
   },
   {
     key: 'applications',
-    tab: '应用'
+    name: '应用'
   }
 ];
 

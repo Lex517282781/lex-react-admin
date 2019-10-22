@@ -33,7 +33,7 @@ const renderFooter = ({
       tabBarExtraContent={tabBarExtraContent}
     >
       {tabList.map(item => (
-        <Tabs.TabPane tab={item.tab} key={item.key} />
+        <Tabs.TabPane tab={item.name} key={item.key} />
       ))}
     </Tabs>
   ) : null;
