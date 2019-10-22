@@ -11,6 +11,12 @@ const router = [
       {
         key: 'register',
         component: asyncComponent(() => import('@/pages/user/Register'))
+      },
+      {
+        key: 'register-result',
+        component: asyncComponent(() =>
+          import('@/pages/user/Register/subs/RegisterResult')
+        )
       }
     ]
   }
