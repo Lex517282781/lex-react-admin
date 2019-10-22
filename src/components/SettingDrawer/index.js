@@ -11,6 +11,7 @@ import {
   Alert,
   Tooltip
 } from 'antd';
+import { injectIntl } from 'react-intl';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
 import omit from 'omit.js';
@@ -45,11 +46,12 @@ class SettingDrawer extends Component {
         layout,
         autoHideHeader,
         fixSiderbar
-      }
+      },
+      intl: { formatMessage }
     } = this.props;
     return [
       {
-        title: '内容区域宽度',
+        title: formatMessage({ id: 'app.setting.content-width' }),
         action: (
           <Select
             value={contentWidth}
@@ -57,13 +59,19 @@ class SettingDrawer extends Component {
             onSelect={value => this.changeSetting('contentWidth', value)}
             style={{ width: 80 }}
           >
-            {layout === 'sidemenu' ? null : <Option value="Fixed">定宽</Option>}
-            <Option value="Fluid">流式</Option>
+            {layout === 'sidemenu' ? null : (
+              <Option value="Fixed">
+                {formatMessage({ id: 'app.setting.content-width.fixed' })}
+              </Option>
+            )}
+            <Option value="Fluid">
+              {formatMessage({ id: 'app.setting.content-width.fluid' })}
+            </Option>
           </Select>
         )
       },
       {
-        title: '固定 Header',
+        title: formatMessage({ id: 'app.setting.fixedheader' }),
         action: (
           <Switch
             size="small"
@@ -73,9 +81,9 @@ class SettingDrawer extends Component {
         )
       },
       {
-        title: '下滑时隐藏 Header',
+        title: formatMessage({ id: 'app.setting.hideheader' }),
         disabled: !fixedHeader,
-        disabledReason: '固定 Header 时可配置',
+        disabledReason: formatMessage({ id: 'app.setting.hideheader.hint' }),
         action: (
           <Switch
             size="small"
@@ -85,9 +93,9 @@ class SettingDrawer extends Component {
         )
       },
       {
-        title: '固定侧边菜单',
+        title: formatMessage({ id: 'app.setting.fixedsidebar' }),
         disabled: layout === 'topmenu',
-        disabledReason: '侧边菜单布局时可配置',
+        disabledReason: formatMessage({ id: 'app.setting.fixedsidebar.hint' }),
         action: (
           <Switch
             size="small"
@@ -140,7 +148,10 @@ class SettingDrawer extends Component {
   };
 
   render() {
-    const { setting } = this.props;
+    const {
+      setting,
+      intl: { formatMessage }
+    } = this.props;
     const { navTheme, primaryColor, layout, colorWeak } = setting;
     const { collapse } = this.state;
     return (
@@ -165,20 +176,20 @@ class SettingDrawer extends Component {
         }}
       >
         <div className={styles.content}>
-          <Body title="整体风格设置">
+          <Body title={formatMessage({ id: 'app.setting.pagestyle' })}>
             <BlockCheckbox
               list={[
                 {
                   key: 'dark',
                   url:
                     'https://gw.alipayobjects.com/zos/rmsportal/LCkqqYNmvBEbokSDscrm.svg',
-                  title: '暗色菜单风格'
+                  title: formatMessage({ id: 'app.setting.pagestyle.dark' })
                 },
                 {
                   key: 'light',
                   url:
                     'https://gw.alipayobjects.com/zos/rmsportal/jpRkZQMyYRryryPNtyIC.svg',
-                  title: '亮色菜单风格'
+                  title: formatMessage({ id: 'app.setting.pagestyle.light' })
                 }
               ]}
               value={navTheme}
@@ -187,27 +198,27 @@ class SettingDrawer extends Component {
           </Body>
 
           <ThemeColor
-            title={'主题色'}
+            title={formatMessage({ id: 'app.setting.themecolor' })}
             value={primaryColor}
             onChange={color => this.changeSetting('primaryColor', color)}
           />
 
           <Divider />
 
-          <Body title="导航模式">
+          <Body title={formatMessage({ id: 'app.setting.navigationmode' })}>
             <BlockCheckbox
               list={[
                 {
                   key: 'sidemenu',
                   url:
                     'https://gw.alipayobjects.com/zos/rmsportal/JopDzEhOqwOjeNTXkoje.svg',
-                  title: '侧边菜单布局'
+                  title: formatMessage({ id: 'app.setting.sidemenu' })
                 },
                 {
                   key: 'topmenu',
                   url:
                     'https://gw.alipayobjects.com/zos/rmsportal/KDNDBbriJhLwuqMoxcAr.svg',
-                  title: '顶部菜单布局'
+                  title: formatMessage({ id: 'app.setting.topmenu' })
                 }
               ]}
               value={layout}
@@ -223,13 +234,13 @@ class SettingDrawer extends Component {
 
           <Divider />
 
-          <Body title="其他设置">
+          <Body title={formatMessage({ id: 'app.setting.othersettings' })}>
             <List
               split={false}
               renderItem={this.renderLayoutSettingItem}
               dataSource={[
                 {
-                  title: '色弱模式',
+                  title: formatMessage({ id: 'app.setting.weakmode' }),
                   action: (
                     <Switch
                       size="small"
@@ -247,13 +258,11 @@ class SettingDrawer extends Component {
           <CopyToClipboard
             text={JSON.stringify(omit(setting, ['colorWeak']), null, 2)}
             onCopy={() =>
-              message.success(
-                '拷贝成功，请到 src/defaultSettings.js 中替换默认配置'
-              )
+              message.success(formatMessage({ id: 'app.setting.copyinfo' }))
             }
           >
             <Button block icon="copy">
-              拷贝设置
+              {formatMessage({ id: 'app.setting.copy' })}
             </Button>
           </CopyToClipboard>
           <Alert
@@ -261,9 +270,7 @@ class SettingDrawer extends Component {
             className={styles.productionHint}
             message={
               <div>
-                {
-                  '配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件'
-                }{' '}
+                {formatMessage({ id: 'app.setting.production.hint' })}{' '}
                 <a
                   href="https://u.ant.design/pro-v2-default-settings"
                   target="_blank"
@@ -289,4 +296,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SettingDrawer);
+)(injectIntl(SettingDrawer));

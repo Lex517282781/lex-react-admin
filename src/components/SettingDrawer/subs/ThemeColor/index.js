@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tooltip, Icon } from 'antd';
+import { injectIntl } from 'react-intl';
 import styles from './style.less';
 
 const Tag = ({ color, check, ...rest }) => (
@@ -13,7 +14,13 @@ const Tag = ({ color, check, ...rest }) => (
   </div>
 );
 
-const ThemeColor = ({ colors, title, value, onChange }) => {
+const ThemeColor = ({
+  colors,
+  title,
+  value,
+  onChange,
+  intl: { formatMessage }
+}) => {
   let colorList = colors;
   if (!colors) {
     colorList = [
@@ -56,7 +63,10 @@ const ThemeColor = ({ colors, title, value, onChange }) => {
       <h3 className={styles.title}>{title}</h3>
       <div className={styles.content}>
         {colorList.map(({ key, color }) => (
-          <Tooltip key={color} title={`主题色.${key}`}>
+          <Tooltip
+            key={color}
+            title={formatMessage({ id: `app.setting.themecolor.${key}` })}
+          >
             <Tag
               className={styles.colorBlock}
               color={color}
@@ -70,4 +80,4 @@ const ThemeColor = ({ colors, title, value, onChange }) => {
   );
 };
 
-export default ThemeColor;
+export default injectIntl(ThemeColor);
