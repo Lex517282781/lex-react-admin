@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Checkbox, Alert, Icon, Modal } from 'antd';
+import { Checkbox, Alert, Icon, Modal, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Login from '@/components/Login';
+import applicationSetting from '@/config/applicationSetting';
 import styles from './style.less';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
 class LoginPage extends Component {
   state = {
-    type: 'account',
+    type: applicationSetting.isAccountLogin ? 'account' : 'mobile',
     autoLogin: true
   };
 
@@ -67,6 +68,14 @@ class LoginPage extends Component {
       user
     } = this.props;
 
+    if (
+      !applicationSetting.isAccountLogin &&
+      !applicationSetting.isPhoneLogin
+    ) {
+      message.warn('请至少选择一种登录方式');
+      return null;
+    }
+
     return (
       <div className={styles.main}>
         <Login
@@ -77,129 +86,145 @@ class LoginPage extends Component {
             this.loginForm = form;
           }}
         >
-          <Tab
-            key="account"
-            tab={formatMessage({ id: 'app.login.tab-login-credentials' })}
-          >
-            {user.status === 'error' &&
-              type === 'account' &&
-              this.renderMessage(
-                formatMessage({ id: 'app.login.message-invalid-credentials' })
-              )}
-            <UserName
-              name="userName"
-              placeholder={`${formatMessage({
-                id: 'app.login.userName'
-              })}: admin or user`}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({ id: 'validation.userName.required' })
-                }
-              ]}
-            />
-            <Password
-              name="password"
-              placeholder={`${formatMessage({
-                id: 'app.login.password'
-              })}: ant.design`}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({ id: 'validation.password.required' })
-                }
-              ]}
-              onPressEnter={e => {
-                e.preventDefault();
-                this.loginForm.validateFields(this.handleSubmit);
-              }}
-            />
-          </Tab>
-          <Tab
-            key="mobile"
-            tab={formatMessage({ id: 'app.login.tab-login-mobile' })}
-          >
-            {user.status === 'error' &&
-              user.type === 'mobile' &&
-              !user.loading &&
-              this.renderMessage(
-                formatMessage({
-                  id: 'app.login.message-invalid-verification-code'
-                })
-              )}
-            <Mobile
-              name="mobile"
-              placeholder={formatMessage({
-                id: 'form.phone-number.placeholder'
-              })}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({
-                    id: 'validation.phone-number.required'
+          {applicationSetting.isAccountLogin && (
+            <Tab
+              key="account"
+              tab={formatMessage({ id: 'app.login.tab-login-credentials' })}
+            >
+              {user.status === 'error' &&
+                type === 'account' &&
+                this.renderMessage(
+                  formatMessage({ id: 'app.login.message-invalid-credentials' })
+                )}
+              <UserName
+                name="userName"
+                placeholder={`${formatMessage({
+                  id: 'app.login.userName'
+                })}: admin or user`}
+                rules={[
+                  {
+                    required: true,
+                    message: formatMessage({
+                      id: 'validation.userName.required'
+                    })
+                  }
+                ]}
+              />
+              <Password
+                name="password"
+                placeholder={`${formatMessage({
+                  id: 'app.login.password'
+                })}: ant.design`}
+                rules={[
+                  {
+                    required: true,
+                    message: formatMessage({
+                      id: 'validation.password.required'
+                    })
+                  }
+                ]}
+                onPressEnter={e => {
+                  e.preventDefault();
+                  this.loginForm.validateFields(this.handleSubmit);
+                }}
+              />
+            </Tab>
+          )}
+          {applicationSetting.isPhoneLogin && (
+            <Tab
+              key="mobile"
+              tab={formatMessage({ id: 'app.login.tab-login-mobile' })}
+            >
+              {user.status === 'error' &&
+                user.type === 'mobile' &&
+                !user.loading &&
+                this.renderMessage(
+                  formatMessage({
+                    id: 'app.login.message-invalid-verification-code'
                   })
-                },
-                {
-                  pattern: /^1\d{10}$/,
-                  message: formatMessage({
-                    id: 'validation.phone-number.wrong-format'
-                  })
-                }
-              ]}
-            />
-            <Captcha
-              name="captcha"
-              placeholder={formatMessage({
-                id: 'form.verification-code.placeholder'
-              })}
-              countDown={120}
-              onGetCaptcha={this.onGetCaptcha}
-              getCaptchaButtonText={formatMessage({ id: 'form.get-captcha' })}
-              getCaptchaSecondText={formatMessage({
-                id: 'form.captcha.second'
-              })}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({
-                    id: 'validation.verification-code.required'
-                  })
-                }
-              ]}
-            />
-          </Tab>
+                )}
+              <Mobile
+                name="mobile"
+                placeholder={formatMessage({
+                  id: 'form.phone-number.placeholder'
+                })}
+                rules={[
+                  {
+                    required: true,
+                    message: formatMessage({
+                      id: 'validation.phone-number.required'
+                    })
+                  },
+                  {
+                    pattern: /^1\d{10}$/,
+                    message: formatMessage({
+                      id: 'validation.phone-number.wrong-format'
+                    })
+                  }
+                ]}
+              />
+              <Captcha
+                name="captcha"
+                placeholder={formatMessage({
+                  id: 'form.verification-code.placeholder'
+                })}
+                countDown={120}
+                onGetCaptcha={this.onGetCaptcha}
+                getCaptchaButtonText={formatMessage({ id: 'form.get-captcha' })}
+                getCaptchaSecondText={formatMessage({
+                  id: 'form.captcha.second'
+                })}
+                rules={[
+                  {
+                    required: true,
+                    message: formatMessage({
+                      id: 'validation.verification-code.required'
+                    })
+                  }
+                ]}
+              />
+            </Tab>
+          )}
           <div>
-            <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-              <FormattedMessage id="app.login.remember-me" />
-            </Checkbox>
-            <a style={{ float: 'right' }} href="">
-              <FormattedMessage id="app.login.forgot-password" />
-            </a>
+            {applicationSetting.isAutoLogin && (
+              <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
+                <FormattedMessage id="app.login.remember-me" />
+              </Checkbox>
+            )}
+            {applicationSetting.isRetrievePw && (
+              <a style={{ float: 'right' }}>
+                <FormattedMessage id="app.login.forgot-password" />
+              </a>
+            )}
           </div>
           <Submit loading={user.loading}>
             <FormattedMessage id="app.login.login" />
           </Submit>
-          <div className={styles.other}>
-            <FormattedMessage id="app.login.sign-in-with" />
-            <Icon
-              type="alipay-circle"
-              className={styles.icon}
-              theme="outlined"
-            />
-            <Icon
-              type="taobao-circle"
-              className={styles.icon}
-              theme="outlined"
-            />
-            <Icon
-              type="weibo-circle"
-              className={styles.icon}
-              theme="outlined"
-            />
-            <Link className={styles.register} to="/user/register">
-              <FormattedMessage id="app.login.signup" />
-            </Link>
-          </div>
+          {applicationSetting.isOtherFnLogin && (
+            <div className={styles.other}>
+              <FormattedMessage id="app.login.sign-in-with" />
+              <Icon
+                type="alipay-circle"
+                className={styles.icon}
+                theme="outlined"
+              />
+              <Icon
+                type="taobao-circle"
+                className={styles.icon}
+                theme="outlined"
+              />
+              <Icon
+                type="weibo-circle"
+                className={styles.icon}
+                theme="outlined"
+              />
+              {applicationSetting.isRegister && (
+                <Link className={styles.register} to="/user/register">
+                  <FormattedMessage id="app.login.signup" />
+                </Link>
+              )}
+            </div>
+          )}
         </Login>
       </div>
     );

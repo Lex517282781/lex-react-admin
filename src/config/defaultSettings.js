@@ -1,8 +1,8 @@
-module.exports = {
-  navTheme: 'dark', // theme for nav menu
-  primaryColor: '#1890FF', // primary color of ant design
-  layout: 'sidemenu', // nav menu position: sidemenu or topmenu
-  contentWidth: 'Fluid', // layout of content: Fluid or Fixed, only works when layout is topmenu
+const defaultSettings = {
+  navTheme: 'dark', // 菜单主题
+  primaryColor: '#1890FF', // 后台主题色
+  layout: 'sidemenu', // 菜单的位置: sidemenu or topmenu
+  contentWidth: 'Fluid', // 内容布局: Fluid or Fixed, only works when layout is topmenu
   fixedHeader: false, // sticky header
   autoHideHeader: false, // auto hide header
   fixSiderbar: false, // sticky siderbar
@@ -17,3 +17,5 @@ module.exports = {
   // Usage: https://github.com/ant-design/ant-design-pro/pull/3517
   iconfontUrl: ''
 };
+
+export default defaultSettings;

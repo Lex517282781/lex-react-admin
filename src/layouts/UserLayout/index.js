@@ -7,13 +7,13 @@ import userRouter from '@/config/userRouter';
 import getRouterMap from '@/utils/getRouterMap';
 import GlobalFooter from '@/components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
-import logo from '@/assets/imgs/logo.svg';
 import getPageTitle from '@/utils/getPageTitle';
+import customSetting from '@/config/customSetting';
 import styles from './style.less';
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+    Copyright <Icon type="copyright" /> {customSetting.copyright}
   </Fragment>
 );
 
@@ -85,12 +85,14 @@ class UserLayout extends PureComponent {
           <div className={styles.content}>
             <div className={styles.top}>
               <div className={styles.header}>
-                <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
+                <img
+                  alt="logo"
+                  className={styles.logo}
+                  src={customSetting.loginLogo}
+                />
+                <span className={styles.title}>{customSetting.loginTitle}</span>
               </div>
-              <div className={styles.desc}>
-                Ant Design 是西湖区最具影响力的 Web 设计规范
-              </div>
+              <div className={styles.desc}>{customSetting.loginDesc}</div>
             </div>
             {routers}
           </div>
