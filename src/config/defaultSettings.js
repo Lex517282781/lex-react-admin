@@ -9,7 +9,6 @@ const defaultSettings = {
   menu: {
     disableLocal: false
   },
-  title: 'Ant Design Pro',
   pwa: false,
   // Your custom iconfont Symbol script Url
   // eg：//at.alicdn.com/t/font_1039637_btcrd5co4w.js

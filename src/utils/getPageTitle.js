@@ -1,9 +1,9 @@
 import pathToRegexp from 'path-to-regexp';
 import isEqual from 'lodash/isEqual';
 import memoizeOne from 'memoize-one';
-import setting from '@/config/defaultSettings';
+import setting from '@/config/customSetting';
 
-const { title } = setting;
+const { contentTitle } = setting;
 
 export const matchParamsPath = (pathname, breadcrumbNameMap) => {
   const pathKey = Object.keys(breadcrumbNameMap).find(key =>
@@ -15,7 +15,7 @@ export const matchParamsPath = (pathname, breadcrumbNameMap) => {
 const getPageTitle = (pathname, breadcrumbNameMap) => {
   const currRouterData = matchParamsPath(pathname, breadcrumbNameMap);
   if (!currRouterData) {
-    return title;
+    return contentTitle;
   }
   const locale = currRouterData.locale;
 

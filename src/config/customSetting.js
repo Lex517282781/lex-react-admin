@@ -6,7 +6,10 @@ const customSetting = {
   copyright: '2018 蚂蚁金服体验技术部出品',
   loginLogo,
   loginTitle: 'Ant Design',
-  loginDesc: 'Ant Design 是西湖区最具影响力的 Web 设计规范'
+  loginDesc: 'Ant Design 是西湖区最具影响力的 Web 设计规范',
+
+  contentLogo: loginLogo,
+  contentTitle: 'Ant Design'
 };
 
 export default customSetting;

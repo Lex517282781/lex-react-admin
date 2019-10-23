@@ -5,9 +5,6 @@ import { Link } from 'react-router-dom';
 import styles from '../style.less';
 import PageLoading from '@/components/PageLoading';
 import { getDefaultCollapsedSubMenus } from '../tools';
-import setting from '@/config/defaultSettings';
-
-const { title } = setting;
 
 const BaseMenu = React.lazy(() => import('./BaseMenu'));
 const { Sider } = Layout;
@@ -62,6 +59,7 @@ class SiderMenu extends PureComponent {
   render() {
     const {
       logo,
+      title,
       collapsed,
       onCollapse,
       fixSiderbar,

@@ -12,6 +12,7 @@ import form from './custom/form';
 import login from './custom/login';
 
 export default {
+  'Ant Design': 'Ant Design Pro',
   'Ant Design Pro': 'Ant Design Pro',
   'navBar.lang': '语言',
   'layout.user.link.help': '帮助',

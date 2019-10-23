@@ -13,7 +13,7 @@ import Media from 'react-media';
 import ExceptionUnauthorized from '@/pages/ExceptionUnauthorized';
 import SiderMenu from '@/components/SiderMenu';
 import Context from '../context/MenuContext';
-import logo from '@/assets/imgs/logo.svg';
+import customSetting from '@/config/customSetting';
 import getRouterMap from '@/utils/getRouterMap';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './style.less';
@@ -112,7 +112,8 @@ class BasicLayout extends PureComponent {
       <Layout>
         {isTop && !isMobile ? null : (
           <SiderMenu
-            logo={logo}
+            logo={customSetting.contentLogo}
+            title={customSetting.contentTitle}
             theme={navTheme}
             onCollapse={this.handleMenuCollapse}
             isMobile={isMobile}
@@ -129,7 +130,8 @@ class BasicLayout extends PureComponent {
           <Header
             menuData={menuData}
             handleMenuCollapse={this.handleMenuCollapse}
-            logo={logo}
+            logo={customSetting.contentLogo}
+            title={customSetting.contentTitle}
             isMobile={isMobile}
             {...this.props}
           />
@@ -175,7 +177,10 @@ class BasicLayout extends PureComponent {
     );
 
     const title = getPageTitle(pathname, breadcrumbNameMap);
-    const localTitle = formatMessage({ id: title });
+    let localTitle = '标准后台';
+    if (title) {
+      localTitle = formatMessage({ id: title });
+    }
 
     return (
       <React.Fragment>
