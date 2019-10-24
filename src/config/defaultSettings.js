@@ -1,5 +1,5 @@
 const defaultSettings = {
-  navTheme: 'dark', // 菜单主题
+  navTheme: 'light', // 菜单主题
   primaryColor: '#1890FF', // 后台主题色
   layout: 'sidemenu', // 菜单的位置: sidemenu or topmenu
   contentWidth: 'Fluid', // 内容布局: Fluid or Fixed, only works when layout is topmenu

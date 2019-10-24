@@ -14,6 +14,7 @@ import {
 import { injectIntl } from 'react-intl';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
+import { actionCreators as commonActionCreators } from '@/store/common';
 import omit from 'omit.js';
 import styles from './style.less';
 import ThemeColor from './subs/ThemeColor';
@@ -49,6 +50,7 @@ class SettingDrawer extends Component {
       },
       intl: { formatMessage }
     } = this.props;
+
     return [
       {
         title: formatMessage({ id: 'app.setting.content-width' }),
@@ -108,7 +110,7 @@ class SettingDrawer extends Component {
   };
 
   changeSetting = (key, value) => {
-    const { setting } = this.props;
+    const { setting, setting_update } = this.props;
     const nextState = { ...setting };
     nextState[key] = value;
     if (key === 'layout') {
@@ -117,10 +119,9 @@ class SettingDrawer extends Component {
       nextState.autoHideHeader = false;
     }
     this.setState(nextState, () => {
-      console.log(`dispatch({
-        type: 'setting/changeSetting',
-        payload: this.state
-      });`);
+      setting_update({
+        ...nextState
+      });
     });
   };
 
@@ -291,7 +292,9 @@ const mapStateToProps = state => ({
   setting: state.common.setting
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setting_update: commonActionCreators.setting_update
+};
 
 export default connect(
   mapStateToProps,

@@ -32,6 +32,16 @@ const initState = {
   }
 };
 
+const setting_update = (state, setting) => {
+  return {
+    ...state,
+    setting: {
+      ...state.setting,
+      ...setting
+    }
+  };
+};
+
 const global_update = (state, global) => {
   return {
     ...state,
@@ -44,6 +54,9 @@ const global_update = (state, global) => {
 
 export default (state = initState, action) => {
   switch (action.type) {
+    case types.SETTING_UPDATE:
+      return setting_update(state, action.data);
+
     case types.GLOBAL_UPDATE:
       return global_update(state, action.data);
 
