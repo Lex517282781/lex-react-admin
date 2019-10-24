@@ -15,6 +15,7 @@ import SiderMenu from '@/components/SiderMenu';
 import Context from '../context/MenuContext';
 import customSetting from '@/config/customSetting';
 import defaultSettings from '@/config/defaultSettings';
+import applicationSetting from '@/config/applicationSetting';
 import getRouterMap from '@/utils/getRouterMap';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './style.less';
@@ -196,7 +197,9 @@ class BasicLayout extends PureComponent {
             )}
           </ContainerQuery>
         </DocumentTitle>
-        <Suspense fallback={null}>{this.renderSettingDrawer()}</Suspense>
+        {applicationSetting.isSettingDrawer && (
+          <Suspense fallback={null}>{this.renderSettingDrawer()}</Suspense>
+        )}
       </React.Fragment>
     );
   }

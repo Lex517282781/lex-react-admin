@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { Layout, message } from 'antd';
 import Animate from 'rc-animate';
 import GlobalHeader from '@/components/GlobalHeader';
@@ -42,8 +43,17 @@ class HeaderView extends Component {
     return collapsed ? 'calc(100% - 80px)' : `calc(100% - ${siderWidth}px)`;
   };
 
-  handleNoticeClear = () => {
-    message.success(`清空了 站内搜索`);
+  handleNoticeClear = type => {
+    const {
+      intl: { formatMessage }
+    } = this.props;
+    message.success(
+      `${formatMessage({ id: 'component.noticeIcon.cleared' })} ${formatMessage(
+        {
+          id: `component.globalHeader.${type}`
+        }
+      )}`
+    );
     console.log(`dispatch({
       type: 'global/clearNotices',
       payload: type
@@ -159,4 +169,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HeaderView);
+)(injectIntl(HeaderView));

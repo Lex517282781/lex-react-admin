@@ -30,6 +30,22 @@ less 的计算方式跟 calc 方法有重叠，两者在一起有冲突
 width:e("calc(100% - 4rem)");
 width:calc(~"100% - 4rem");
 
+## 配置区域
+
+### config 文件 ——> 'src/config'
+
+1. defaultSettings.js
+
+系统主题设置，具体有：菜单主题 后台主题色 菜单位置 菜单宽度 内容布局 头部布局等
+
+2. customSetting.js
+
+业务数据配置，具体有：登录页面的配置(logo, title, desc, copyright), 内容页面的配置(logo, title)
+
+3. applicationSetting.js
+
+应用功能配置，具体有：是否支持(账号登录|手机登录|自动登录|找回密码|其他方式登录|注册账户)
+
 ## 修改地方
 
 ## 用户登录页面 '/src/UserLayout'
