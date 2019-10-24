@@ -14,6 +14,7 @@ import ExceptionUnauthorized from '@/pages/ExceptionUnauthorized';
 import SiderMenu from '@/components/SiderMenu';
 import Context from '../context/MenuContext';
 import customSetting from '@/config/customSetting';
+import defaultSettings from '@/config/defaultSettings';
 import getRouterMap from '@/utils/getRouterMap';
 import getPageTitle from '@/utils/getPageTitle';
 import styles from './style.less';
@@ -22,6 +23,8 @@ import styles from './style.less';
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
 
 const { Content } = Layout;
+
+const { siderWidth } = defaultSettings;
 
 const query = {
   'screen-xs': {
@@ -69,7 +72,7 @@ class BasicLayout extends PureComponent {
     const { fixSiderbar, isMobile, collapsed, layout } = this.props;
     if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
       return {
-        paddingLeft: collapsed ? '80px' : '256px'
+        paddingLeft: collapsed ? '80px' : siderWidth + 'px'
       };
     }
     return null;

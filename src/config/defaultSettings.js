@@ -1,7 +1,8 @@
 const defaultSettings = {
-  navTheme: 'light', // 菜单主题
+  navTheme: 'dark', // 菜单主题 light dark
   primaryColor: '#1890FF', // 后台主题色
   layout: 'sidemenu', // 菜单的位置: sidemenu or topmenu
+  siderWidth: 200, // 菜单的宽度
   contentWidth: 'Fluid', // 内容布局: Fluid or Fixed, only works when layout is topmenu
   fixedHeader: false, // sticky header
   autoHideHeader: false, // auto hide header

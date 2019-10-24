@@ -4,10 +4,13 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from '../style.less';
 import PageLoading from '@/components/PageLoading';
+import defaultSettings from '@/config/defaultSettings';
 import { getDefaultCollapsedSubMenus } from '../tools';
 
 const BaseMenu = React.lazy(() => import('./BaseMenu'));
 const { Sider } = Layout;
+
+const { siderWidth } = defaultSettings;
 
 let firstMount = true;
 
@@ -85,7 +88,7 @@ class SiderMenu extends PureComponent {
             onCollapse({ collapsed: collapse });
           }
         }}
-        width={256}
+        width={siderWidth}
         theme={theme}
         className={siderClassName}
       >

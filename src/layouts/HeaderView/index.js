@@ -4,9 +4,12 @@ import { Layout, message } from 'antd';
 import Animate from 'rc-animate';
 import GlobalHeader from '@/components/GlobalHeader';
 import TopNavHeader from '@/components/TopNavHeader';
+import defaultSettings from '@/config/defaultSettings';
 import styles from './style.less';
 
 const { Header } = Layout;
+
+const { siderWidth } = defaultSettings;
 
 class HeaderView extends Component {
   state = {
@@ -36,7 +39,7 @@ class HeaderView extends Component {
     if (isMobile || !fixedHeader || layout === 'topmenu') {
       return '100%';
     }
-    return collapsed ? 'calc(100% - 80px)' : 'calc(100% - 256px)';
+    return collapsed ? 'calc(100% - 80px)' : `calc(100% - ${siderWidth}px)`;
   };
 
   handleNoticeClear = () => {
