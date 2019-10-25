@@ -15,9 +15,9 @@ import SiderMenu from '@/components/SiderMenu';
 import Context from '../context/MenuContext';
 import customSetting from '@/config/customSetting';
 import defaultSettings from '@/config/defaultSettings';
-import applicationSetting from '@/config/applicationSetting';
 import getRouterMap from '@/utils/getRouterMap';
 import getPageTitle from '@/utils/getPageTitle';
+import { appWrapAuth } from '@/components/WrapAuth';
 import styles from './style.less';
 
 // lazy load SettingDrawer
@@ -112,6 +112,8 @@ class BasicLayout extends PureComponent {
 
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
 
+    const SuspenseWrap = appWrapAuth(Suspense);
+
     const layout = (
       <Layout>
         {isTop && !isMobile ? null : (
@@ -197,9 +199,9 @@ class BasicLayout extends PureComponent {
             )}
           </ContainerQuery>
         </DocumentTitle>
-        {applicationSetting.isSettingDrawer && (
-          <Suspense fallback={null}>{this.renderSettingDrawer()}</Suspense>
-        )}
+        <SuspenseWrap auth="SettingDrawer" fallback={null}>
+          {this.renderSettingDrawer()}
+        </SuspenseWrap>
       </React.Fragment>
     );
   }

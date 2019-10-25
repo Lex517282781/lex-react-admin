@@ -7,10 +7,8 @@ import NoticeIcon from '@/components/NoticeIcon';
 import HeaderSearch from '@/components/HeaderSearch';
 import HeaderDropdown from '@/components/HeaderDropdown';
 import SelectLang from '@/components/SelectLang';
-import applicationSetting from '@/config/applicationSetting';
+import { appWrapAuth } from '@/components/WrapAuth';
 import styles from '../style.less';
-
-const { isHeaderSearch, isHeaderHelp } = applicationSetting;
 
 class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
@@ -122,6 +120,11 @@ class GlobalHeaderRight extends PureComponent {
         </Menu.Item>
       </Menu>
     );
+
+    const HeaderSearchWrap = appWrapAuth(HeaderSearch);
+    const HeaderHelpWrap = appWrapAuth(Tooltip);
+    const InternationalWrap = appWrapAuth(SelectLang);
+
     const noticeData = this.getNoticeData();
     const unreadMsg = this.getUnreadData(noticeData);
     let className = styles.right;
@@ -130,35 +133,35 @@ class GlobalHeaderRight extends PureComponent {
     }
     return (
       <div className={className}>
-        {isHeaderSearch && (
-          <HeaderSearch
-            className={`${styles.action} ${styles.search}`}
-            placeholder={formatMessage({ id: 'component.globalHeader.search' })}
-            dataSource={[
-              formatMessage({ id: 'component.globalHeader.search.example1' }),
-              formatMessage({ id: 'component.globalHeader.search.example2' }),
-              formatMessage({ id: 'component.globalHeader.search.example3' })
-            ]}
-            onSearch={value => {
-              console.log('input', value); // eslint-disable-line
-            }}
-            onPressEnter={value => {
-              console.log('enter', value); // eslint-disable-line
-            }}
-          />
-        )}
-        {isHeaderHelp && (
-          <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
-            <a
-              target="_blank"
-              href="https://pro.ant.design/docs/getting-started"
-              rel="noopener noreferrer"
-              className={styles.action}
-            >
-              <Icon type="question-circle-o" />
-            </a>
-          </Tooltip>
-        )}
+        <HeaderSearchWrap
+          auth="HeaderSearch"
+          className={`${styles.action} ${styles.search}`}
+          placeholder={formatMessage({ id: 'component.globalHeader.search' })}
+          dataSource={[
+            formatMessage({ id: 'component.globalHeader.search.example1' }),
+            formatMessage({ id: 'component.globalHeader.search.example2' }),
+            formatMessage({ id: 'component.globalHeader.search.example3' })
+          ]}
+          onSearch={value => {
+            console.log('input', value); // eslint-disable-line
+          }}
+          onPressEnter={value => {
+            console.log('enter', value); // eslint-disable-line
+          }}
+        />
+        <HeaderHelpWrap
+          auth="HeaderHelp"
+          title={formatMessage({ id: 'component.globalHeader.help' })}
+        >
+          <a
+            target="_blank"
+            href="https://pro.ant.design/docs/getting-started"
+            rel="noopener noreferrer"
+            className={styles.action}
+          >
+            <Icon type="question-circle-o" />
+          </a>
+        </HeaderHelpWrap>
         <NoticeIcon
           className={styles.action}
           count={currentUser.unreadCount}
@@ -228,7 +231,7 @@ class GlobalHeaderRight extends PureComponent {
         ) : (
           <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
         )}
-        <SelectLang className={styles.action} />
+        <InternationalWrap auth="International" className={styles.action} />
       </div>
     );
   }

@@ -42,7 +42,7 @@ width:calc(~"100% - 4rem");
 
 业务数据配置，具体有：登录页面的配置(logo, title, desc, copyright), 内容页面的配置(logo, title)
 
-3. applicationSetting.js
+3. appPermissions.js
 
 应用功能配置，具体有：是否支持(账号登录|手机登录|自动登录|找回密码|其他方式登录|注册账户)
 

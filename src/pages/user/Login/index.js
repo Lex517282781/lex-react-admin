@@ -4,14 +4,15 @@ import { Checkbox, Alert, Icon, Modal, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import Login from '@/components/Login';
-import applicationSetting from '@/config/applicationSetting';
+import appPermissions from '@/config/appPermissions';
+import { appWrapAuth, AppWrap } from '@/components/WrapAuth';
 import styles from './style.less';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
 class LoginPage extends Component {
   state = {
-    type: applicationSetting.isAccountLogin ? 'account' : 'mobile',
+    type: appPermissions.includes('AccountLogin') ? 'account' : 'mobile',
     autoLogin: true
   };
 
@@ -69,12 +70,20 @@ class LoginPage extends Component {
     } = this.props;
 
     if (
-      !applicationSetting.isAccountLogin &&
-      !applicationSetting.isPhoneLogin
+      !['AccountLogin', 'PhoneLogin'].some(item =>
+        appPermissions.includes(item)
+      )
     ) {
       message.warn('请至少选择一种登录方式');
       return null;
     }
+
+    const isAccountLogin = appPermissions.includes('AccountLogin');
+    const isPhoneLogin = appPermissions.includes('PhoneLogin');
+
+    const CheckboxWrap = appWrapAuth(Checkbox);
+    const AWrap = appWrapAuth('a');
+    const LinkWrap = appWrapAuth(Link);
 
     return (
       <div className={styles.main}>
@@ -86,7 +95,7 @@ class LoginPage extends Component {
             this.loginForm = form;
           }}
         >
-          {applicationSetting.isAccountLogin && (
+          {isAccountLogin && (
             <Tab
               key="account"
               tab={formatMessage({ id: 'app.login.tab-login-credentials' })}
@@ -130,7 +139,7 @@ class LoginPage extends Component {
               />
             </Tab>
           )}
-          {applicationSetting.isPhoneLogin && (
+          {isPhoneLogin && (
             <Tab
               key="mobile"
               tab={formatMessage({ id: 'app.login.tab-login-mobile' })}
@@ -186,45 +195,45 @@ class LoginPage extends Component {
             </Tab>
           )}
           <div>
-            {applicationSetting.isAutoLogin && (
-              <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-                <FormattedMessage id="app.login.remember-me" />
-              </Checkbox>
-            )}
-            {applicationSetting.isRetrievePw && (
-              <a style={{ float: 'right' }}>
-                <FormattedMessage id="app.login.forgot-password" />
-              </a>
-            )}
+            <CheckboxWrap
+              auth="AutoLogin"
+              checked={autoLogin}
+              onChange={this.changeAutoLogin}
+            >
+              <FormattedMessage id="app.login.remember-me" />
+            </CheckboxWrap>
+            <AWrap auth="RetrievePw" style={{ float: 'right' }}>
+              <FormattedMessage id="app.login.forgot-password" />
+            </AWrap>
           </div>
           <Submit loading={user.loading}>
             <FormattedMessage id="app.login.login" />
           </Submit>
-          {applicationSetting.isOtherFnLogin && (
-            <div className={styles.other}>
-              <FormattedMessage id="app.login.sign-in-with" />
-              <Icon
-                type="alipay-circle"
-                className={styles.icon}
-                theme="outlined"
-              />
-              <Icon
-                type="taobao-circle"
-                className={styles.icon}
-                theme="outlined"
-              />
-              <Icon
-                type="weibo-circle"
-                className={styles.icon}
-                theme="outlined"
-              />
-              {applicationSetting.isRegister && (
-                <Link className={styles.register} to="/user/register">
-                  <FormattedMessage id="app.login.signup" />
-                </Link>
-              )}
-            </div>
-          )}
+          <AppWrap auth="OtherFnLogin" className={styles.other}>
+            <FormattedMessage id="app.login.sign-in-with" />
+            <Icon
+              type="alipay-circle"
+              className={styles.icon}
+              theme="outlined"
+            />
+            <Icon
+              type="taobao-circle"
+              className={styles.icon}
+              theme="outlined"
+            />
+            <Icon
+              type="weibo-circle"
+              className={styles.icon}
+              theme="outlined"
+            />
+            <LinkWrap
+              auth="Register"
+              className={styles.register}
+              to="/user/register"
+            >
+              <FormattedMessage id="app.login.signup" />
+            </LinkWrap>
+          </AppWrap>
         </Login>
       </div>
     );

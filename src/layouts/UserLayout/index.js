@@ -9,7 +9,7 @@ import GlobalFooter from '@/components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
 import getPageTitle from '@/utils/getPageTitle';
 import customSetting from '@/config/customSetting';
-import applicationSetting from '@/config/applicationSetting';
+import { AppWrap } from '@/components/WrapAuth';
 import styles from './style.less';
 
 const copyright = (
@@ -80,11 +80,9 @@ class UserLayout extends PureComponent {
     return (
       <DocumentTitle title={localTitle}>
         <div className={styles.container}>
-          {applicationSetting.isInternational && (
-            <div className={styles.lang}>
-              <SelectLang />
-            </div>
-          )}
+          <AppWrap auth="International" className={styles.lang}>
+            <SelectLang />
+          </AppWrap>
           <div className={styles.content}>
             <div className={styles.top}>
               <div className={styles.header}>
