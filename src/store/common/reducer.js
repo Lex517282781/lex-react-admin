@@ -6,11 +6,14 @@ import getDetailRouter from '@/utils/getDetailRouter';
 import getRouterMap from '@/utils/getRouterMap';
 import { authorityOpen } from '@/config/env';
 
+// const originalBreadcrumbNameMap = getRouterMap(appRouter);
+
 // 可以根据开发环境选择是否开启权限
 let routers = authorityOpen ? mockMenuData : appRouter;
 
+const breadcrumbNameMap = getRouterMap(appRouter);
+
 const menuData = getDetailRouter(routers);
-const breadcrumbNameMap = getRouterMap(routers);
 
 const initState = {
   setting,
