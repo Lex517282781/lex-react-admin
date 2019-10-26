@@ -40,7 +40,8 @@ const getRouterMenu = (routers, routerMap) => {
       router.parentPath = parent ? parent.path : '/';
       if (routerMap) {
         if (routerMap[router.path]) {
-          const { children, ...rest } = routerMap[router.path];
+          // 因为之后的递归业务和children, redirect 两个元素有关 所以要把children, redirect 这两个元素剔除
+          const { children, redirect, ...rest } = routerMap[router.path];
           Object.assign(router, {
             ...router,
             ...rest
@@ -69,7 +70,7 @@ const getRouterMenu = (routers, routerMap) => {
           });
           if (!isMatch) {
             // 都不匹配的时候 只能跳转用户登录页面
-            router.redirect = '/user';
+            // router.redirect = '/user';
             message.warn(`没有任何路由匹配~`);
           }
         } else {

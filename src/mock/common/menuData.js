@@ -6,10 +6,24 @@ const menuData = [
         key: 'cc'
       },
       {
+        key: 'ss'
+      },
+      {
+        key: 'ss'
+      }
+    ]
+  },
+  {
+    key: 'form',
+    children: [
+      {
+        key: 'basic'
+      },
+      {
         key: 'aa'
       },
       {
-        key: 'workplace'
+        key: 'ss'
       }
     ]
   }
