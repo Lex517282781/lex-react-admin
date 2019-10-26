@@ -15,7 +15,6 @@ import SiderMenu from '@/components/SiderMenu';
 import Context from '../context/MenuContext';
 import customSetting from '@/config/customSetting';
 import defaultSettings from '@/config/defaultSettings';
-import getRouterMap from '@/utils/getRouterMap';
 import getPageTitle from '@/utils/getPageTitle';
 import { appWrapAuth } from '@/components/WrapAuth';
 import styles from './style.less';
@@ -108,11 +107,16 @@ class BasicLayout extends PureComponent {
     if (!menuData.length) return <ExceptionUnauthorized />;
 
     const isTop = PropsLayout === 'topmenu';
-    const routerMap = getRouterMap(menuData);
 
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
 
     const SuspenseWrap = appWrapAuth(Suspense);
+
+    let redirect = menuData[0].path;
+
+    if (!breadcrumbNameMap[redirect]) {
+      redirect = '/user';
+    }
 
     const layout = (
       <Layout>
@@ -143,11 +147,11 @@ class BasicLayout extends PureComponent {
           />
           <Content className={styles.content} style={contentStyle}>
             <Switch>
-              {Object.values(routerMap).map(value => {
+              {Object.values(breadcrumbNameMap).map(value => {
                 if (
                   // 子菜单的父级菜单也有组件的时候 不需要在这里做页面判断跳转 因为是在页面中显示子路由 所以是需要在那个页面中做路由判断 不需要进入这里判断
-                  routerMap[value.parentPath] &&
-                  routerMap[value.parentPath].component
+                  breadcrumbNameMap[value.parentPath] &&
+                  breadcrumbNameMap[value.parentPath].component
                 ) {
                   return null;
                 }
@@ -174,7 +178,7 @@ class BasicLayout extends PureComponent {
                   return null;
                 }
               })}
-              <Route render={() => <Redirect to={menuData[0].path} push />} />
+              <Route render={() => <Redirect to={redirect} push />} />
             </Switch>
           </Content>
           <Footer />

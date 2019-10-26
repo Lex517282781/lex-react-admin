@@ -4,6 +4,7 @@ import { Icon } from 'antd';
 import { injectIntl } from 'react-intl';
 import DocumentTitle from 'react-document-title';
 import userRouter from '@/config/userRouter';
+import getRouterMenu from '@/utils/getRouterMenu';
 import getRouterMap from '@/utils/getRouterMap';
 import GlobalFooter from '@/components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
@@ -25,7 +26,8 @@ class UserLayout extends PureComponent {
       intl: { formatMessage }
     } = this.props;
 
-    const routerMap = getRouterMap(userRouter);
+    const routerMenu = getRouterMenu(userRouter);
+    const routerMap = getRouterMap(routerMenu);
 
     const title = getPageTitle(pathname, routerMap);
     const localTitle = formatMessage({ id: title });

@@ -2,18 +2,18 @@ import * as types from './types';
 import setting from '@/config/defaultSettings';
 import { user, notices, menuData as mockMenuData } from '@/mock/common';
 import appRouter from '@/config/appRouter';
-import getDetailRouter from '@/utils/getDetailRouter';
+import getRouterMenu from '@/utils/getRouterMenu';
 import getRouterMap from '@/utils/getRouterMap';
 import { authorityOpen } from '@/config/env';
 
-// const originalBreadcrumbNameMap = getRouterMap(appRouter);
+const originalRouterMenu = getRouterMenu(appRouter);
+const originalBreadcrumbNameMap = getRouterMap(originalRouterMenu);
 
-// 可以根据开发环境选择是否开启权限
-let routers = authorityOpen ? mockMenuData : appRouter;
-
-const breadcrumbNameMap = getRouterMap(appRouter);
-
-const menuData = getDetailRouter(routers);
+const currentRouterMenu = getRouterMenu(
+  mockMenuData,
+  originalBreadcrumbNameMap
+);
+const currentBreadcrumbNameMap = getRouterMap(currentRouterMenu);
 
 const initState = {
   setting,
@@ -30,8 +30,10 @@ const initState = {
     loadedAllNotices: false
   },
   menu: {
-    menuData,
-    breadcrumbNameMap
+    menuData: authorityOpen ? currentRouterMenu : originalRouterMenu,
+    breadcrumbNameMap: authorityOpen
+      ? currentBreadcrumbNameMap
+      : originalBreadcrumbNameMap
   }
 };
 

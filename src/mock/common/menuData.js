@@ -3,10 +3,10 @@ const menuData = [
     key: 'dashboard',
     children: [
       {
-        key: 'analysis'
+        key: 'cc'
       },
       {
-        key: 'monitor'
+        key: 'aa'
       },
       {
         key: 'workplace'
