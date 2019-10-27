@@ -6,16 +6,16 @@ const router = [
     children: [
       {
         key: 'login',
-        component: asyncComponent(() => import('@/pages/user/Login'))
+        component: asyncComponent(() => import('@/pages/User/Login'))
       },
       {
         key: 'register',
-        component: asyncComponent(() => import('@/pages/user/Register'))
+        component: asyncComponent(() => import('@/pages/User/Register'))
       },
       {
         key: 'register-result',
         component: asyncComponent(() =>
-          import('@/pages/user/Register/subs/RegisterResult')
+          import('@/pages/User/Register/subs/RegisterResult')
         )
       }
     ]
