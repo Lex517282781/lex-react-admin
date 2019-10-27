@@ -9,11 +9,12 @@ import { authorityOpen } from '@/config/env';
 const originalRouterMenu = getRouterMenu(appRouter);
 const originalBreadcrumbNameMap = getRouterMap(originalRouterMenu);
 
-const currentRouterMenu = getRouterMenu(
-  mockMenuData,
-  originalBreadcrumbNameMap
-);
-const currentBreadcrumbNameMap = getRouterMap(currentRouterMenu);
+const menuData = authorityOpen
+  ? getRouterMenu(mockMenuData, originalBreadcrumbNameMap)
+  : originalRouterMenu;
+const breadcrumbNameMap = authorityOpen
+  ? getRouterMap(menuData)
+  : originalBreadcrumbNameMap;
 
 const initState = {
   setting,
@@ -30,10 +31,8 @@ const initState = {
     loadedAllNotices: false
   },
   menu: {
-    menuData: authorityOpen ? currentRouterMenu : originalRouterMenu,
-    breadcrumbNameMap: authorityOpen
-      ? currentBreadcrumbNameMap
-      : originalBreadcrumbNameMap
+    menuData,
+    breadcrumbNameMap
   }
 };
 

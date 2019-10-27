@@ -3,6 +3,11 @@ import { FormattedMessage } from 'react-intl';
 import { message } from 'antd';
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
+import asyncComponent from '@/components/asyncComponent';
+
+const ExceptionNotfind = asyncComponent(() =>
+  import('@/pages/ExceptionNotfind')
+);
 
 // 暂时只支持二级路由
 /* 通过config/router中的路由 生成详细的list 如：
@@ -20,7 +25,7 @@ import isEqual from 'lodash/isEqual';
 */
 // 不传routerMap 生成原始的 系统完整提供的路由
 // 传routerMap 供外部权限的时候使用 减少耦合 传入外部路由和系统完成理由map 生成当前权限的路由
-const getRouterMenu = (routers, routerMap) => {
+const getRouterMenu = (routers, routerMap, norMatch) => {
   const formatRouter = (data, parent) => {
     let index = data.length;
     // 在迭代的数组中删除指定的元素 迭代和变换数组的常用解决方案 反向操作数组
@@ -65,13 +70,16 @@ const getRouterMenu = (routers, routerMap) => {
             if (routerMap && routerMap[childPath]) {
               router.redirect = childPath;
               return true;
+            } else {
+              // 没有子路由匹配的情况下 跳转404 也可自定义配置
+              router.component = norMatch || ExceptionNotfind;
             }
             return false;
           });
           if (!isMatch) {
             // 都不匹配的时候 只能跳转用户登录页面
             // router.redirect = '/user';
-            message.warn(`没有任何路由匹配~`);
+            message.warn(`${router.key} 下没有任何子路由匹配~`);
           }
         } else {
           // 在生成原始的完整的路由时候 且 当前路由没有路由组件的时候 需要配置重定向

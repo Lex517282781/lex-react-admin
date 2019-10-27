@@ -1,6 +1,6 @@
 const menuData = [
   {
-    key: 'dashboard',
+    key: 'aass',
     children: [
       {
         key: 'cc'
@@ -14,14 +14,14 @@ const menuData = [
     ]
   },
   {
-    key: 'form',
+    key: 'ccc',
     children: [
       {
         key: 'basic'
       },
       {
         key: 'aa'
-      },
+      },  
       {
         key: 'ss'
       }

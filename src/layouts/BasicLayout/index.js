@@ -112,18 +112,27 @@ class BasicLayout extends PureComponent {
 
     const SuspenseWrap = appWrapAuth(Suspense);
 
-    let redirect;
-    // todo 可以循环获取子路由是否匹配位置
-    const isMatch = menuData.some(item => {
-      if (
-        breadcrumbNameMap[item.path]
-        // && breadcrumbNameMap[item.path].component
-      ) {
-        redirect = item.path;
-        return true;
-      }
-      return false;
-    });
+    let redirect, isMatch;
+    //  递归获取子路由是否匹配位置 直到取到位置
+    const matchRouter = routers => {
+      isMatch = routers.some(item => {
+        if (
+          breadcrumbNameMap[item.path] &&
+          breadcrumbNameMap[item.path].component
+        ) {
+          redirect = item.path;
+          return true;
+        }
+
+        if (item.children && item.children.length) {
+          matchRouter(item.children);
+          return isMatch;
+        }
+        return false;
+      });
+    };
+
+    matchRouter(menuData);
 
     if (!isMatch) {
       redirect = '/user';
