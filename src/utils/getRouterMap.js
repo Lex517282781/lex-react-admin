@@ -2,7 +2,6 @@
 // import { FormattedMessage } from 'react-intl';
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
-// 暂时只支持二级路由
 // 通过config/router中的路由 生成关键数据map 如：{ '/dashboard': {}, '/dashboard/analysis' }
 const getRouterMap = routers => {
   const routerMap = {};

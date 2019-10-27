@@ -9,7 +9,6 @@ const ExceptionNotfind = asyncComponent(() =>
   import('@/pages/ExceptionNotfind')
 );
 
-// 暂时只支持二级路由
 /* 通过config/router中的路由 生成详细的list 如：
 [
   {

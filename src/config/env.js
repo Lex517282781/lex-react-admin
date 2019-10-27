@@ -1,3 +1,3 @@
-let authorityOpen = true;
+let authorityOpen = false;
 
 export { authorityOpen };

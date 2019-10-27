@@ -1,9 +1,9 @@
 const menuData = [
   {
-    key: 'aass',
+    key: 'dashboard',
     children: [
       {
-        key: 'cc'
+        key: 'analysis'
       },
       {
         key: 'ss'
@@ -14,14 +14,14 @@ const menuData = [
     ]
   },
   {
-    key: 'ccc',
+    key: 'form',
     children: [
       {
         key: 'basic'
       },
       {
         key: 'aa'
-      },  
+      },
       {
         key: 'ss'
       }
