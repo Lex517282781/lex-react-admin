@@ -49,15 +49,6 @@ width:calc(~"100% - 4rem");
 用户页面支持(账号登录|手机登录|自动登录|找回密码|其他方式登录|注册账户)
 业务页面支持(系统设置|顶部搜索|顶部帮助)
 
-## 修改地方
+## server
 
-## 用户登录页面 '/src/UserLayout'
-
-1. 标题
-2. logo
-3. 描述
-4. copyright
-
-### pages 可修改
-
-1. 建议保留 ExceptionNotfind ExceptionNotpermission ExceptionServererror ExceptionTrigger ExceptionUnauthorized User
+1. 建议安装nodemon: npm i nodemon -g

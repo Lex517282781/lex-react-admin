@@ -187,3 +187,21 @@ export function formatWan(val) {
 export function isAntdPro() {
   return window.location.hostname === 'preview.pro.ant.design';
 }
+
+export function getValidParam(obj, isNeedEmpty = false) {
+  const param = {};
+  if (obj === null || obj === undefined || obj === '') return param;
+  for (var key in obj) {
+    if (Object.prototype.toString.call(obj) === 'Object') {
+      param[key] = getValidParam(obj[key]);
+    } else if (
+      obj[key] !== null &&
+      obj[key] !== undefined &&
+      (isNeedEmpty ? true : obj[key] !== '')
+    ) {
+      param[key] = obj[key];
+    }
+  }
+
+  return param;
+}
