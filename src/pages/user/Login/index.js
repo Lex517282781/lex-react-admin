@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { actionCreators as commonActionCreators } from '@/store/common';
 import { Checkbox, Alert, Icon, Modal, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -38,8 +39,13 @@ class LoginPage extends Component {
     });
 
   handleSubmit = (err, values) => {
+    const { user_login } = this.props;
     const { type } = this.state;
     if (!err) {
+      user_login({
+        ...values,
+        type
+      });
       console.log({
         ...values,
         type
@@ -244,7 +250,9 @@ const mapStateToProps = state => ({
   user: state.common.user
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  user_login: commonActionCreators.user_login
+};
 
 export default connect(
   mapStateToProps,

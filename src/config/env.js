@@ -1,4 +1,4 @@
-const BASEURL = 'localhost:9093';
+const BASEURL = 'http://192.168.31.158:9093';
 const STOREKEY = 'lex-react-admin';
 const LOGIN_ERROR_SIGN_ERROR = 'LOGIN_ERROR_SIGN_ERROR';
 
