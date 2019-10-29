@@ -1,7 +1,7 @@
 const mockjs = require('mockjs');
 const { mock, Random } = mockjs;
 const data = mock({
-  success: Random.boolean(9, 1, true),
+  success: true,
   msg: Random.string(),
   data: {
     name: Random.cname(),
@@ -23,9 +23,13 @@ const data = mock({
         label: Random.province(),
         key: Random.zip()
       },
-      address: Random.paragraph(),
-      phone: Random.natural(11)
-    }
+      city: {
+        label: Random.province(),
+        key: Random.zip()
+      }
+    },
+    address: Random.paragraph(),
+    phone: Random.natural(11)
   }
 });
 

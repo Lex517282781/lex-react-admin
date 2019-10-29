@@ -1,5 +1,6 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import reduxReset from 'redux-reset';
 // import { createLogger } from 'redux-logger';
 import reducer from './reducer';
 
@@ -15,7 +16,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   reducer,
-  composeEnhancers(applyMiddleware(...middlewares))
+  composeEnhancers(applyMiddleware(...middlewares), reduxReset())
 );
 
 if (module.hot) {

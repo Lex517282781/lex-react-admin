@@ -15,6 +15,7 @@ import customSetting from '@/config/customSetting';
 import { AppWrap } from '@/components/WrapAuth';
 import { STOREKEY, LOGIN_SIGN_OK, LOGIN_SIGN_ERROR } from '@/config/env';
 import store from 'store';
+import { getPageQuery } from '@/utils/tools';
 import styles from './style.less';
 
 const copyright = (
@@ -32,9 +33,30 @@ class UserLayout extends PureComponent {
       (preUser.loginStatus === LOGIN_SIGN_ERROR || preUser.loginStatus === '')
     ) {
       store.set(STOREKEY, nextUser.currentUser);
-      nextProps.history.replace('/');
+      this.redirect();
     }
   }
+
+  redirect = () => {
+    const { history } = this.props;
+    const urlParams = new URL(window.location.href);
+    let { redirect } = getPageQuery();
+    if (redirect) {
+      const redirectUrlParams = new URL(redirect);
+      if (redirectUrlParams.origin === urlParams.origin) {
+        redirect = redirect.substr(urlParams.origin.length);
+        if (window.routerBase !== '/') {
+          redirect = redirect.replace(window.routerBase, '/');
+        }
+        if (redirect.match(/^\/.*#/)) {
+          redirect = redirect.substr(redirect.indexOf('#') + 1);
+        }
+      } else {
+        redirect = null;
+      }
+    }
+    history.replace(redirect || '/');
+  };
 
   render() {
     const {

@@ -6,6 +6,9 @@ import Animate from 'rc-animate';
 import GlobalHeader from '@/components/GlobalHeader';
 import TopNavHeader from '@/components/TopNavHeader';
 import defaultSettings from '@/config/defaultSettings';
+import { getPageQuery } from '@/utils/tools';
+import { stringify } from 'qs';
+import store from 'store';
 import styles from './style.less';
 
 const { Header } = Layout;
@@ -75,7 +78,23 @@ class HeaderView extends Component {
       return;
     }
     if (key === 'logout') {
-      history.replace('/user/login');
+      this.logout();
+    }
+  };
+
+  logout = () => {
+    // const { history } = this.props;
+    const { redirect } = getPageQuery();
+    if (!redirect) {
+      store.clearAll();
+      window.location.href = `/user/login?${stringify({
+        redirect: window.location.href
+      })}`;
+      // history.replace(
+      //   `/user/login?${stringify({
+      //     redirect: window.location.href
+      //   })}`
+      // );
     }
   };
 
@@ -164,9 +183,9 @@ const mapStateToProps = state => ({
   setting: state.common.setting
 });
 
-const mapDispatchToProps = {};
+// const mapDispatchToProps = dispatch => dispatch;
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
+  // mapDispatchToProps
 )(injectIntl(HeaderView));

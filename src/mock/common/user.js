@@ -10,7 +10,8 @@ const user = Mock.mock({
   group: Random.string(),
   'tags|1-10': [
     {
-      'key|+1': 1
+      'key|+1': 1,
+      label: Random.string()
     }
   ],
   notifyCount: Random.natural(),
@@ -21,9 +22,13 @@ const user = Mock.mock({
       label: Random.province(),
       key: Random.zip()
     },
-    address: Random.paragraph(),
-    phone: Random.natural(11)
-  }
+    city: {
+      label: Random.province(),
+      key: Random.zip()
+    }
+  },
+  address: Random.paragraph(),
+  phone: Random.natural(11)
 });
 
 export default user;
