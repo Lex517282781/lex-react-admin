@@ -6,7 +6,7 @@ class PhoneView extends PureComponent {
   render() {
     const { value, onChange } = this.props;
     let values = ['', ''];
-    if (value) {
+    if (value && value.split) {
       values = value.split('-');
     }
     return (

@@ -153,6 +153,8 @@ class AccountSettings extends Component {
 
     const { routerMap, defaultRedirect } = this.getRouterData();
 
+    console.log(routerMap)
+
     return (
       <GridContent>
         <div
