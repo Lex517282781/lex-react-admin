@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { message, Modal } from 'antd';
-import { BASEURL, STOREKEY, LOGIN_ERROR_SIGN_ERROR } from '@/config/env';
+import { BASEURL, STOREKEY, LOGIN_SIGN_TIMEOUT } from '@/config/env';
 import store from 'store';
 import qs from 'qs';
 import { getValidParam } from '@/utils/tools';
@@ -54,7 +54,7 @@ const ajax = async ({
       return res.data === undefined ? res : res.data;
     }
 
-    if (res.errorCode === LOGIN_ERROR_SIGN_ERROR) {
+    if (res.code === LOGIN_SIGN_TIMEOUT) {
       confirm({
         title: res.errorMessage,
         content: '需要回到登录页重新登录！',

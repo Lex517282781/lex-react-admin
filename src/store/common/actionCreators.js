@@ -1,19 +1,6 @@
 import * as types from './types';
 import Service from '@/services';
 
-export const user_login_request = () => ({
-  type: types.USER_LOGIN_REQUEST
-});
-
-export const user_login_success = data => ({
-  type: types.USER_LOGIN_REQUEST,
-  data
-});
-
-export const user_login_failure = () => ({
-  type: types.USER_LOGIN_FAILURE
-});
-
 export const setting_update = data => ({
   type: types.SETTING_UPDATE,
   data
@@ -22,6 +9,19 @@ export const setting_update = data => ({
 export const global_update = data => ({
   type: types.GLOBAL_UPDATE,
   data
+});
+
+export const user_login_request = () => ({
+  type: types.USER_LOGIN_REQUEST
+});
+
+export const user_login_success = data => ({
+  type: types.USER_LOGIN_SUCCESS,
+  data
+});
+
+export const user_login_failure = () => ({
+  type: types.USER_LOGIN_FAILURE
 });
 
 export const user_login = data => {
@@ -34,6 +34,8 @@ export const user_login = data => {
         dispatch(user_login_failure(err));
       }
     });
-    console.log(res);
+
+    if (!res) return;
+    dispatch(user_login_success(res));
   };
 };

@@ -1,7 +1,18 @@
-const BASEURL = 'http://192.168.31.158:9093';
-const STOREKEY = 'lex-react-admin';
-const LOGIN_ERROR_SIGN_ERROR = 'LOGIN_ERROR_SIGN_ERROR';
+const BASEURL = 'http://localhost:9093';
 
-let authorityOpen = false;
+const STOREKEY = 'LEX_REACT_ADMIN';
 
-export { BASEURL, STOREKEY, LOGIN_ERROR_SIGN_ERROR, authorityOpen };
+const LOGIN_SIGN_TIMEOUT = 'LOGIN_SIGN_TIMEOUT';
+const LOGIN_SIGN_OK = 'OK';
+const LOGIN_SIGN_ERROR = 'ERROR';
+
+let AUTHORITYOPEN = false;
+
+export {
+  BASEURL,
+  STOREKEY,
+  LOGIN_SIGN_TIMEOUT,
+  LOGIN_SIGN_OK,
+  LOGIN_SIGN_ERROR,
+  AUTHORITYOPEN
+};

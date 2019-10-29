@@ -1,6 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Icon } from 'antd';
+import { connect } from 'react-redux';
+import { actionCreators as commonActionCreators } from '@/store/common';
 import { injectIntl } from 'react-intl';
 import DocumentTitle from 'react-document-title';
 import userRouter from '@/config/userRouter';
@@ -20,6 +22,19 @@ const copyright = (
 );
 
 class UserLayout extends PureComponent {
+  componentWillReceiveProps(nextProps) {
+    const { user: nextUser } = nextProps;
+    const { user: preUser } = this.props;
+    if (
+      nextUser.loginStatus === 'ok' &&
+      (preUser.loginStatus === 'error' || preUser.loginStatus === '')
+    ) {
+      console.log('ok');
+      // store.set('cps_withdraw_admin_user', nextUser.currentUser);
+      // nextProps.history.replace('/');
+    }
+  }
+
   render() {
     const {
       location: { pathname },
@@ -106,4 +121,15 @@ class UserLayout extends PureComponent {
   }
 }
 
-export default injectIntl(UserLayout);
+const mapStateToProps = state => ({
+  user: state.common.user
+});
+
+const mapDispatchToProps = {
+  user_login_success: commonActionCreators.user_login_success
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(UserLayout));
