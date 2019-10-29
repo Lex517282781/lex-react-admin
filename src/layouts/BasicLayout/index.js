@@ -17,6 +17,8 @@ import customSetting from '@/config/customSetting';
 import defaultSettings from '@/config/defaultSettings';
 import getPageTitle from '@/utils/getPageTitle';
 import { appWrapAuth } from '@/components/WrapAuth';
+import { STOREKEY, LOGIN_SIGN_OK } from '@/config/env';
+import store from 'store';
 import styles from './style.less';
 
 // lazy load SettingDrawer
@@ -52,12 +54,19 @@ const query = {
 };
 
 class BasicLayout extends PureComponent {
+  componentWillMount() {
+    const { user, user_login_success } = this.props;
+    if (user.loginStatus === LOGIN_SIGN_OK) return;
+    const storeUser = store.get(STOREKEY);
+    if (storeUser) user_login_success(storeUser);
+  }
+
   componentDidMount() {
-    console.log('----- todo: BasicLayout s -----');
-    console.log('1: 获取当前用户信息');
-    console.log('2: 获取当前后台设置');
-    console.log('3: 获取菜单权限');
-    console.log('----- BasicLayout e -----');
+    // console.log('----- todo: BasicLayout s -----');
+    // console.log('1: 获取当前用户信息');
+    // console.log('2: 获取当前后台设置');
+    // console.log('3: 获取菜单权限');
+    // console.log('----- BasicLayout e -----');
   }
 
   getContext() {
@@ -94,6 +103,7 @@ class BasicLayout extends PureComponent {
 
   render() {
     const {
+      user: { currentUser },
       navTheme,
       layout: PropsLayout,
       location: { pathname },
@@ -103,6 +113,10 @@ class BasicLayout extends PureComponent {
       fixedHeader,
       intl: { formatMessage }
     } = this.props;
+
+    const storeUser = store.get(STOREKEY);
+
+    if (!storeUser && !currentUser) return <Redirect to="/user" />;
 
     if (!menuData.length) return <ExceptionUnauthorized />;
 
@@ -232,6 +246,7 @@ class BasicLayout extends PureComponent {
 }
 
 const mapStateToProps = state => ({
+  user: state.common.user,
   collapsed: state.common.global.collapsed,
   layout: state.common.setting.layout,
   menuData: state.common.menu.menuData,
@@ -240,7 +255,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  global_update: commonActionCreators.global_update
+  global_update: commonActionCreators.global_update,
+  user_login_success: commonActionCreators.user_login_success
 };
 
 export default connect(

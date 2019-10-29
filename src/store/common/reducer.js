@@ -1,10 +1,11 @@
 import * as types from './types';
 import setting from '@/config/defaultSettings';
-import { user, notices, menuData as mockMenuData } from '@/mock/common';
+import { notices, menuData as mockMenuData } from '@/mock/common';
 import appRouter from '@/config/appRouter';
 import getRouterMenu from '@/utils/getRouterMenu';
 import getRouterMap from '@/utils/getRouterMap';
 import { AUTHORITYOPEN } from '@/config/env';
+import { LOGIN_SIGN_OK } from '@/config/env';
 
 const originalRouterMenu = getRouterMenu(appRouter);
 const originalBreadcrumbNameMap = getRouterMap(originalRouterMenu);
@@ -25,7 +26,7 @@ const initState = {
   },
   user: {
     list: [],
-    currentUser: user,
+    currentUser: null,
     loading: false,
     loginStatus: '',
     registerStatus: ''
@@ -73,7 +74,7 @@ const user_login_success = (state, currentUser) => {
       ...state.user,
       loading: false,
       currentUser,
-      loginStatus: 'ok'
+      loginStatus: LOGIN_SIGN_OK
     }
   };
 };

@@ -13,6 +13,8 @@ import SelectLang from '@/components/SelectLang';
 import getPageTitle from '@/utils/getPageTitle';
 import customSetting from '@/config/customSetting';
 import { AppWrap } from '@/components/WrapAuth';
+import { STOREKEY, LOGIN_SIGN_OK, LOGIN_SIGN_ERROR } from '@/config/env';
+import store from 'store';
 import styles from './style.less';
 
 const copyright = (
@@ -26,12 +28,11 @@ class UserLayout extends PureComponent {
     const { user: nextUser } = nextProps;
     const { user: preUser } = this.props;
     if (
-      nextUser.loginStatus === 'ok' &&
-      (preUser.loginStatus === 'error' || preUser.loginStatus === '')
+      nextUser.loginStatus === LOGIN_SIGN_OK &&
+      (preUser.loginStatus === LOGIN_SIGN_ERROR || preUser.loginStatus === '')
     ) {
-      console.log('ok');
-      // store.set('cps_withdraw_admin_user', nextUser.currentUser);
-      // nextProps.history.replace('/');
+      store.set(STOREKEY, nextUser.currentUser);
+      nextProps.history.replace('/');
     }
   }
 

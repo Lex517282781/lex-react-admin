@@ -46,10 +46,6 @@ class LoginPage extends Component {
         ...values,
         type
       });
-      console.log({
-        ...values,
-        type
-      });
     }
   };
 
