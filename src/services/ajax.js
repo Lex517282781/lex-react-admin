@@ -2,7 +2,7 @@ import axios from 'axios';
 import { message, Modal } from 'antd';
 import { BASEURL, STOREKEY, LOGIN_SIGN_TIMEOUT } from '@/config/env';
 import store from 'store';
-import qs from 'qs';
+import { stringify } from 'qs';
 import { getValidParam } from '@/utils/tools';
 
 const confirm = Modal.confirm;
@@ -41,7 +41,7 @@ const ajax = async ({
     };
 
     if (headersVal['Content-Type'] === 'application/x-www-form-urlencoded') {
-      config.data = qs.stringify(config.data);
+      config.data = stringify(config.data);
     }
 
     const { data: res } = await axios(config);
@@ -59,10 +59,12 @@ const ajax = async ({
         title: res.errorMessage,
         content: '需要回到登录页重新登录！',
         onOk() {
-          store.remove(STOREKEY);
+          store.clearAll();
           message.info('正在跳转至登录页面！');
           setTimeout(() => {
-            window.location.reload();
+            window.location.href = `/user/login?${stringify({
+              redirect: window.location.href
+            })}`;
           }, 1000);
         },
         onCancel() {}

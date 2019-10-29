@@ -83,18 +83,13 @@ class HeaderView extends Component {
   };
 
   logout = () => {
-    // const { history } = this.props;
+    // todo 优化退出方法 因为不能重置redux数据 暂时只能刷新页面来重置数据
     const { redirect } = getPageQuery();
     if (!redirect) {
       store.clearAll();
       window.location.href = `/user/login?${stringify({
         redirect: window.location.href
       })}`;
-      // history.replace(
-      //   `/user/login?${stringify({
-      //     redirect: window.location.href
-      //   })}`
-      // );
     }
   };
 
