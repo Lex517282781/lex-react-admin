@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { REQUEST, SUCCESS, FAILURE, UPDATE } from './types';
 
-const handleData = (state = { loading: true, data: null }, action) => {
+const handleData = (state = { loading: false, data: null }, action) => {
   switch (action.type) {
     case REQUEST:
       return { ...state, loading: true };
@@ -18,14 +18,38 @@ const handleData = (state = { loading: true, data: null }, action) => {
 
 const root = (state = {}, action) => {
   const type = action.type.match('[^/]+(?!.*/)')[0];
+  if (!action.state) return state;
+  let [pagekey, modulekey] = (action.state || '').split('/');
+
+  let pageVal = state[pagekey];
+
+  let moduleVal;
+
+  if (pageVal) moduleVal = pageVal[modulekey];
+
   switch (type) {
     case REQUEST:
     case SUCCESS:
     case FAILURE:
+      return {
+        ...state,
+        [pagekey]: {
+          ...pageVal,
+          [modulekey]: handleData(moduleVal, { ...action, type })
+        }
+      };
     case UPDATE:
       return {
         ...state,
-        [action.state]: handleData(state[action.state], action)
+        [pagekey]: {
+          ...pageVal,
+          [modulekey]: action.extend
+            ? {
+                ...moduleVal,
+                ...action.data
+              }
+            : action.data
+        }
       };
     default:
       return { ...state };

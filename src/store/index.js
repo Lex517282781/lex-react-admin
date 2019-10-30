@@ -2,7 +2,10 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reduxReset from 'redux-reset';
 // import { createLogger } from 'redux-logger';
-import reducer from './reducer';
+import reducer from './rootReducer';
+// import reducer from './reducer';
+import initData from './common/initData';
+import { stateUpdate } from './actionCreators';
 
 const middlewares = [thunk];
 
@@ -26,5 +29,15 @@ if (module.hot) {
     store.replaceReducer(nextRootReducer);
   });
 }
+
+// 初始化应用设置
+Object.entries(initData).forEach(([key, val]) => {
+  store.dispatch(
+    stateUpdate({
+      namespace: `common/${key}`,
+      data: val
+    })
+  );
+});
 
 export default store;

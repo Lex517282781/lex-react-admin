@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { Icon } from 'antd';
 import { connect } from 'react-redux';
 import { actionCreators as commonActionCreators } from '@/store/common';
+import { stateUpdate } from '@/store/actionCreators';
 import { injectIntl } from 'react-intl';
 import DocumentTitle from 'react-document-title';
 import userRouter from '@/config/userRouter';
@@ -63,6 +64,8 @@ class UserLayout extends PureComponent {
       location: { pathname },
       intl: { formatMessage }
     } = this.props;
+
+    console.log(this.props.user);
 
     const routerMenu = getRouterMenu(userRouter);
     const routerMap = getRouterMap(routerMenu);
@@ -145,11 +148,12 @@ class UserLayout extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user
+  user: state.root.common.user
 });
 
 const mapDispatchToProps = {
-  user_login_success: commonActionCreators.user_login_success
+  user_login_success: commonActionCreators.user_login_success,
+  stateUpdate
 };
 
 export default connect(
