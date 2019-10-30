@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Menu } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import { province, city } from '@/mock/custom/AccountSettings';
+import { stateSuccess } from '@/store/actionCreators';
 import styles from './style.less';
 
 const { Item } = Menu;
@@ -44,6 +46,18 @@ class AccountSettings extends Component {
       menuMap,
       selectKey: menuMap[key] ? key : 'base'
     };
+  }
+
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'accountsettings/province',
+      data: province
+    });
+    stateSuccess({
+      namespace: 'accountsettings/city',
+      data: city
+    });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -138,7 +152,12 @@ class AccountSettings extends Component {
   };
 
   render() {
-    const { currentUser, match, location, breadcrumbNameMap } = this.props;
+    const {
+      user: { data: currentUser },
+      match,
+      location,
+      breadcrumbNameMap
+    } = this.props;
     if (!currentUser.userid) {
       return '';
     }
@@ -152,8 +171,6 @@ class AccountSettings extends Component {
     }
 
     const { routerMap, defaultRedirect } = this.getRouterData();
-
-    console.log(routerMap)
 
     return (
       <GridContent>
@@ -210,12 +227,12 @@ class AccountSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.common.user.currentUser,
+  user: state.root.common.user,
   breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap,
-  menuData: state.common.menu.menuData
+  menuData: state.root.common.menu.menuData
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { stateSuccess };
 
 export default connect(
   mapStateToProps,

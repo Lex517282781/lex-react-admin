@@ -118,9 +118,7 @@ class GeographicView extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  province: state.accountsettings.province,
-  city: state.accountsettings.city,
-  loading: state.accountsettings.loading
+  accountsettings: state.root.accountsettings
 });
 
 const mapDispatchToProps = {};
