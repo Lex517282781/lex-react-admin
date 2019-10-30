@@ -6,7 +6,7 @@ const LOGIN_SIGN_TIMEOUT = 'LOGIN_SIGN_TIMEOUT';
 const LOGIN_SIGN_OK = 'OK';
 const LOGIN_SIGN_ERROR = 'ERROR';
 
-let AUTHORITYOPEN = false;
+const AUTHORITYOPEN = true;
 
 export {
   BASEURL,

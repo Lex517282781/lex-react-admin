@@ -4,26 +4,6 @@ const menuData = [
     children: [
       {
         key: 'analysis'
-      },
-      {
-        key: 'ss'
-      },
-      {
-        key: 'ss'
-      }
-    ]
-  },
-  {
-    key: 'form',
-    children: [
-      {
-        key: 'basic'
-      },
-      {
-        key: 'aa'
-      },
-      {
-        key: 'ss'
       }
     ]
   }
