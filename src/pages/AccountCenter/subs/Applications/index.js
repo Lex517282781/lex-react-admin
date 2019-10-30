@@ -3,13 +3,32 @@ import { List, Card, Icon, Dropdown, Menu, Avatar, Tooltip } from 'antd';
 import numeral from 'numeral';
 import { connect } from 'react-redux';
 import { formatWan } from '@/utils/tools';
+import { stateSuccess } from '@/store/actionCreators';
+import { tableData } from '@/mock/custom/ListApplications';
 import styles from '@/pages/ListApplications/style.less';
 
 class Applications extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'listapplications/tableData',
+      data: {
+        list: tableData.list
+      }
+    });
+  }
+
   render() {
+    const { listapplications } = this.props;
+
+    if (!listapplications) return null;
+    
     const {
-      list: { list }
-    } = this.props;
+      tableData: {
+        data: { list }
+      }
+    } = listapplications;
+
     const itemMenu = (
       <Menu>
         <Menu.Item>
@@ -98,10 +117,12 @@ class Applications extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  list: state.listapplications.tableData
+  listapplications: state.root.listapplications
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,

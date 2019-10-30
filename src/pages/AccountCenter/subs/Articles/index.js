@@ -2,13 +2,33 @@ import React, { PureComponent } from 'react';
 import { List, Icon, Tag } from 'antd';
 import { connect } from 'react-redux';
 import ArticleListContent from '@/components/ArticleListContent';
+import { stateSuccess } from '@/store/actionCreators';
+import { tableData } from '@/mock/custom/ListArticles';
 import styles from './style.less';
 
 class Articles extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'listarticles/tableData',
+      data: {
+        list: tableData.list,
+        pagination: tableData.pagination
+      }
+    });
+  }
+
   render() {
+    const { listarticles } = this.props;
+
+    if (!listarticles) return null;
+
     const {
-      tableData: { list }
-    } = this.props;
+      tableData: {
+        data: { list }
+      }
+    } = listarticles;
+
     const IconText = ({ type, text }) => (
       <span>
         <Icon type={type} style={{ marginRight: 8 }} />
@@ -54,10 +74,12 @@ class Articles extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  tableData: state.listarticles.tableData
+  listarticles: state.root.listarticles
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,

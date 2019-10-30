@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Card, Row, Col, Icon, Avatar, Tag, Divider, Spin, Input } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import { stateSuccess } from '@/store/actionCreators';
+import { notice } from '@/mock/custom/AccountCenter';
 import styles from './style.less';
 
 const operationTabList = [
@@ -39,6 +41,14 @@ class AccountCenter extends PureComponent {
     inputVisible: false,
     inputValue: ''
   };
+
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'accountcenter/notice',
+      data: notice
+    });
+  }
 
   componentDidMount() {
     console.log(`dispatch({
@@ -136,12 +146,19 @@ class AccountCenter extends PureComponent {
   render() {
     const { newTags, inputVisible, inputValue } = this.state;
     const {
-      user: { loading: currentUserLoading, currentUser },
-      notice: { loading: noticeLoading, list: noticeList },
+      user: { loading: currentUserLoading, data: currentUser },
+      accountcenter,
       match,
       location,
       breadcrumbNameMap
     } = this.props;
+    if (!accountcenter) return null;
+
+    console.log(currentUser.geographic.province)
+
+    const {
+      notice: { loading: noticeLoading, data: noticeList }
+    } = accountcenter;
 
     const currentRouter = breadcrumbNameMap[location.pathname];
 
@@ -279,13 +296,15 @@ class AccountCenter extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user,
-  notice: state.accountcenter.notice,
+  user: state.root.common.user,
+  accountcenter: state.root.accountcenter,
   breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap,
-  menuData: state.common.menu.menuData
+  menuData: state.root.common.menu.menuData
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,

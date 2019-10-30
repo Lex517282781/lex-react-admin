@@ -3,13 +3,32 @@ import { List, Card } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import AvatarList from '@/components/AvatarList';
+import { stateSuccess } from '@/store/actionCreators';
+import { tableData } from '@/mock/custom/ListProjects';
 import styles from '@/pages/ListProjects/style.less';
 
 class Projects extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'listprojects/tableData',
+      data: {
+        list: tableData.list
+      }
+    });
+  }
+
   render() {
+    const { listprojects } = this.props;
+
+    if (!listprojects) return null;
+
     const {
-      tableData: { list }
-    } = this.props;
+      tableData: {
+        data: { list }
+      }
+    } = listprojects;
+
     return (
       <List
         className={styles.coverCardList}
@@ -50,10 +69,12 @@ class Projects extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  tableData: state.listprojects.tableData
+  listprojects: state.root.listprojects
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,
