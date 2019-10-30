@@ -231,8 +231,6 @@ class BasicLayout extends PureComponent {
       localTitle = formatMessage({ id: title });
     }
 
-    console.log(1);
-
     return (
       <React.Fragment>
         <DocumentTitle title={localTitle}>
