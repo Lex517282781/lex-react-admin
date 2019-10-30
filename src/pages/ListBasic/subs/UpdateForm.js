@@ -51,11 +51,15 @@ class UpdateForm extends PureComponent {
 
   render() {
     const {
-      updateForm: { visible, done, current = {} }
-    } = this.props;
-    const {
+      listbasic,
       form: { getFieldDecorator }
     } = this.props;
+
+    if (!listbasic) return null;
+
+    const {
+      updateForm: { visible, done, current = {} }
+    } = listbasic;
 
     const modalFooter = done
       ? { footer: null, onCancel: this.handleDone }
@@ -140,7 +144,7 @@ class UpdateForm extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  updateForm: state.listbasic.updateForm
+  listbasic: state.root.listbasic
 });
 
 const mapDispatchToProps = {};

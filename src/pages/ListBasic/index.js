@@ -17,6 +17,8 @@ import {
   Avatar,
   Modal
 } from 'antd';
+import { stateSuccess, stateUpdate } from '@/store/actionCreators';
+import { tableData } from '@/mock/custom/ListBasic';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import UpdateForm from './subs/UpdateForm';
 
@@ -27,6 +29,23 @@ const RadioGroup = Radio.Group;
 const { Search } = Input;
 
 class ListBasic extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess, stateUpdate } = this.props;
+    stateSuccess({
+      namespace: 'listbasic/tableData',
+      data: {
+        list: tableData.list
+      }
+    });
+    stateUpdate({
+      namespace: 'listbasic/updateForm',
+      data: {
+        visible: false,
+        done: false
+      }
+    });
+  }
+
   deleteItem = id => {
     console.log(`dispatch({
       type: 'list/submit',
@@ -35,9 +54,16 @@ class ListBasic extends PureComponent {
   };
 
   render() {
+    const { listbasic } = this.props;
+
+    if (!listbasic) return null;
+
     const {
-      tableData: { list, loading }
-    } = this.props;
+      tableData: {
+        loading,
+        data: { list }
+      }
+    } = listbasic;
 
     const editAndDelete = (key, currentItem) => {
       if (key === 'edit') this.showEditModal(currentItem);
@@ -196,10 +222,13 @@ class ListBasic extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  tableData: state.listbasic.tableData
+  listbasic: state.root.listbasic
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess,
+  stateUpdate
+};
 
 export default connect(
   mapStateToProps,
