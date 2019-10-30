@@ -1,10 +1,12 @@
 import React, { Component, Suspense } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Icon, Menu, Dropdown } from 'antd';
+import { stateSuccess } from '@/store/actionCreators';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import PageLoading from '@/components/PageLoading';
 import { getTimeDistance } from '@/utils/tools';
 import styles from './style.less';
+import * as mockDashboardAnalysis from '@/mock/custom/DashboardAnalysis';
 
 const IntroduceRow = React.lazy(() => import('./subs/IntroduceRow'));
 const SalesCard = React.lazy(() => import('./subs/SalesCard'));
@@ -21,9 +23,23 @@ class DashboardAnalysis extends Component {
 
   componentDidMount() {
     this.reqRef = requestAnimationFrame(() => {
-      console.log(`dispatch({
-        type: 'chart/fetch'
-      });`);
+      const { stateSuccess } = this.props;
+      [
+        'visitData',
+        'visitData2',
+        'salesData',
+        'searchData',
+        'offlineData',
+        'offlineChartData',
+        'salesTypeData',
+        'salesTypeDataOnline',
+        'salesTypeDataOffline'
+      ].forEach(state => {
+        stateSuccess({
+          namespace: `dashboardanalysis/${state}`,
+          data: mockDashboardAnalysis[state]
+        });
+      });
     });
   }
 
@@ -81,19 +97,23 @@ class DashboardAnalysis extends Component {
   render() {
     const { rangePickerValue, salesType, currentTabKey } = this.state;
 
-    return null;
+    const { dashboardanalysis } = this.props;
+
+    if (!dashboardanalysis) return null;
+
+    const initData = { loading: false, data: [] };
+
     const {
-      visitData,
-      visitData2,
-      salesData,
-      searchData,
-      offlineData,
-      offlineChartData,
-      salesTypeData,
-      salesTypeDataOnline,
-      salesTypeDataOffline,
-      loading
-    } = this.props.dashboardanalysis;
+      visitData = initData,
+      visitData2 = initData,
+      salesData = initData,
+      searchData = initData,
+      offlineData = initData,
+      offlineChartData = initData,
+      salesTypeData = initData,
+      salesTypeDataOnline = initData,
+      salesTypeDataOffline = initData
+    } = dashboardanalysis;
 
     let salesPieData;
     if (salesType === 'all') {
@@ -118,20 +138,24 @@ class DashboardAnalysis extends Component {
       </span>
     );
 
-    const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
+    const activeKey =
+      currentTabKey || (offlineData.data[0] && offlineData.data[0].name);
 
     return (
       <GridContent>
         <Suspense fallback={<PageLoading />}>
-          <IntroduceRow loading={false} visitData={visitData} />
+          <IntroduceRow
+            loading={visitData.loading}
+            visitData={visitData.data}
+          />
         </Suspense>
         <Suspense fallback={null}>
           <SalesCard
             rangePickerValue={rangePickerValue}
-            salesData={salesData}
+            salesData={salesData.data}
             isActive={this.isActive}
             handleRangePickerChange={this.handleRangePickerChange}
-            loading={loading}
+            loading={salesData.loading}
             selectDate={this.selectDate}
           />
         </Suspense>
@@ -140,10 +164,10 @@ class DashboardAnalysis extends Component {
             <Col xl={12} lg={24} md={24} sm={24} xs={24}>
               <Suspense fallback={null}>
                 <TopSearch
-                  loading={loading}
-                  visitData2={visitData2}
+                  loading={visitData2.loading}
+                  visitData2={visitData2.data}
                   selectDate={this.selectDate}
-                  searchData={searchData}
+                  searchData={searchData.data}
                   dropdownGroup={dropdownGroup}
                 />
               </Suspense>
@@ -153,8 +177,8 @@ class DashboardAnalysis extends Component {
                 <ProportionSales
                   dropdownGroup={dropdownGroup}
                   salesType={salesType}
-                  loading={loading}
-                  salesPieData={salesPieData}
+                  loading={salesPieData.loading}
+                  salesPieData={salesPieData.data}
                   handleChangeSalesType={this.handleChangeSalesType}
                 />
               </Suspense>
@@ -164,9 +188,9 @@ class DashboardAnalysis extends Component {
         <Suspense fallback={null}>
           <OfflineData
             activeKey={activeKey}
-            loading={loading}
-            offlineData={offlineData}
-            offlineChartData={offlineChartData}
+            loading={offlineData.loading}
+            offlineData={offlineData.data}
+            offlineChartData={offlineChartData.data}
             handleTabChange={this.handleTabChange}
           />
         </Suspense>
@@ -176,7 +200,14 @@ class DashboardAnalysis extends Component {
 }
 
 const mapStateToProps = state => ({
-  dashboardanalysis: state.dashboardanalysis
+  dashboardanalysis: state.root.dashboardanalysis
 });
 
-export default connect(mapStateToProps)(DashboardAnalysis);
+const mapDispatchToProps = {
+  stateSuccess
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardAnalysis);

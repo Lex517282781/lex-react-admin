@@ -178,9 +178,4 @@ const mapStateToProps = state => ({
   setting: state.root.common.setting
 });
 
-// const mapDispatchToProps = dispatch => dispatch;
-
-export default connect(
-  mapStateToProps
-  // mapDispatchToProps
-)(injectIntl(HeaderView));
+export default connect(mapStateToProps)(injectIntl(HeaderView));

@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import reduxReset from 'redux-reset';
 // import { createLogger } from 'redux-logger';
 import reducer from './rootReducer';
-// import reducer from './reducer';
 import initData from './common/initData';
 import { stateUpdate } from './actionCreators';
 
@@ -24,8 +23,8 @@ const store = createStore(
 
 if (module.hot) {
   // Enable Webpack hot module replacement for reducers
-  module.hot.accept('./reducer', () => {
-    const nextRootReducer = require('./reducer');
+  module.hot.accept('./rootReducer', () => {
+    const nextRootReducer = require('./rootReducer');
     store.replaceReducer(nextRootReducer);
   });
 }

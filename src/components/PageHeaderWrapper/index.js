@@ -140,7 +140,7 @@ const PageHeaderWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  contentWidth: state.common.setting.contentWidth,
+  contentWidth: state.root.common.setting.contentWidth,
   breadcrumbNameMap: state.common.menu.breadcrumbNameMap
 });
 
