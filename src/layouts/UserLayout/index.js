@@ -42,7 +42,7 @@ class UserLayout extends PureComponent {
     } = this.props;
 
     if (nextUser && !preUser) {
-      store.set(STOREKEY, nextUser.currentUser);
+      store.set(STOREKEY, nextUser);
       this.redirect();
     }
   }

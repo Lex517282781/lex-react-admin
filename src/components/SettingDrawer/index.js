@@ -289,7 +289,7 @@ class SettingDrawer extends Component {
 }
 
 const mapStateToProps = state => ({
-  setting: state.common.setting
+  setting: state.root.common.setting
 });
 
 const mapDispatchToProps = {

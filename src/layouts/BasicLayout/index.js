@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { actionCreators as commonActionCreators } from '@/store/common';
+import { stateSuccess } from '@/store/actionCreators';
 import { Layout } from 'antd';
 import { ContainerQuery } from 'react-container-query';
 import DocumentTitle from 'react-document-title';
@@ -17,7 +18,7 @@ import customSetting from '@/config/customSetting';
 import defaultSettings from '@/config/defaultSettings';
 import getPageTitle from '@/utils/getPageTitle';
 import { appWrapAuth } from '@/components/WrapAuth';
-import { STOREKEY, LOGIN_SIGN_OK } from '@/config/env';
+import { STOREKEY } from '@/config/env';
 import store from 'store';
 import styles from './style.less';
 
@@ -54,11 +55,15 @@ const query = {
 };
 
 class BasicLayout extends PureComponent {
-  componentWillMount() {
-    const { user, user_login_success } = this.props;
-    if (user.loginStatus === LOGIN_SIGN_OK) return;
+  UNSAFE_componentWillMount() {
+    const { user, stateSuccess } = this.props;
+    if (user && user.data) return;
     const storeUser = store.get(STOREKEY);
-    if (storeUser) user_login_success(storeUser);
+    if (storeUser)
+      stateSuccess({
+        namespace: 'common/user',
+        data: storeUser
+      });
   }
 
   componentDidMount() {
@@ -103,7 +108,7 @@ class BasicLayout extends PureComponent {
 
   render() {
     const {
-      user: { currentUser },
+      user,
       navTheme,
       layout: PropsLayout,
       location: { pathname },
@@ -116,7 +121,7 @@ class BasicLayout extends PureComponent {
 
     const storeUser = store.get(STOREKEY);
 
-    if (!storeUser && !currentUser) return <Redirect to="/user" />;
+    if (!storeUser && (!user || !user.data)) return <Redirect to="/user" />;
 
     if (!menuData.length) return <ExceptionUnauthorized />;
 
@@ -246,17 +251,18 @@ class BasicLayout extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user,
-  collapsed: state.common.global.collapsed,
-  layout: state.common.setting.layout,
-  menuData: state.common.menu.menuData,
-  breadcrumbNameMap: state.common.menu.breadcrumbNameMap,
-  ...state.common.setting
+  user: state.root.common.user,
+  collapsed: state.root.common.global.collapsed,
+  layout: state.root.common.setting.layout,
+  menuData: state.root.common.menu.menuData,
+  breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap,
+  ...state.root.common.setting
 });
 
 const mapDispatchToProps = {
   global_update: commonActionCreators.global_update,
-  user_login_success: commonActionCreators.user_login_success
+  user_login_success: commonActionCreators.user_login_success,
+  stateSuccess
 };
 
 export default connect(

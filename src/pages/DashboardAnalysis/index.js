@@ -80,6 +80,8 @@ class DashboardAnalysis extends Component {
 
   render() {
     const { rangePickerValue, salesType, currentTabKey } = this.state;
+
+    return null;
     const {
       visitData,
       visitData2,

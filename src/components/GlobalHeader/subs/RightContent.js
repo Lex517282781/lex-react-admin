@@ -81,7 +81,7 @@ class GlobalHeaderRight extends PureComponent {
 
   render() {
     const {
-      currentUser,
+      user,
       fetchingNotices,
       onNoticeVisibleChange,
       onMenuClick,
@@ -89,6 +89,10 @@ class GlobalHeaderRight extends PureComponent {
       theme,
       intl: { formatMessage }
     } = this.props;
+
+    if (!user) return null;
+
+    const currentUser = user.data;
 
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>

@@ -172,10 +172,10 @@ class HeaderView extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.common.user.currentUser,
-  collapsed: state.common.global.collapsed,
-  notices: state.common.global.notices,
-  setting: state.common.setting
+  user: state.root.common.user,
+  collapsed: state.root.common.global.collapsed,
+  notices: state.root.common.global.notices,
+  setting: state.root.common.setting
 });
 
 // const mapDispatchToProps = dispatch => dispatch;
