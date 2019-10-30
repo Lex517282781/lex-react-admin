@@ -38,11 +38,16 @@ class FormStepConfirm extends React.PureComponent {
 
   render() {
     const {
-      form,
-      step: { loading, ...data }
+      formstep,
+      form: { getFieldDecorator }
     } = this.props;
 
-    const { getFieldDecorator } = form;
+    if (!formstep) return null;
+
+    const {
+      formConfirm: { loading },
+      formData: { data }
+    } = formstep;
 
     return (
       <Form layout="horizontal" className={styles.stepForm}>
@@ -129,7 +134,7 @@ class FormStepConfirm extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  step: state.formstep
+  formstep: state.root.formstep
 });
 
 const mapDispatchToProps = {};

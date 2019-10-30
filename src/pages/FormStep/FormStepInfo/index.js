@@ -30,8 +30,17 @@ class FormStepInfo extends React.PureComponent {
   };
 
   render() {
-    const { form, step: data } = this.props;
-    const { getFieldDecorator } = form;
+    const {
+      formstep,
+      form: { getFieldDecorator }
+    } = this.props;
+
+    if (!formstep) return null;
+
+    const {
+      formData: { data }
+    } = formstep;
+
     return (
       <Fragment>
         <Form layout="horizontal" className={styles.stepForm} hideRequiredMark>
@@ -118,7 +127,7 @@ class FormStepInfo extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  step: state.formstep
+  formstep: state.root.formstep
 });
 
 const mapDispatchToProps = {};

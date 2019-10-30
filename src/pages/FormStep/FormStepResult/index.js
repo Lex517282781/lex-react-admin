@@ -11,7 +11,13 @@ class FormStepResult extends React.PureComponent {
   };
 
   render() {
-    const { step: data } = this.props;
+    const { formstep } = this.props;
+
+    if (!formstep) return null;
+
+    const {
+      formData: { data }
+    } = formstep;
 
     const information = (
       <div className={styles.information}>
@@ -71,7 +77,7 @@ class FormStepResult extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  step: state.formstep
+  formstep: state.root.formstep
 });
 
 const mapDispatchToProps = {};

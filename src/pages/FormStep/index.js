@@ -3,11 +3,28 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card, Steps } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { stateSuccess } from '@/store/actionCreators';
 import styles from './style.less';
 
 const { Step } = Steps;
 
 class FormStep extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'formstep/formData',
+      data: {
+        payAccount: 'ant-design@alipay.com',
+        receiverAccount: 'test@example.com',
+        receiverName: 'Alex',
+        amount: '500'
+      }
+    });
+    stateSuccess({
+      namespace: 'formstep/formConfirm'
+    });
+  }
+
   getCurrentStep() {
     const { location } = this.props;
     const { pathname } = location;
@@ -115,10 +132,12 @@ class FormStep extends PureComponent {
 
 const mapStateToProps = state => ({
   breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap,
-  menuData: state.common.menu.menuData
+  menuData: state.root.common.menu.menuData
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,
