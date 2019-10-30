@@ -14,6 +14,7 @@ import {
   Tooltip
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { stateSuccess } from '@/store/actionCreators';
 import styles from './style.less';
 
 const FormItem = Form.Item;
@@ -22,6 +23,13 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 class FormBasic extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'formbasic/formData'
+    });
+  }
+
   handleSubmit = e => {
     const { form } = this.props;
     e.preventDefault();
@@ -37,10 +45,16 @@ class FormBasic extends PureComponent {
 
   render() {
     const {
-      loading,
+      formbasic,
       intl: { formatMessage },
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
+
+    if (!formbasic) return null;
+
+    const initData = { loading: false };
+
+    const { formData = initData } = formbasic;
 
     const formItemLayout = {
       labelCol: {
@@ -264,7 +278,11 @@ class FormBasic extends PureComponent {
               </div>
             </FormItem>
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={formData.loading}
+              >
                 <FormattedMessage id="form.submit" />
               </Button>
               <Button style={{ marginLeft: 8 }}>
@@ -279,7 +297,14 @@ class FormBasic extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  loading: state.formbasic.loading
+  formbasic: state.root.formbasic
 });
 
-export default connect(mapStateToProps)(Form.create()(injectIntl(FormBasic)));
+const mapDispatchToProps = {
+  stateSuccess
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(injectIntl(FormBasic)));

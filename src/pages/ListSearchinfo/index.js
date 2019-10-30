@@ -137,7 +137,7 @@ class ListSearchinfo extends Component {
 }
 
 const mapStateToProps = state => ({
-  breadcrumbNameMap: state.common.menu.breadcrumbNameMap,
+  breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap,
   menuData: state.common.menu.menuData
 });
 

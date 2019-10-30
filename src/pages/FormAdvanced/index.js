@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import FooterToolbar from '@/components/FooterToolbar';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import TableForm from './subs/TableForm';
+import { stateSuccess } from '@/store/actionCreators';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -61,6 +62,13 @@ class FormAdvanced extends PureComponent {
   state = {
     width: '100%'
   };
+
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'formadvanced/formData'
+    });
+  }
 
   componentDidMount() {
     window.addEventListener('resize', this.resizeFooterToolbar, {
@@ -150,9 +158,16 @@ class FormAdvanced extends PureComponent {
 
   render() {
     const {
-      form: { getFieldDecorator },
-      loading
+      formadvanced,
+      form: { getFieldDecorator }
     } = this.props;
+
+    if (!formadvanced) return null;
+
+    const initData = { loading: false };
+
+    const { formData = initData } = formadvanced;
+
     const { width } = this.state;
 
     return (
@@ -356,7 +371,11 @@ class FormAdvanced extends PureComponent {
         </Card>
         <FooterToolbar style={{ width }}>
           {this.getErrorInfo()}
-          <Button type="primary" onClick={this.validate} loading={loading}>
+          <Button
+            type="primary"
+            onClick={this.validate}
+            loading={formData.loading}
+          >
             提交
           </Button>
         </FooterToolbar>
@@ -366,10 +385,12 @@ class FormAdvanced extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  loading: state.formadvanced.loading
+  formadvanced: state.root.formadvanced
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,

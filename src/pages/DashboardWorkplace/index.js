@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, List, Avatar } from 'antd';
+import { stateSuccess } from '@/store/actionCreators';
 import { Radar } from '@/components/Charts';
 import EditableLinkGroup from '@/components/EditableLinkGroup';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './style.less';
+import { project, activities } from '@/mock/custom/DashboardWorkplace';
+import { radarData } from '@/mock/custom/DashboardAnalysis';
 
 const links = [
   {
@@ -37,26 +40,22 @@ const links = [
 
 class DashboardWorkplace extends PureComponent {
   componentDidMount() {
-    console.log(`dispatch({
-      type: 'user/fetchCurrent',
-    });`);
-    console.log(`dispatch({
-      type: 'user/fetchNotice',
-    });`);
-    console.log(`dispatch({
-      type: 'user/fetchList',
-    });`);
-    console.log(`dispatch({
-      type: 'chart/fetch',
-    });`);
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'dashboardworkplace/project',
+      data: project
+    });
+    stateSuccess({
+      namespace: 'dashboardworkplace/activities',
+      data: activities
+    });
+    stateSuccess({
+      namespace: 'dashboardanalysis/radarData',
+      data: radarData
+    });
   }
 
-  renderActivities() {
-    const {
-      activities: {
-        data: { list }
-      }
-    } = this.props;
+  renderActivities(list) {
     return list.map(item => {
       const events = item.template.split(/@\{([^{}]*)\}/gi).map(key => {
         if (item[key]) {
@@ -94,14 +93,26 @@ class DashboardWorkplace extends PureComponent {
 
   render() {
     const {
-      user: { loading: userLoading, currentUser },
-      project: {
-        loading: projectLoading,
-        data: { notice }
-      },
-      activities: { loading: activitiesLoading },
-      radarData
+      user: { loading: userLoading, data: currentUser },
+      dashboardworkplace,
+      dashboardanalysis
     } = this.props;
+
+    if (!dashboardworkplace || !dashboardanalysis) return null;
+
+    const projectInitData = { loading: false, data: { notice: [] } };
+    const activitiesInitData = { loading: false, data: { list: [] } };
+    const initData = { loading: false, data: [] };
+
+    const {
+      project: { loading: projectLoading, data: { notice } } = projectInitData,
+      activities: {
+        loading: activitiesLoading,
+        data: activitiesData
+      } = activitiesInitData
+    } = dashboardworkplace;
+
+    const { radarData = initData } = dashboardanalysis;
 
     const pageHeaderContent =
       currentUser && Object.keys(currentUser).length ? (
@@ -194,7 +205,7 @@ class DashboardWorkplace extends PureComponent {
             >
               <List loading={activitiesLoading} size="large">
                 <div className={styles.activitiesList}>
-                  {this.renderActivities()}
+                  {this.renderActivities(activitiesData.list)}
                 </div>
               </List>
             </Card>
@@ -216,10 +227,10 @@ class DashboardWorkplace extends PureComponent {
               style={{ marginBottom: 24 }}
               bordered={false}
               title="XX 指数"
-              loading={radarData.length === 0}
+              loading={radarData.data.length === 0}
             >
               <div className={styles.chart}>
-                <Radar hasLegend height={343} data={radarData} />
+                <Radar hasLegend height={343} data={radarData.data} />
               </div>
             </Card>
             <Card
@@ -249,10 +260,16 @@ class DashboardWorkplace extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user,
-  project: state.dashboardworkplace.project,
-  activities: state.dashboardworkplace.activities,
-  radarData: state.dashboardanalysis.radarData
+  user: state.root.common.user,
+  dashboardworkplace: state.root.dashboardworkplace,
+  dashboardanalysis: state.root.dashboardanalysis
 });
 
-export default connect(mapStateToProps)(DashboardWorkplace);
+const mapDispatchToProps = {
+  stateSuccess
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardWorkplace);

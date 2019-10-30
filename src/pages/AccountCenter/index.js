@@ -281,7 +281,7 @@ class AccountCenter extends PureComponent {
 const mapStateToProps = state => ({
   user: state.common.user,
   notice: state.accountcenter.notice,
-  breadcrumbNameMap: state.common.menu.breadcrumbNameMap,
+  breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap,
   menuData: state.common.menu.menuData
 });
 

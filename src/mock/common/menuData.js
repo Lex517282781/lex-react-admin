@@ -12,6 +12,30 @@ const menuData = [
         key: 'workplace'
       }
     ]
+  },{
+    key: 'form',
+    children: [
+      {
+        key: 'basic'
+      },
+      {
+        key: 'step',
+        children: [
+          {
+            key: 'info'
+          },
+          {
+            key: 'confirm'
+          },
+          {
+            key: 'result'
+          }
+        ]
+      },
+      {
+        key: 'advanced'
+      }
+    ]
   }
 ];
 
