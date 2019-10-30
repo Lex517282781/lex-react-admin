@@ -9,8 +9,6 @@ const handleData = (state = { loading: false, data: null }, action) => {
       return { ...state, loading: false, data: action.data };
     case FAILURE:
       return { ...state, loading: false, msg: action.msg };
-    case UPDATE:
-      return { ...state, data: action.data };
     default:
       return { ...state };
   }

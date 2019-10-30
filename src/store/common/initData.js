@@ -22,7 +22,6 @@ const initData = {
     notices,
     loadedAllNotices: false
   },
-  user: null,
   menu: {
     menuData,
     breadcrumbNameMap

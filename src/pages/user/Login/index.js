@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actionCreators as commonActionCreators } from '@/store/common';
+import { stateFetch } from '@/store/actionCreators';
 import { Checkbox, Alert, Icon, Modal, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -39,12 +39,16 @@ class LoginPage extends Component {
     });
 
   handleSubmit = (err, values) => {
-    const { user_login } = this.props;
+    const { stateFetch } = this.props;
     const { type } = this.state;
     if (!err) {
-      user_login({
-        ...values,
-        type
+      stateFetch({
+        namespace: 'common/user',
+        api: 'login',
+        data: {
+          ...values,
+          type
+        }
       });
     }
   };
@@ -102,7 +106,7 @@ class LoginPage extends Component {
               key="account"
               tab={formatMessage({ id: 'app.login.tab-login-credentials' })}
             >
-              {user.status === 'error' &&
+              {user.msg &&
                 type === 'account' &&
                 this.renderMessage(
                   formatMessage({ id: 'app.login.message-invalid-credentials' })
@@ -146,7 +150,7 @@ class LoginPage extends Component {
               key="mobile"
               tab={formatMessage({ id: 'app.login.tab-login-mobile' })}
             >
-              {user.status === 'error' &&
+              {user.msg &&
                 user.type === 'mobile' &&
                 !user.loading &&
                 this.renderMessage(
@@ -243,11 +247,11 @@ class LoginPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.common.user
+  user: state.root.common.user
 });
 
 const mapDispatchToProps = {
-  user_login: commonActionCreators.user_login
+  stateFetch
 };
 
 export default connect(

@@ -2,8 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Icon } from 'antd';
 import { connect } from 'react-redux';
-import { actionCreators as commonActionCreators } from '@/store/common';
-import { stateUpdate } from '@/store/actionCreators';
+import { stateUpdate, stateSuccess } from '@/store/actionCreators';
 import { injectIntl } from 'react-intl';
 import DocumentTitle from 'react-document-title';
 import userRouter from '@/config/userRouter';
@@ -14,7 +13,7 @@ import SelectLang from '@/components/SelectLang';
 import getPageTitle from '@/utils/getPageTitle';
 import customSetting from '@/config/customSetting';
 import { AppWrap } from '@/components/WrapAuth';
-import { STOREKEY, LOGIN_SIGN_OK, LOGIN_SIGN_ERROR } from '@/config/env';
+import { STOREKEY } from '@/config/env';
 import store from 'store';
 import { getPageQuery } from '@/utils/tools';
 import styles from './style.less';
@@ -26,13 +25,23 @@ const copyright = (
 );
 
 class UserLayout extends PureComponent {
+  UNSAFE_componentWillMount() {
+    this.props.stateSuccess({
+      namespace: 'common/user',
+      data: null
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { user: nextUser } = nextProps;
-    const { user: preUser } = this.props;
-    if (
-      nextUser.loginStatus === LOGIN_SIGN_OK &&
-      (preUser.loginStatus === LOGIN_SIGN_ERROR || preUser.loginStatus === '')
-    ) {
+    if (!this.props.user) return;
+    const {
+      user: { data: nextUser }
+    } = nextProps;
+    const {
+      user: { data: preUser }
+    } = this.props;
+
+    if (nextUser && !preUser) {
       store.set(STOREKEY, nextUser.currentUser);
       this.redirect();
     }
@@ -64,8 +73,6 @@ class UserLayout extends PureComponent {
       location: { pathname },
       intl: { formatMessage }
     } = this.props;
-
-    console.log(this.props.user);
 
     const routerMenu = getRouterMenu(userRouter);
     const routerMap = getRouterMap(routerMenu);
@@ -152,8 +159,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  user_login_success: commonActionCreators.user_login_success,
-  stateUpdate
+  stateUpdate,
+  stateSuccess
 };
 
 export default connect(
