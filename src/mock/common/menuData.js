@@ -4,6 +4,12 @@ const menuData = [
     children: [
       {
         key: 'analysis'
+      },
+      {
+        key: 'monitor'
+      },
+      {
+        key: 'workplace'
       }
     ]
   }

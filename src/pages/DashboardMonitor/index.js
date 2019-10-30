@@ -3,27 +3,37 @@ import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Row, Col, Card, Tooltip } from 'antd';
 import numeral from 'numeral';
+import { stateSuccess } from '@/store/actionCreators';
 import { Pie, WaterWave, Gauge, TagCloud } from '@/components/Charts';
 import NumberInfo from '@/components/NumberInfo';
 import CountDown from '@/components/CountDown';
 import ActiveChart from '@/components/ActiveChart';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './style.less';
+import { tags } from '@/mock/custom/DashboardMonitor';
 
 const targetTime = new Date().getTime() + 3900000;
 
 class DashboardMonitor extends Component {
   componentDidMount() {
-    console.log(`dispatch({
-      type: 'monitor/fetchTags',
-    });`);
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'dashboardmonitor/tags',
+      data: tags
+    });
   }
 
   render() {
     const {
-      dashboardmonitor: { tags, loading },
+      dashboardmonitor,
       intl: { formatMessage }
     } = this.props;
+
+    if (!dashboardmonitor) return null;
+
+    const initData = { loading: false, data: [] };
+
+    const { tags = initData } = dashboardmonitor;
 
     return (
       <GridContent>
@@ -216,11 +226,11 @@ class DashboardMonitor extends Component {
                   defaultMessage="Popular Searches"
                 />
               }
-              loading={loading}
+              loading={tags.loading}
               bordered={false}
               bodyStyle={{ overflow: 'hidden' }}
             >
-              <TagCloud data={tags} height={161} />
+              <TagCloud data={tags.data} height={161} />
             </Card>
           </Col>
           <Col xl={6} lg={12} sm={24} xs={24} style={{ marginBottom: 24 }}>
@@ -253,7 +263,14 @@ class DashboardMonitor extends Component {
 }
 
 const mapStateToProps = state => ({
-  dashboardmonitor: state.dashboardmonitor
+  dashboardmonitor: state.root.dashboardmonitor
 });
 
-export default connect(mapStateToProps)(injectIntl(DashboardMonitor));
+const mapDispatchToProps = {
+  stateSuccess
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(DashboardMonitor));
