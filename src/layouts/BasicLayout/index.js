@@ -16,7 +16,7 @@ import Context from '../context/MenuContext';
 import customSetting from '@/config/customSetting';
 import defaultSettings from '@/config/defaultSettings';
 import getPageTitle from '@/utils/getPageTitle';
-import { appWrapAuth } from '@/components/WrapAuth';
+import { AppWrap } from '@/components/WrapAuth';
 import { STOREKEY } from '@/config/env';
 import store from 'store';
 import styles from './style.less';
@@ -131,8 +131,6 @@ class BasicLayout extends PureComponent {
 
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
 
-    const SuspenseWrap = appWrapAuth(Suspense);
-
     let redirect, isMatch;
     //  递归获取子路由是否匹配位置 直到取到位置
     const matchRouter = routers => {
@@ -233,6 +231,8 @@ class BasicLayout extends PureComponent {
       localTitle = formatMessage({ id: title });
     }
 
+    console.log(1);
+
     return (
       <React.Fragment>
         <DocumentTitle title={localTitle}>
@@ -244,9 +244,9 @@ class BasicLayout extends PureComponent {
             )}
           </ContainerQuery>
         </DocumentTitle>
-        <SuspenseWrap auth="SettingDrawer" fallback={null}>
-          {this.renderSettingDrawer()}
-        </SuspenseWrap>
+        <AppWrap auth="SettingDrawer">
+          <Suspense fallback={null}>{this.renderSettingDrawer()}</Suspense>
+        </AppWrap>
       </React.Fragment>
     );
   }

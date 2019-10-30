@@ -209,11 +209,7 @@ class ListSearch extends PureComponent {
               <QueryForm />
             </div>
             <div className={styles.tableListOperator}>
-              <Button
-                icon="plus"
-                type="primary"
-                onClick={() => this.handleAdd()}
-              >
+              <Button icon="plus" type="primary" onClick={this.handleAdd}>
                 新建
               </Button>
               {selectedRows.length > 0 && (
