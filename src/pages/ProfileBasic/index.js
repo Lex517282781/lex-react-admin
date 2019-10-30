@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Card, Badge, Table, Divider } from 'antd';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { stateSuccess } from '@/store/actionCreators';
+import { basicData } from '@/mock/custom/ProfileBasic';
 import styles from './style.less';
 
 const { Description } = DescriptionList;
@@ -42,6 +44,14 @@ const progressColumns = [
 ];
 
 class ProfileBasic extends Component {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'profilebasic/basicData',
+      data: basicData
+    });
+  }
+
   componentDidMount() {
     // const { dispatch, match } = this.props;
     // const { params } = match;
@@ -53,15 +63,21 @@ class ProfileBasic extends Component {
   }
 
   render() {
+    const { profilebasic } = this.props;
+
+    if (!profilebasic) return null;
+
     const {
       basicData: {
         loading,
-        basicGoods = [],
-        basicProgress = [],
-        userInfo = {},
-        application = {}
+        data: {
+          basicGoods = [],
+          basicProgress = [],
+          userInfo = {},
+          application = {}
+        }
       }
-    } = this.props;
+    } = profilebasic;
 
     let goodsData = [];
     if (basicGoods.length) {
@@ -198,7 +214,14 @@ class ProfileBasic extends Component {
 }
 
 const mapStateToProps = state => ({
-  basicData: state.profilebasic.basicData
+  profilebasic: state.root.profilebasic
 });
 
-export default connect(mapStateToProps)(ProfileBasic);
+const mapDispatchToProps = {
+  stateSuccess
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileBasic);

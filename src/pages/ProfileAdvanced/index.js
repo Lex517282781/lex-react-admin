@@ -20,6 +20,8 @@ import {
 import classNames from 'classnames';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { stateSuccess } from '@/store/actionCreators';
+import { advancedData } from '@/mock/custom/ProfileAdvanced';
 import styles from './style.less';
 
 const { Step } = Steps;
@@ -190,6 +192,14 @@ class ProfileAdvanced extends Component {
     stepDirection: 'horizontal'
   };
 
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'profileadvanced/advancedData',
+      data: advancedData
+    });
+  }
+
   componentDidMount() {
     console.log(`dispatch({
       type: 'profile/fetchAdvanced'
@@ -226,14 +236,17 @@ class ProfileAdvanced extends Component {
 
   render() {
     const { stepDirection, operationkey } = this.state;
+
+    const { profileadvanced } = this.props;
+
+    if (!profileadvanced) return null;
+
     const {
       advancedData: {
         loading,
-        advancedOperation1,
-        advancedOperation2,
-        advancedOperation3
+        data: { advancedOperation1, advancedOperation2, advancedOperation3 }
       }
-    } = this.props;
+    } = profileadvanced;
 
     const contentList = {
       tab1: (
@@ -373,7 +386,14 @@ class ProfileAdvanced extends Component {
 }
 
 const mapStateToProps = state => ({
-  advancedData: state.profileadvanced.advancedData
+  profileadvanced: state.root.profileadvanced
 });
 
-export default connect(mapStateToProps)(ProfileAdvanced);
+const mapDispatchToProps = {
+  stateSuccess
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileAdvanced);
