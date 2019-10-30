@@ -2,8 +2,7 @@ import React, { Suspense, PureComponent } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { actionCreators as commonActionCreators } from '@/store/common';
-import { stateSuccess } from '@/store/actionCreators';
+import { stateSuccess, stateUpdate } from '@/store/actionCreators';
 import { Layout } from 'antd';
 import { ContainerQuery } from 'react-container-query';
 import DocumentTitle from 'react-document-title';
@@ -93,8 +92,11 @@ class BasicLayout extends PureComponent {
   };
 
   handleMenuCollapse = collapsed => {
-    const { global_update } = this.props;
-    global_update(collapsed);
+    const { stateUpdate } = this.props;
+    stateUpdate({
+      namespace: `common/global`,
+      data: collapsed
+    });
   };
 
   renderSettingDrawer = () => {
@@ -260,9 +262,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  global_update: commonActionCreators.global_update,
-  user_login_success: commonActionCreators.user_login_success,
-  stateSuccess
+  stateSuccess,
+  stateUpdate
 };
 
 export default connect(

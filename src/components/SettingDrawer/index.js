@@ -14,7 +14,7 @@ import {
 import { injectIntl } from 'react-intl';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { connect } from 'react-redux';
-import { actionCreators as commonActionCreators } from '@/store/common';
+import { stateUpdate } from '@/store/actionCreators';
 import omit from 'omit.js';
 import styles from './style.less';
 import ThemeColor from './subs/ThemeColor';
@@ -110,7 +110,7 @@ class SettingDrawer extends Component {
   };
 
   changeSetting = (key, value) => {
-    const { setting, setting_update } = this.props;
+    const { setting, stateUpdate } = this.props;
     const nextState = { ...setting };
     nextState[key] = value;
     if (key === 'layout') {
@@ -119,8 +119,11 @@ class SettingDrawer extends Component {
       nextState.autoHideHeader = false;
     }
     this.setState(nextState, () => {
-      setting_update({
-        ...nextState
+      stateUpdate({
+        namespace: `common/setting`,
+        data: {
+          ...nextState
+        }
       });
     });
   };
@@ -293,7 +296,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setting_update: commonActionCreators.setting_update
+  stateUpdate
 };
 
 export default connect(
