@@ -3,12 +3,12 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { Row, Col, Form, Card, Select, List } from 'antd';
 import { FormattedMessage } from 'react-intl';
-
 import TagSelect from '@/components/TagSelect';
 import AvatarList from '@/components/AvatarList';
 import Ellipsis from '@/components/Ellipsis';
 import StandardFormRow from '@/components/StandardFormRow';
-
+import { stateSuccess } from '@/store/actionCreators';
+import { tableData } from '@/mock/custom/ListProjects';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -16,6 +16,16 @@ const FormItem = Form.Item;
 
 /* eslint react/no-array-index-key: 0 */
 class ListProjects extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'listprojects/tableData',
+      data: {
+        list: tableData.list
+      }
+    });
+  }
+
   componentDidMount() {
     console.log(`dispatch({
       type: 'list/fetch',
@@ -27,11 +37,18 @@ class ListProjects extends PureComponent {
 
   render() {
     const {
-      form,
-      tableData: { list, loading }
+      form: { getFieldDecorator },
+      listprojects
     } = this.props;
 
-    const { getFieldDecorator } = form;
+    if (!listprojects) return null;
+
+    const {
+      tableData: {
+        loading,
+        data: { list }
+      }
+    } = listprojects;
 
     const cardList = list ? (
       <List
@@ -163,10 +180,12 @@ class ListProjects extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  tableData: state.listprojects.tableData
+  listprojects: state.root.listprojects
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,

@@ -2,10 +2,11 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Form, Card, Select, List, Tag, Icon, Row, Col, Button } from 'antd';
 import { FormattedMessage } from 'react-intl';
-
 import TagSelect from '@/components/TagSelect';
 import StandardFormRow from '@/components/StandardFormRow';
 import ArticleListContent from '@/components/ArticleListContent';
+import { stateSuccess } from '@/store/actionCreators';
+import { tableData } from '@/mock/custom/ListArticles';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -14,6 +15,17 @@ const FormItem = Form.Item;
 // const pageSize = 5;
 
 class ListArticles extends Component {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'listarticles/tableData',
+      data: {
+        list: tableData.list,
+        pagination: tableData.pagination
+      }
+    });
+  }
+
   componentDidMount() {
     console.log(`dispatch({
       type: 'list/fetch',
@@ -41,11 +53,18 @@ class ListArticles extends Component {
 
   render() {
     const {
-      form,
-      tableData: { list, loading }
+      listarticles,
+      form: { getFieldDecorator }
     } = this.props;
 
-    const { getFieldDecorator } = form;
+    if (!listarticles) return null;
+
+    const {
+      tableData: {
+        loading,
+        data: { list }
+      }
+    } = listarticles;
 
     const owners = [
       {
@@ -252,10 +271,12 @@ class ListArticles extends Component {
 }
 
 const mapStateToProps = state => ({
-  tableData: state.listarticles.tableData
+  listarticles: state.root.listarticles
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,

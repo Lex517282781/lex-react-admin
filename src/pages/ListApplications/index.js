@@ -17,7 +17,8 @@ import {
 } from 'antd';
 import TagSelect from '@/components/TagSelect';
 import StandardFormRow from '@/components/StandardFormRow';
-
+import { stateSuccess } from '@/store/actionCreators';
+import { tableData } from '@/mock/custom/ListApplications';
 import { formatWan } from '@/utils/tools';
 
 import styles from './style.less';
@@ -26,6 +27,16 @@ const { Option } = Select;
 const FormItem = Form.Item;
 
 class ListApplications extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'listapplications/tableData',
+      data: {
+        list: tableData.list
+      }
+    });
+  }
+
   componentDidMount() {
     console.log(`dispatch({
       type: 'list/fetch',
@@ -37,11 +48,18 @@ class ListApplications extends PureComponent {
 
   render() {
     const {
-      form,
-      tableData: { list, loading }
+      form: { getFieldDecorator },
+      listapplications
     } = this.props;
 
-    const { getFieldDecorator } = form;
+    if (!listapplications) return null;
+
+    const {
+      tableData: {
+        loading,
+        data: { list }
+      }
+    } = listapplications;
 
     const CardInfo = ({ activeUser, newUser }) => (
       <div className={styles.cardInfo}>
@@ -218,10 +236,12 @@ class ListApplications extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  tableData: state.listapplications.tableData
+  listapplications: state.root.listapplications
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,
