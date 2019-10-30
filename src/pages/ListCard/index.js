@@ -3,9 +3,22 @@ import { connect } from 'react-redux';
 import { Card, Button, Icon, List } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { stateSuccess } from '@/store/actionCreators';
+import { tableData } from '@/mock/custom/ListCard';
 import styles from './style.less';
 
 class ListCard extends PureComponent {
+  UNSAFE_componentWillMount() {
+    const { stateSuccess } = this.props;
+    stateSuccess({
+      namespace: 'listcard/tableData',
+      data: {
+        list: tableData.list,
+        pagination: tableData.pagination
+      }
+    });
+  }
+
   componentDidMount() {
     console.log(`dispatch({
       type: 'list/fetch',
@@ -16,9 +29,16 @@ class ListCard extends PureComponent {
   }
 
   render() {
+    const { listcard } = this.props;
+
+    if (!listcard) return null;
+
     const {
-      tableData: { list, loading }
-    } = this.props;
+      tableData: {
+        loading,
+        data: { list }
+      }
+    } = listcard;
 
     const content = (
       <div className={styles.pageHeaderContent}>
@@ -115,10 +135,12 @@ class ListCard extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  tableData: state.listcard.tableData
+  listcard: state.root.listcard
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess
+};
 
 export default connect(
   mapStateToProps,
