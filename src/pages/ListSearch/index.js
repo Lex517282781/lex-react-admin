@@ -8,6 +8,8 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import CreateForm from './subs/CreateForm';
 import UpdateForm from './subs/UpdateForm';
 import QueryForm from './subs/QueryForm';
+import { tableData } from '@/mock/custom/ListSearch';
+import { stateSuccess, stateUpdate } from '@/store/actionCreators';
 import styles from './style.less';
 
 const getValue = obj =>
@@ -83,6 +85,42 @@ class ListSearch extends PureComponent {
     }
   ];
 
+  UNSAFE_componentWillMount() {
+    const { stateSuccess, stateUpdate } = this.props;
+    stateSuccess({
+      namespace: 'listsearch/tableData',
+      data: {
+        list: tableData.list,
+        pagination: tableData.pagination
+      }
+    });
+    stateUpdate({
+      namespace: 'listsearch/createForm',
+      data: {
+        isible: false
+      }
+    });
+    stateUpdate({
+      namespace: 'listsearch/updateForm',
+      data: {
+        isible: false,
+        values: {}
+      }
+    });
+    stateUpdate({
+      namespace: 'listsearch/selectedRows',
+      data: []
+    });
+    stateUpdate({
+      namespace: 'listsearch/expandForm',
+      data: false
+    });
+    stateUpdate({
+      namespace: 'listsearch/query',
+      data: {}
+    });
+  }
+
   componentDidMount() {
     console.log(`dispatch({
       type: 'rule/fetch'
@@ -146,11 +184,15 @@ class ListSearch extends PureComponent {
   handleAdd = () => {};
 
   render() {
+    const { listsearch } = this.props;
+
+    if (!listsearch) return null;
+
     const {
-      tableData: { loading: tableDataLoading, ...tableResource },
+      tableData: { loading: tableDataLoading, data: tableResource },
       updateForm,
       selectedRows
-    } = this.props;
+    } = listsearch;
 
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
@@ -203,14 +245,13 @@ class ListSearch extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  tableData: state.listsearch.tableData,
-  createForm: state.listsearch.createForm,
-  updateForm: state.listsearch.updateForm,
-  selectedRows: state.listsearch.selectedRows,
-  query: state.listsearch.selectedRows
+  listsearch: state.root.listsearch
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  stateSuccess,
+  stateUpdate
+};
 
 export default connect(
   mapStateToProps,
