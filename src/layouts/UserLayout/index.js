@@ -32,7 +32,7 @@ class UserLayout extends PureComponent {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!this.props.user) return;
     const {
       user: { data: nextUser }
