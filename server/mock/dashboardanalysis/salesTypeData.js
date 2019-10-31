@@ -7,4 +7,4 @@ const salesTypeData = [
   { x: '其他', y: 1231 }
 ];
 
-export default salesTypeData;
+module.exports = salesTypeData;

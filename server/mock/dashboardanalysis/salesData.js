@@ -13,4 +13,4 @@ const salesData = [
   { x: '12月', y: 898 }
 ];
 
-export default salesData;
+module.exports = salesData;

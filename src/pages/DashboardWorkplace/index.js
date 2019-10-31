@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, List, Avatar } from 'antd';
-import { stateSuccess } from '@/store/actionCreators';
+import { stateSuccess, stateFetch } from '@/store/actionCreators';
 import { Radar } from '@/components/Charts';
 import EditableLinkGroup from '@/components/EditableLinkGroup';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import * as initData from './initData';
 import styles from './style.less';
-import { project, activities } from '@/mock/custom/DashboardWorkplace';
-import { radarData } from '@/mock/custom/DashboardAnalysis';
 
 const links = [
   {
@@ -39,19 +38,23 @@ const links = [
 ];
 
 class DashboardWorkplace extends PureComponent {
+  constructor(props) {
+    super(props);
+    Object.keys(initData).forEach(state => {
+      props.stateSuccess({
+        namespace: `dashboardworkplace/${state}`,
+        data: initData[state]
+      });
+    });
+  }
+
   componentDidMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'dashboardworkplace/project',
-      data: project
-    });
-    stateSuccess({
-      namespace: 'dashboardworkplace/activities',
-      data: activities
-    });
-    stateSuccess({
-      namespace: 'dashboardanalysis/radarData',
-      data: radarData
+    const { stateFetch } = this.props;
+    Object.keys(initData).forEach(state => {
+      stateFetch({
+        namespace: `dashboardworkplace/${state}`,
+        api: `getDashboardworkplace${state}`
+      });
     });
   }
 
@@ -94,25 +97,16 @@ class DashboardWorkplace extends PureComponent {
   render() {
     const {
       user: { loading: userLoading, data: currentUser },
-      dashboardworkplace,
-      dashboardanalysis
+      dashboardworkplace
     } = this.props;
 
-    if (!dashboardworkplace || !dashboardanalysis) return null;
-
-    const projectInitData = { loading: false, data: { notice: [] } };
-    const activitiesInitData = { loading: false, data: { list: [] } };
-    const initData = { loading: false, data: [] };
+    if (!dashboardworkplace) return null;
 
     const {
-      project: { loading: projectLoading, data: { notice } } = projectInitData,
-      activities: {
-        loading: activitiesLoading,
-        data: activitiesData
-      } = activitiesInitData
+      project: { loading: projectLoading, data: notice },
+      activities: { loading: activitiesLoading, data: activitiesData },
+      radarData = initData
     } = dashboardworkplace;
-
-    const { radarData = initData } = dashboardanalysis;
 
     const pageHeaderContent =
       currentUser && Object.keys(currentUser).length ? (
@@ -205,7 +199,7 @@ class DashboardWorkplace extends PureComponent {
             >
               <List loading={activitiesLoading} size="large">
                 <div className={styles.activitiesList}>
-                  {this.renderActivities(activitiesData.list)}
+                  {this.renderActivities(activitiesData)}
                 </div>
               </List>
             </Card>
@@ -266,7 +260,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  stateFetch
 };
 
 export default connect(

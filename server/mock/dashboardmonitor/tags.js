@@ -101,4 +101,4 @@ const tags = [
   { name: '佳木斯市', value: 36, type: 1 }
 ];
 
-export default tags;
+module.exports = tags;

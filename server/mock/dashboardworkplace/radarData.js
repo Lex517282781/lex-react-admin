@@ -16,4 +16,4 @@ const radarData = [
   { name: '部门', label: '热度', value: 7 }
 ];
 
-export default radarData;
+module.exports = radarData;

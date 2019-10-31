@@ -1,0 +1,9 @@
+export const visitData = [];
+export const visitData2 = [];
+export const salesData = [];
+export const searchData = [];
+export const offlineData = [];
+export const offlineChartData = [];
+export const salesTypeData = [];
+export const salesTypeDataOnline = [];
+export const salesTypeDataOffline = [];

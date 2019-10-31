@@ -51,4 +51,4 @@ const searchData = [
   { index: 50, keyword: '搜索关键词-49', count: 822, range: 47, status: 0 }
 ];
 
-export default searchData;
+module.exports = searchData;

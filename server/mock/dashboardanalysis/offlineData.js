@@ -11,4 +11,4 @@ const offlineData = [
   { name: 'Stores 9', cvr: 0.9 }
 ];
 
-export default offlineData;
+module.exports = offlineData;

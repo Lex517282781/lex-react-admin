@@ -34,6 +34,8 @@ class TimelineChart extends React.Component {
       );
     }
 
+    if (!data[0]) return null;
+    
     const ds = new DataSet({
       state: {
         start: data[0].x,

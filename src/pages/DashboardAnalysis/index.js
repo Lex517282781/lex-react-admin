@@ -1,12 +1,12 @@
 import React, { Component, Suspense } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Icon, Menu, Dropdown } from 'antd';
-import { stateSuccess } from '@/store/actionCreators';
+import { stateSuccess, stateFetch } from '@/store/actionCreators';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import PageLoading from '@/components/PageLoading';
 import { getTimeDistance } from '@/utils/tools';
+import * as initData from './initData';
 import styles from './style.less';
-import * as mockDashboardAnalysis from '@/mock/custom/DashboardAnalysis';
 
 const IntroduceRow = React.lazy(() => import('./subs/IntroduceRow'));
 const SalesCard = React.lazy(() => import('./subs/SalesCard'));
@@ -15,29 +15,28 @@ const ProportionSales = React.lazy(() => import('./subs/ProportionSales'));
 const OfflineData = React.lazy(() => import('./subs/OfflineData'));
 
 class DashboardAnalysis extends Component {
-  state = {
-    salesType: 'all',
-    currentTabKey: '',
-    rangePickerValue: getTimeDistance('year')
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      salesType: 'all',
+      currentTabKey: '',
+      rangePickerValue: getTimeDistance('year')
+    };
+    Object.keys(initData).forEach(state => {
+      props.stateSuccess({
+        namespace: `dashboardanalysis/${state}`,
+        data: initData[state]
+      });
+    });
+  }
 
   componentDidMount() {
     this.reqRef = requestAnimationFrame(() => {
-      const { stateSuccess } = this.props;
-      [
-        'visitData',
-        'visitData2',
-        'salesData',
-        'searchData',
-        'offlineData',
-        'offlineChartData',
-        'salesTypeData',
-        'salesTypeDataOnline',
-        'salesTypeDataOffline'
-      ].forEach(state => {
-        stateSuccess({
+      const { stateFetch } = this.props;
+      Object.keys(initData).forEach(state => {
+        stateFetch({
           namespace: `dashboardanalysis/${state}`,
-          data: mockDashboardAnalysis[state]
+          api: `getDashboardanalysis${state}`
         });
       });
     });
@@ -101,18 +100,16 @@ class DashboardAnalysis extends Component {
 
     if (!dashboardanalysis) return null;
 
-    const initData = { loading: false, data: [] };
-
     const {
-      visitData = initData,
-      visitData2 = initData,
-      salesData = initData,
-      searchData = initData,
-      offlineData = initData,
-      offlineChartData = initData,
-      salesTypeData = initData,
-      salesTypeDataOnline = initData,
-      salesTypeDataOffline = initData
+      visitData,
+      visitData2,
+      salesData,
+      searchData,
+      offlineData,
+      offlineChartData,
+      salesTypeData,
+      salesTypeDataOnline,
+      salesTypeDataOffline
     } = dashboardanalysis;
 
     let salesPieData;
@@ -204,7 +201,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  stateFetch
 };
 
 export default connect(

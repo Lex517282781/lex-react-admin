@@ -7,4 +7,4 @@ const salesTypeDataOnline = [
   { x: '其他', y: 111 }
 ];
 
-export default salesTypeDataOnline;
+module.exports = salesTypeDataOnline;

@@ -1,7 +1,10 @@
 const express = require('express');
 const config = require('./config');
 
-var userRouter = require('./user');
+const userRouter = require('./routers/user');
+const dashboardanalysisRouter = require('./routers/dashboardanalysis');
+const dashboardmonitorRouter = require('./routers/dashboardmonitor');
+const dashboardworkplaceRouter = require('./routers/dashboardworkplace');
 
 const { PORT } = config;
 
@@ -17,6 +20,9 @@ app.use(function(req, res, next) {
 });
 
 app.use('/user', userRouter);
+app.use('/dashboardanalysis', dashboardanalysisRouter);
+app.use('/dashboardmonitor', dashboardmonitorRouter);
+app.use('/dashboardworkplace', dashboardworkplaceRouter);
 
 app.listen(PORT, function() {
   console.log(`Node app start at port ${PORT}`);

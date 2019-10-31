@@ -21,4 +21,4 @@ const offlineChartData = [
   { x: 1571442541574, y1: 15, y2: 46 }
 ];
 
-export default offlineChartData;
+module.exports = offlineChartData;

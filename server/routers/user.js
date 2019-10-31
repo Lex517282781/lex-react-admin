@@ -1,10 +1,14 @@
 const express = require('express');
-const data = require('./db');
+const user = require('../mock/common/user');
 
 const router = express.Router();
 
 router.post('/login', function(req, res) {
-  res.json(data);
+  res.json({
+    success: true,
+    msg: '',
+    data: user
+  });
 });
 
 module.exports = router;

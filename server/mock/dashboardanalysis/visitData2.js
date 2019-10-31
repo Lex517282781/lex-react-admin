@@ -8,4 +8,4 @@ const visitData2 = [
   { x: '2019-10-24', y: 2 }
 ];
 
-export default visitData2;
+module.exports = visitData2;

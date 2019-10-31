@@ -3,23 +3,35 @@ import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Row, Col, Card, Tooltip } from 'antd';
 import numeral from 'numeral';
-import { stateSuccess } from '@/store/actionCreators';
+import { stateSuccess, stateFetch } from '@/store/actionCreators';
 import { Pie, WaterWave, Gauge, TagCloud } from '@/components/Charts';
 import NumberInfo from '@/components/NumberInfo';
 import CountDown from '@/components/CountDown';
 import ActiveChart from '@/components/ActiveChart';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import * as initData from './initData';
 import styles from './style.less';
-import { tags } from '@/mock/custom/DashboardMonitor';
 
 const targetTime = new Date().getTime() + 3900000;
 
 class DashboardMonitor extends Component {
+  constructor(props) {
+    super(props);
+    Object.keys(initData).forEach(state => {
+      props.stateSuccess({
+        namespace: `dashboardmonitor/${state}`,
+        data: initData[state]
+      });
+    });
+  }
+
   componentDidMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'dashboardmonitor/tags',
-      data: tags
+    const { stateFetch } = this.props;
+    Object.keys(initData).forEach(state => {
+      stateFetch({
+        namespace: `dashboardmonitor/${state}`,
+        api: `getDashboardmonitor${state}`
+      });
     });
   }
 
@@ -267,7 +279,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  stateFetch
 };
 
 export default connect(

@@ -18,4 +18,4 @@ const visitData = [
   { x: '2019-11-03', y: 5 }
 ];
 
-export default visitData;
+module.exports = visitData;

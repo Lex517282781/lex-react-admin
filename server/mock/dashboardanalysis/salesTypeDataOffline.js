@@ -6,4 +6,4 @@ const salesTypeDataOffline = [
   { x: '其他', y: 65 }
 ];
 
-export default salesTypeDataOffline;
+module.exports = salesTypeDataOffline;
