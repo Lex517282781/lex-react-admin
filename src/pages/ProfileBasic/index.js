@@ -55,11 +55,10 @@ class ProfileBasic extends Component {
   componentDidMount() {
     // const { dispatch, match } = this.props;
     // const { params } = match;
-
-    console.log(`dispatch({
-      type: 'profile/fetchBasic',
-      payload: params.id || '1000000000'
-    })`);
+    // console.log(`dispatch({
+    //   type: 'profile/fetchBasic',
+    //   payload: params.id || '1000000000'
+    // })`);
   }
 
   render() {
@@ -165,7 +164,7 @@ class ProfileBasic extends Component {
       }
     ];
     return (
-      <PageHeaderWrapper title="基础详情页" loading={loading}>
+      <PageHeaderWrapper loading={loading}>
         <Card bordered={false}>
           <DescriptionList
             size="large"

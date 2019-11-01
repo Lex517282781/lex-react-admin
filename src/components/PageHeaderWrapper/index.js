@@ -47,6 +47,7 @@ const PageHeaderWrapper = ({
   home,
   top,
   title,
+  subTitle,
   content,
   logo,
   extraContent,
@@ -56,10 +57,16 @@ const PageHeaderWrapper = ({
   breadcrumbNameMap,
   ...restProps
 }) => {
-  const currentPage = breadcrumbNameMap[location.pathname];
+  const {
+    match: { path }
+  } = restProps;
+
+  const currentPage = breadcrumbNameMap[path];
 
   if (currentPage && formatMessage({ id: currentPage.locale }))
-    title = formatMessage({ id: currentPage.locale });
+    title = title || formatMessage({ id: currentPage.locale });
+
+  if (subTitle) title = title + subTitle;
 
   return (
     <div
@@ -69,16 +76,6 @@ const PageHeaderWrapper = ({
       {top}
       <MenuContext.Consumer>
         {value => {
-          console.log(
-            conversionBreadcrumbList({
-              formatMessage,
-              ...value,
-              ...restProps,
-              ...(home !== null && {
-                home: <FormattedMessage id="menu.home" defaultMessage="Home" />
-              })
-            })
-          );
           return (
             <div className={styles.wrapper}>
               <div

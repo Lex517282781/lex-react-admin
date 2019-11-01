@@ -78,7 +78,6 @@ const conversionFromLocation = (
   const extraBreadcrumbItems = pathSnippets
     .map(url => {
       const currentBreadcrumb = getBreadcrumb(breadcrumbNameMap, url);
-      console.log(currentBreadcrumb)
       if (currentBreadcrumb.inherited) {
         return null;
       }
