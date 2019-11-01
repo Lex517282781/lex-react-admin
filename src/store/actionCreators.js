@@ -1,4 +1,5 @@
 import { REQUEST, SUCCESS, FAILURE, UPDATE } from './types';
+import { message } from 'antd';
 import Service from '@/services';
 
 const generateState = (namespace, action) => {
@@ -42,32 +43,27 @@ export const stateUpdate = ({ namespace, data, extend = false }) => {
   };
 };
 
-export const stateFetch = ({
-  namespace,
-  api,
-  data,
-  params,
-  intercept,
-  failure,
-  success
-}) => {
-  return async (dispatch, getState) => {
+export const stateFetch = ({ namespace, api, data, params, intercept }) => {
+  return (dispatch, getState) => {
     // 请求拦截
     intercept && intercept.call(null, { dispatch, getState, data, params });
 
     dispatch(stateRequest(namespace));
-    let res = await Service[api]({
-      data, // post 参数
-      params, // get delete 参数
-      waitting: () => {},
-      error: err => {
-        failure &&
-          failure.call(null, { dispatch, getState, data, params, err });
-        dispatch(stateFailure({ namespace, msg: err.msg }));
-      }
+
+    return new Promise(async (resolve, reject) => {
+      let res = await Service[api]({
+        data, // post 参数
+        params, // get delete 参数
+        waitting: () => {},
+        error: err => {
+          reject({ data, params, err });
+          message.error(err.msg);
+          dispatch(stateFailure({ namespace, msg: err.msg }));
+        }
+      });
+      if (!res) return;
+      resolve({ data, params, res });
+      dispatch(stateSuccess({ namespace, data: res }));
     });
-    if (!res) return;
-    success && success.call(null, { dispatch, getState, data, params, res });
-    dispatch(stateSuccess({ namespace, data: res }));
   };
 };

@@ -69,6 +69,16 @@ const Api = [
     fn: 'formbasicSet',
     url: '/formbasic/set',
     method: 'post'
+  },
+  // ListSearch
+  {
+    fn: 'listsearchTableData',
+    url: '/listsearch/tableData'
+  },
+  {
+    fn: 'listsearchDelete',
+    url: '/listsearch/delete',
+    method: 'post'
   }
 ];
 

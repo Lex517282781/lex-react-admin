@@ -8,8 +8,8 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import CreateForm from './subs/CreateForm';
 import UpdateForm from './subs/UpdateForm';
 import QueryForm from './subs/QueryForm';
-import { tableData } from '@/mock/custom/ListSearch';
-import { stateSuccess, stateUpdate } from '@/store/actionCreators';
+import { stateSuccess, stateUpdate, stateFetch } from '@/store/actionCreators';
+import * as listsearchActions from './effects';
 import styles from './style.less';
 
 const getValue = obj =>
@@ -20,6 +20,12 @@ const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['关闭', '运行中', '已上线', '异常'];
 
 class ListSearch extends PureComponent {
+  constructor(props) {
+    super(props);
+    const { initializeData } = props;
+    initializeData();
+  }
+
   columns = [
     {
       title: '规则名称',
@@ -85,46 +91,9 @@ class ListSearch extends PureComponent {
     }
   ];
 
-  UNSAFE_componentWillMount() {
-    const { stateSuccess, stateUpdate } = this.props;
-    stateSuccess({
-      namespace: 'listsearch/tableData',
-      data: {
-        list: tableData.list,
-        pagination: tableData.pagination
-      }
-    });
-    stateUpdate({
-      namespace: 'listsearch/createForm',
-      data: {
-        isible: false
-      }
-    });
-    stateUpdate({
-      namespace: 'listsearch/updateForm',
-      data: {
-        isible: false,
-        values: {}
-      }
-    });
-    stateUpdate({
-      namespace: 'listsearch/selectedRows',
-      data: []
-    });
-    stateUpdate({
-      namespace: 'listsearch/expandForm',
-      data: false
-    });
-    stateUpdate({
-      namespace: 'listsearch/query',
-      data: {}
-    });
-  }
-
   componentDidMount() {
-    console.log(`dispatch({
-      type: 'rule/fetch'
-    });`);
+    const { tableDataUpdate } = this.props;
+    tableDataUpdate();
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -153,31 +122,39 @@ class ListSearch extends PureComponent {
   };
 
   handleMenuClick = e => {
-    const { selectedRows } = this.props;
+    const {
+      listsearch: { selectedRows },
+      tableDataDelete
+    } = this.props;
 
     if (selectedRows.length === 0) return;
     switch (e.key) {
       case 'remove':
-        console.log(`dispatch({
-          type: 'rule/remove',
-          payload: {
-            key: selectedRows.map(row => row.key)
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: []
-            });
-          }
-        });`);
+        tableDataDelete({
+          keys: selectedRows.map(row => row.key)
+        });
+        // console.log(`dispatch({
+        //   type: 'rule/remove',
+        //   payload: {
+        //     key: selectedRows.map(row => row.key)
+        //   },
+        //   callback: () => {
+        //     this.setState({
+        //       selectedRows: []
+        //     });
+        //   }
+        // });`);
         break;
       default:
         break;
     }
   };
 
-  handleSelectRows = rows => {
-    this.setState({
-      selectedRows: rows
+  handleSelectRows = data => {
+    const { stateUpdate } = this.props;
+    stateUpdate({
+      namespace: `listsearch/selectedRows`,
+      data
     });
   };
 
@@ -190,8 +167,8 @@ class ListSearch extends PureComponent {
 
     const {
       tableData: { loading: tableDataLoading, data: tableResource },
-      updateForm,
-      selectedRows
+      selectedRows,
+      current
     } = listsearch;
 
     const menu = (
@@ -234,7 +211,7 @@ class ListSearch extends PureComponent {
           </div>
         </Card>
         <CreateForm />
-        {Object.keys(updateForm.values).length ? <UpdateForm /> : null}
+        {current ? <UpdateForm /> : null}
       </PageHeaderWrapper>
     );
   }
@@ -246,7 +223,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   stateSuccess,
-  stateUpdate
+  stateUpdate,
+  stateFetch,
+  initializeData: listsearchActions.initializeData,
+  tableDataUpdate: listsearchActions.tableDataUpdate,
+  tableDataDelete: listsearchActions.tableDataDelete
 };
 
 export default connect(
