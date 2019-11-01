@@ -6,6 +6,8 @@ const dashboardanalysisRouter = require('./routers/dashboardanalysis');
 const dashboardmonitorRouter = require('./routers/dashboardmonitor');
 const dashboardworkplaceRouter = require('./routers/dashboardworkplace');
 
+const formbasicRouter = require('./routers/formbasic');
+
 const { PORT } = config;
 
 const app = express();
@@ -24,6 +26,9 @@ app.use('/dashboardanalysis', dashboardanalysisRouter);
 app.use('/dashboardmonitor', dashboardmonitorRouter);
 app.use('/dashboardworkplace', dashboardworkplaceRouter);
 
+app.use('/formbasic', formbasicRouter);
+
 app.listen(PORT, function() {
   console.log(`Node app start at port ${PORT}`);
 });
+  

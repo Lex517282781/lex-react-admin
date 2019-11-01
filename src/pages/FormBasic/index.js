@@ -14,7 +14,7 @@ import {
   Tooltip
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { stateSuccess } from '@/store/actionCreators';
+import { stateSuccess, stateFetch } from '@/store/actionCreators';
 import styles from './style.less';
 
 const FormItem = Form.Item;
@@ -31,14 +31,15 @@ class FormBasic extends PureComponent {
   }
 
   handleSubmit = e => {
-    const { form } = this.props;
+    const { form, stateFetch } = this.props;
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log(`dispatch({
-          type: 'form/submitRegularForm',
-          payload: values,
-        });`);
+        stateFetch({
+          namespace: 'formbasic/formData',
+          api: 'formbasicSet',
+          data: values
+        });
       }
     });
   };
@@ -301,7 +302,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  stateFetch
 };
 
 export default connect(

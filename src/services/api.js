@@ -63,6 +63,12 @@ const Api = [
   {
     fn: 'getDashboardmonitortags',
     url: '/dashboardmonitor/tags'
+  },
+  // FormBasic
+  {
+    fn: 'formbasicSet',
+    url: '/formbasic/set',
+    method: 'post'
   }
 ];
 
