@@ -58,6 +58,9 @@ const PageHeaderWrapper = ({
 }) => {
   const currentPage = breadcrumbNameMap[location.pathname];
 
+  if (currentPage && formatMessage({ id: currentPage.locale }))
+    title = formatMessage({ id: currentPage.locale });
+
   return (
     <div
       style={{ margin: '-24px -24px 0' }}
@@ -66,6 +69,16 @@ const PageHeaderWrapper = ({
       {top}
       <MenuContext.Consumer>
         {value => {
+          console.log(
+            conversionBreadcrumbList({
+              formatMessage,
+              ...value,
+              ...restProps,
+              ...(home !== null && {
+                home: <FormattedMessage id="menu.home" defaultMessage="Home" />
+              })
+            })
+          );
           return (
             <div className={styles.wrapper}>
               <div
