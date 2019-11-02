@@ -99,6 +99,11 @@ const Api = [
   {
     fn: 'listprojectsTableData',
     url: '/listprojects/tableData'
+  },
+  // ListApplications
+  {
+    fn: 'listapplicationsTableData',
+    url: '/listapplications/tableData'
   }
 ];
 
