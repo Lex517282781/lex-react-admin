@@ -4,28 +4,19 @@ import { Card, Button, Icon, List } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { stateSuccess } from '@/store/actionCreators';
-import { tableData } from '@/mock/custom/ListCard';
+import * as listcardActions from './effects';
 import styles from './style.less';
 
 class ListCard extends PureComponent {
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'listcard/tableData',
-      data: {
-        list: tableData.list,
-        pagination: tableData.pagination
-      }
-    });
+  constructor(props) {
+    super(props);
+    const { initializeData } = props;
+    initializeData();
   }
 
   componentDidMount() {
-    console.log(`dispatch({
-      type: 'list/fetch',
-      payload: {
-        count: 8
-      }
-    });`);
+    const { tableDataUpdate } = this.props;
+    tableDataUpdate();
   }
 
   render() {
@@ -139,7 +130,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  initializeData: listcardActions.initializeData,
+  tableDataUpdate: listcardActions.tableDataUpdate
 };
 
 export default connect(

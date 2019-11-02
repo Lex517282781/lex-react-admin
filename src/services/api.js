@@ -80,9 +80,15 @@ const Api = [
     url: '/listsearch/delete',
     method: 'post'
   },
+  // Listbasic
   {
     fn: 'listbasicTableData',
     url: '/listbasic/tableData'
+  },
+  // ListCard
+  {
+    fn: 'listcardTableData',
+    url: '/listcard/tableData'
   }
 ];
 
