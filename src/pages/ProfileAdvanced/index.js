@@ -21,7 +21,7 @@ import classNames from 'classnames';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { stateSuccess } from '@/store/actionCreators';
-import { advancedData } from '@/mock/custom/ProfileAdvanced';
+import * as profileadvancedActions from './effects';
 import styles from './style.less';
 
 const { Step } = Steps;
@@ -187,24 +187,19 @@ const columns = [
 ];
 
 class ProfileAdvanced extends Component {
-  state = {
-    operationkey: 'tab1',
-    stepDirection: 'horizontal'
-  };
-
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'profileadvanced/advancedData',
-      data: advancedData
-    });
+  constructor(props) {
+    super(props);
+    const { initializeData } = props;
+    this.state = {
+      operationkey: 'tab1',
+      stepDirection: 'horizontal'
+    };
+    initializeData();
   }
 
   componentDidMount() {
-    console.log(`dispatch({
-      type: 'profile/fetchAdvanced'
-    });`);
-
+    const { advancedDataUpdate } = this.props;
+    advancedDataUpdate();
     this.setStepDirection();
     window.addEventListener('resize', this.setStepDirection, { passive: true });
   }
@@ -390,7 +385,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  initializeData: profileadvancedActions.initializeData,
+  advancedDataUpdate: profileadvancedActions.advancedDataUpdate
 };
 
 export default connect(

@@ -15,6 +15,7 @@ const listarticlesRouter = require('./routers/listarticles');
 const listprojectsRouter = require('./routers/listprojects');
 const listapplicationsRouter = require('./routers/listapplications');
 const profilebasicRouter = require('./routers/profilebasic');
+const profileadvancedRouter = require('./routers/profileadvanced');
 
 const { PORT } = config;
 
@@ -43,6 +44,7 @@ app.use('/listarticles', listarticlesRouter);
 app.use('/listprojects', listprojectsRouter);
 app.use('/listapplications', listapplicationsRouter);
 app.use('/profilebasic', profilebasicRouter);
+app.use('/profileadvanced', profileadvancedRouter);
 
 app.listen(PORT, function() {
   console.log(`Node app start at port ${PORT}`);
