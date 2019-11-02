@@ -89,6 +89,16 @@ const Api = [
   {
     fn: 'listcardTableData',
     url: '/listcard/tableData'
+  },
+  // ListArticles
+  {
+    fn: 'listarticlesTableData',
+    url: '/listarticles/tableData'
+  },
+  // ListProjects
+  {
+    fn: 'listprojectsTableData',
+    url: '/listprojects/tableData'
   }
 ];
 

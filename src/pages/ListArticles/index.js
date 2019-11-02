@@ -6,7 +6,7 @@ import TagSelect from '@/components/TagSelect';
 import StandardFormRow from '@/components/StandardFormRow';
 import ArticleListContent from '@/components/ArticleListContent';
 import { stateSuccess } from '@/store/actionCreators';
-import { tableData } from '@/mock/custom/ListArticles';
+import * as listarticlesActions from './effects';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -15,24 +15,15 @@ const FormItem = Form.Item;
 // const pageSize = 5;
 
 class ListArticles extends Component {
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'listarticles/tableData',
-      data: {
-        list: tableData.list,
-        pagination: tableData.pagination
-      }
-    });
+  constructor(props) {
+    super(props);
+    const { initializeData } = props;
+    initializeData();
   }
 
   componentDidMount() {
-    console.log(`dispatch({
-      type: 'list/fetch',
-      payload: {
-        count: 5
-      }
-    });`);
+    const { tableDataUpdate } = this.props;
+    tableDataUpdate();
   }
 
   setOwner = () => {
@@ -275,7 +266,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  initializeData: listarticlesActions.initializeData,
+  tableDataUpdate: listarticlesActions.tableDataUpdate
 };
 
 export default connect(

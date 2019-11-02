@@ -11,6 +11,8 @@ const formbasicRouter = require('./routers/formbasic');
 const listsearchRouter = require('./routers/listsearch');
 const listbasicRouter = require('./routers/listbasic');
 const listcardRouter = require('./routers/listcard');
+const listarticlesRouter = require('./routers/listarticles');
+const listprojectsRouter = require('./routers/listprojects');
 
 const { PORT } = config;
 
@@ -35,6 +37,8 @@ app.use('/formbasic', formbasicRouter);
 app.use('/listsearch', listsearchRouter);
 app.use('/listbasic', listbasicRouter);
 app.use('/listcard', listcardRouter);
+app.use('/listarticles', listarticlesRouter);
+app.use('/listprojects', listprojectsRouter);
 
 app.listen(PORT, function() {
   console.log(`Node app start at port ${PORT}`);

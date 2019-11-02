@@ -8,7 +8,7 @@ import AvatarList from '@/components/AvatarList';
 import Ellipsis from '@/components/Ellipsis';
 import StandardFormRow from '@/components/StandardFormRow';
 import { stateSuccess } from '@/store/actionCreators';
-import { tableData } from '@/mock/custom/ListProjects';
+import * as listprojectsActions from './effects';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -16,23 +16,15 @@ const FormItem = Form.Item;
 
 /* eslint react/no-array-index-key: 0 */
 class ListProjects extends PureComponent {
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'listprojects/tableData',
-      data: {
-        list: tableData.list
-      }
-    });
+  constructor(props) {
+    super(props);
+    const { initializeData } = props;
+    initializeData();
   }
 
   componentDidMount() {
-    console.log(`dispatch({
-      type: 'list/fetch',
-      payload: {
-        count: 8
-      }
-    });`);
+    const { tableDataUpdate } = this.props;
+    tableDataUpdate();
   }
 
   render() {
@@ -184,7 +176,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  initializeData: listprojectsActions.initializeData,
+  tableDataUpdate: listprojectsActions.tableDataUpdate
 };
 
 export default connect(
