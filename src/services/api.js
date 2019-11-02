@@ -104,6 +104,11 @@ const Api = [
   {
     fn: 'listapplicationsTableData',
     url: '/listapplications/tableData'
+  },
+  // profilebasic
+  {
+    fn: 'profilebasicBasicData',
+    url: '/profilebasic/basicData'
   }
 ];
 

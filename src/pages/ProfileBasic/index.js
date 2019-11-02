@@ -4,7 +4,7 @@ import { Card, Badge, Table, Divider } from 'antd';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { stateSuccess } from '@/store/actionCreators';
-import { basicData } from '@/mock/custom/ProfileBasic';
+import * as profilebasicActions from './effects';
 import styles from './style.less';
 
 const { Description } = DescriptionList;
@@ -44,21 +44,15 @@ const progressColumns = [
 ];
 
 class ProfileBasic extends Component {
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'profilebasic/basicData',
-      data: basicData
-    });
+  constructor(props) {
+    super(props);
+    const { initializeData } = props;
+    initializeData();
   }
 
   componentDidMount() {
-    // const { dispatch, match } = this.props;
-    // const { params } = match;
-    // console.log(`dispatch({
-    //   type: 'profile/fetchBasic',
-    //   payload: params.id || '1000000000'
-    // })`);
+    const { basicDataUpdate } = this.props;
+    basicDataUpdate();
   }
 
   render() {
@@ -217,7 +211,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  initializeData: profilebasicActions.initializeData,
+  basicDataUpdate: profilebasicActions.basicDataUpdate
 };
 
 export default connect(
