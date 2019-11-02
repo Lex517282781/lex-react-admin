@@ -9,6 +9,7 @@ const dashboardworkplaceRouter = require('./routers/dashboardworkplace');
 const formbasicRouter = require('./routers/formbasic');
 
 const listsearchRouter = require('./routers/listsearch');
+const listbasicRouter = require('./routers/listbasic');
 
 const { PORT } = config;
 
@@ -31,6 +32,7 @@ app.use('/dashboardworkplace', dashboardworkplaceRouter);
 app.use('/formbasic', formbasicRouter);
 
 app.use('/listsearch', listsearchRouter);
+app.use('/listbasic', listbasicRouter);
 
 app.listen(PORT, function() {
   console.log(`Node app start at port ${PORT}`);

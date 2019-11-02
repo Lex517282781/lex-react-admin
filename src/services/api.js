@@ -79,6 +79,10 @@ const Api = [
     fn: 'listsearchDelete',
     url: '/listsearch/delete',
     method: 'post'
+  },
+  {
+    fn: 'listbasicTableData',
+    url: '/listbasic/tableData'
   }
 ];
 

@@ -18,10 +18,9 @@ import {
   Modal
 } from 'antd';
 import { stateSuccess, stateUpdate } from '@/store/actionCreators';
-import { tableData } from '@/mock/custom/ListBasic';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import UpdateForm from './subs/UpdateForm';
-
+import * as listbasicActions from './effects';
 import styles from './style.less';
 
 const RadioButton = Radio.Button;
@@ -29,21 +28,15 @@ const RadioGroup = Radio.Group;
 const { Search } = Input;
 
 class ListBasic extends PureComponent {
-  UNSAFE_componentWillMount() {
-    const { stateSuccess, stateUpdate } = this.props;
-    stateSuccess({
-      namespace: 'listbasic/tableData',
-      data: {
-        list: tableData.list
-      }
-    });
-    stateUpdate({
-      namespace: 'listbasic/updateForm',
-      data: {
-        visible: false,
-        done: false
-      }
-    });
+  constructor(props) {
+    super(props);
+    const { initializeData } = props;
+    initializeData();
+  }
+
+  componentDidMount() {
+    const { tableDataUpdate } = this.props;
+    tableDataUpdate();
   }
 
   deleteItem = id => {
@@ -227,7 +220,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   stateSuccess,
-  stateUpdate
+  stateUpdate,
+  initializeData: listbasicActions.initializeData,
+  tableDataUpdate: listbasicActions.tableDataUpdate
 };
 
 export default connect(
