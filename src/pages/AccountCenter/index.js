@@ -133,7 +133,6 @@ class AccountCenter extends PureComponent {
 
   render() {
     const { newTags, inputVisible, inputValue } = this.state;
-    console.log(this.props.user);
     const {
       user: { loading: currentUserLoading, data: currentUser },
       accountcenter,
