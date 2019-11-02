@@ -3,31 +3,25 @@ import { List, Card } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import AvatarList from '@/components/AvatarList';
-import { stateSuccess } from '@/store/actionCreators';
-import { tableData } from '@/mock/custom/ListProjects';
+import * as accountcenterActions from '../../effects';
 import styles from '@/pages/ListProjects/style.less';
 
 class Projects extends PureComponent {
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'listprojects/tableData',
-      data: {
-        list: tableData.list
-      }
-    });
+  componentDidMount() {
+    const { projectsDataUpdate } = this.props;
+    projectsDataUpdate();
   }
 
   render() {
-    const { listprojects } = this.props;
+    const { accountcenter } = this.props;
 
-    if (!listprojects) return null;
+    if (!accountcenter) return null;
 
     const {
-      tableData: {
+      projects: {
         data: { list }
       }
-    } = listprojects;
+    } = accountcenter;
 
     return (
       <List
@@ -69,11 +63,11 @@ class Projects extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  listprojects: state.root.listprojects
+  accountcenter: state.root.accountcenter
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  projectsDataUpdate: accountcenterActions.projectsDataUpdate
 };
 
 export default connect(

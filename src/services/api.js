@@ -9,6 +9,10 @@ const Api = [
     url: '/user/logout',
     method: 'post'
   },
+  {
+    fn: 'getUserNotices',
+    url: '/user/notices'
+  },
   // Dashboardanalysis
   {
     fn: 'getDashboardanalysisvisitData',

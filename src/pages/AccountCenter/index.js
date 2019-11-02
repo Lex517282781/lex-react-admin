@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Card, Row, Col, Icon, Avatar, Tag, Divider, Spin, Input } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import * as accountcenterActions from './effects';
 import { stateSuccess } from '@/store/actionCreators';
-import { notice } from '@/mock/custom/AccountCenter';
+
 import styles from './style.less';
 
 const operationTabList = [
@@ -36,33 +37,20 @@ const operationTabList = [
 ];
 
 class AccountCenter extends PureComponent {
-  state = {
-    newTags: [],
-    inputVisible: false,
-    inputValue: ''
-  };
-
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'accountcenter/notice',
-      data: notice
-    });
+  constructor(props) {
+    super(props);
+    const { initializeData } = props;
+    this.state = {
+      newTags: [],
+      inputVisible: false,
+      inputValue: ''
+    };
+    initializeData();
   }
 
   componentDidMount() {
-    console.log(`dispatch({
-      type: 'user/fetchCurrent',
-    });
-    dispatch({
-      type: 'list/fetch',
-      payload: {
-        count: 8,
-      },
-    });
-    dispatch({
-      type: 'project/fetchNotice',
-    });`);
+    const { noticesUpdate } = this.props;
+    noticesUpdate();
   }
 
   onTabChange = key => {
@@ -145,6 +133,7 @@ class AccountCenter extends PureComponent {
 
   render() {
     const { newTags, inputVisible, inputValue } = this.state;
+    console.log(this.props.user);
     const {
       user: { loading: currentUserLoading, data: currentUser },
       accountcenter,
@@ -154,10 +143,8 @@ class AccountCenter extends PureComponent {
     } = this.props;
     if (!accountcenter) return null;
 
-    console.log(currentUser.geographic.province)
-
     const {
-      notice: { loading: noticeLoading, data: noticeList }
+      notices: { loading: noticeLoading, data: noticeList }
     } = accountcenter;
 
     const currentRouter = breadcrumbNameMap[location.pathname];
@@ -303,7 +290,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  stateSuccess,
+  initializeData: accountcenterActions.initializeData,
+  noticesUpdate: accountcenterActions.noticesUpdate
 };
 
 export default connect(

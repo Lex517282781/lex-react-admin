@@ -3,31 +3,25 @@ import { List, Card, Icon, Dropdown, Menu, Avatar, Tooltip } from 'antd';
 import numeral from 'numeral';
 import { connect } from 'react-redux';
 import { formatWan } from '@/utils/tools';
-import { stateSuccess } from '@/store/actionCreators';
-import { tableData } from '@/mock/custom/ListApplications';
+import * as accountcenterActions from '../../effects';
 import styles from '@/pages/ListApplications/style.less';
 
 class Applications extends PureComponent {
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'listapplications/tableData',
-      data: {
-        list: tableData.list
-      }
-    });
+  componentDidMount() {
+    const { applicationsDataUpdate } = this.props;
+    applicationsDataUpdate();
   }
 
   render() {
-    const { listapplications } = this.props;
+    const { accountcenter } = this.props;
 
-    if (!listapplications) return null;
-    
+    if (!accountcenter) return null;
+
     const {
-      tableData: {
+      applications: {
         data: { list }
       }
-    } = listapplications;
+    } = accountcenter;
 
     const itemMenu = (
       <Menu>
@@ -117,11 +111,11 @@ class Applications extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  listapplications: state.root.listapplications
+  accountcenter: state.root.accountcenter
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  applicationsDataUpdate: accountcenterActions.applicationsDataUpdate
 };
 
 export default connect(

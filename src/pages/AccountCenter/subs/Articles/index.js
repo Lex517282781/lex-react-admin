@@ -2,32 +2,25 @@ import React, { PureComponent } from 'react';
 import { List, Icon, Tag } from 'antd';
 import { connect } from 'react-redux';
 import ArticleListContent from '@/components/ArticleListContent';
-import { stateSuccess } from '@/store/actionCreators';
-import { tableData } from '@/mock/custom/ListArticles';
+import * as accountcenterActions from '../../effects';
 import styles from './style.less';
 
 class Articles extends PureComponent {
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'listarticles/tableData',
-      data: {
-        list: tableData.list,
-        pagination: tableData.pagination
-      }
-    });
+  componentDidMount() {
+    const { articlesDataUpdate } = this.props;
+    articlesDataUpdate();
   }
 
   render() {
-    const { listarticles } = this.props;
+    const { accountcenter } = this.props;
 
-    if (!listarticles) return null;
+    if (!accountcenter) return null;
 
     const {
-      tableData: {
+      articles: {
         data: { list }
       }
-    } = listarticles;
+    } = accountcenter;
 
     const IconText = ({ type, text }) => (
       <span>
@@ -74,11 +67,11 @@ class Articles extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  listarticles: state.root.listarticles
+  accountcenter: state.root.accountcenter
 });
 
 const mapDispatchToProps = {
-  stateSuccess
+  articlesDataUpdate: accountcenterActions.articlesDataUpdate
 };
 
 export default connect(

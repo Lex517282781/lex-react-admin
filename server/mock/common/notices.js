@@ -1,106 +1,63 @@
 const notices = [
   {
-    id: '000000001',
-    avatar:
-      'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-    title: '你收到了 14 份新周报',
-    datetime: '2017-08-09',
-    type: 'notification'
+    id: 'xxx1',
+    title: 'Alipay',
+    logo: 'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png',
+    description: '那是一种内在的东西，他们到达不了，也无法触及的',
+    updatedAt: '2019-10-30T10:54:22.546Z',
+    member: '科学搬砖组',
+    href: '',
+    memberLink: ''
   },
   {
-    id: '000000002',
-    avatar:
-      'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png',
-    title: '你推荐的 曲妮妮 已通过第三轮面试',
-    datetime: '2017-08-08',
-    type: 'notification'
+    id: 'xxx2',
+    title: 'Angular',
+    logo: 'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png',
+    description: '希望是一个好东西，也许是最好的，好东西是不会消亡的',
+    updatedAt: '2017-07-24T00:00:00.000Z',
+    member: '全组都是吴彦祖',
+    href: '',
+    memberLink: ''
   },
   {
-    id: '000000003',
-    avatar:
-      'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png',
-    title: '这种模板可以区分多种通知类型',
-    datetime: '2017-08-07',
-    read: true,
-    type: 'notification'
+    id: 'xxx3',
+    title: 'Ant Design',
+    logo: 'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png',
+    description: '城镇中有那么多的酒馆，她却偏偏走进了我的酒馆',
+    updatedAt: '2019-10-30T10:54:22.546Z',
+    member: '中二少女团',
+    href: '',
+    memberLink: ''
   },
   {
-    id: '000000004',
-    avatar:
-      'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-    title: '左侧图标用于区分不同的类型',
-    datetime: '2017-08-07',
-    type: 'notification'
+    id: 'xxx4',
+    title: 'Ant Design Pro',
+    logo: 'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png',
+    description: '那时候我只会想自己想要什么，从不想自己拥有什么',
+    updatedAt: '2017-07-23T00:00:00.000Z',
+    member: '程序员日常',
+    href: '',
+    memberLink: ''
   },
   {
-    id: '000000005',
-    avatar:
-      'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-    title: '内容不要超过两行字，超出时自动截断',
-    datetime: '2017-08-07',
-    type: 'notification'
+    id: 'xxx5',
+    title: 'Bootstrap',
+    logo: 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png',
+    description: '凛冬将至',
+    updatedAt: '2017-07-23T00:00:00.000Z',
+    member: '高逼格设计天团',
+    href: '',
+    memberLink: ''
   },
   {
-    id: '000000006',
-    avatar:
-      'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-    title: '曲丽丽 评论了你',
-    description: '描述信息描述信息描述信息',
-    datetime: '2017-08-07',
-    type: 'message',
-    clickClose: true
-  },
-  {
-    id: '000000007',
-    avatar:
-      'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-    title: '朱偏右 回复了你',
-    description: '这种模板用于提醒谁与你发生了互动，左侧放『谁』的头像',
-    datetime: '2017-08-07',
-    type: 'message',
-    clickClose: true
-  },
-  {
-    id: '000000008',
-    avatar:
-      'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-    title: '标题',
-    description: '这种模板用于提醒谁与你发生了互动，左侧放『谁』的头像',
-    datetime: '2017-08-07',
-    type: 'message',
-    clickClose: true
-  },
-  {
-    id: '000000009',
-    title: '任务名称',
-    description: '任务需要在 2017-01-12 20:00 前启动',
-    extra: '未开始',
-    status: 'todo',
-    type: 'event'
-  },
-  {
-    id: '000000010',
-    title: '第三方紧急代码变更',
-    description: '冠霖提交于 2017-01-06，需在 2017-01-07 前完成代码变更任务',
-    extra: '马上到期',
-    status: 'urgent',
-    type: 'event'
-  },
-  {
-    id: '000000011',
-    title: '信息安全考试',
-    description: '指派竹尔于 2017-01-09 前完成更新并发布',
-    extra: '已耗时 8 天',
-    status: 'doing',
-    type: 'event'
-  },
-  {
-    id: '000000012',
-    title: 'ABCD 版本发布',
-    description: '冠霖提交于 2017-01-06，需在 2017-01-07 前完成代码变更任务',
-    extra: '进行中',
-    status: 'processing',
-    type: 'event'
+    id: 'xxx6',
+    title: 'React',
+    logo: 'https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png',
+    description: '生命就像一盒巧克力，结果往往出人意料',
+    updatedAt: '2017-07-23T00:00:00.000Z',
+    member: '骗你来学计算机',
+    href: '',
+    memberLink: ''
   }
 ];
 
