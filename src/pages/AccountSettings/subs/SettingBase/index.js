@@ -3,7 +3,7 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Form, Input, Upload, Select, Button } from 'antd';
 import { connect } from 'react-redux';
 import styles from './style.less';
-// import GeographicView from '../GeographicView';
+import GeographicView from '../GeographicView';
 import PhoneView from '../PhoneView';
 // import { getTimeDistance } from '@/utils/tools';
 
@@ -35,16 +35,17 @@ const AvatarView = ({ avatar }) => (
   </Fragment>
 );
 
-// const validatorGeographic = (rule, value, callback) => {
-//   const { province, city } = value;
-//   if (!province.key) {
-//     callback('Please input your province!');
-//   }
-//   if (!city.key) {
-//     callback('Please input your city!');
-//   }
-//   callback();
-// };
+const validatorGeographic = (rule, value, callback) => {
+  const { province, city } = value;
+  console.log(value);
+  if (!province.key) {
+    callback('Please input your province!');
+  }
+  if (!city.key) {
+    callback('Please input your city!');
+  }
+  callback();
+};
 
 const validatorPhone = (rule, value, callback) => {
   const values = value.split('-');
@@ -163,7 +164,7 @@ class SettingBase extends Component {
                 </Select>
               )}
             </FormItem>
-            {/* <FormItem
+            <FormItem
               label={formatMessage({ id: 'app.settings.basic.geographic' })}
             >
               {getFieldDecorator('geographic', {
@@ -179,8 +180,8 @@ class SettingBase extends Component {
                     validator: validatorGeographic
                   }
                 ]
-              })(<GeographicView />)} 
-            </FormItem>*/}
+              })(<GeographicView />)}
+            </FormItem>
             <FormItem
               label={formatMessage({ id: 'app.settings.basic.address' })}
             >

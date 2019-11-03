@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, forwardRef } from 'react';
 import { Select, Spin } from 'antd';
 import { connect } from 'react-redux';
+import { stateFetch } from '@/store/actionCreators';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -12,30 +13,35 @@ const nullSlectItem = {
 
 class GeographicView extends PureComponent {
   componentDidMount = () => {
-    console.log(`dispatch({
-      type: 'geographic/fetchProvince'
-    });`);
+    const { stateFetch } = this.props;
+    stateFetch({
+      namespace: `common/province`,
+      api: `getProvince`
+    });
   };
 
   componentDidUpdate(props) {
-    const { value } = this.props;
+    const { value, stateFetch } = this.props;
 
     if (!props.value && !!value && !!value.province) {
-      console.log(`dispatch({
-        type: 'geographic/fetchCity',
-        payload: value.province.key
-      });`);
+      stateFetch({
+        namespace: `common/city`,
+        api: `getCity`,
+        params: {
+          key: value.province.key
+        }
+      });
     }
   }
 
   getProvinceOption() {
     const { province } = this.props;
-    return this.getOption(province);
+    return this.getOption(province.data);
   }
 
   getCityOption = () => {
     const { city } = this.props;
-    return this.getOption(city);
+    return this.getOption(city.data);
   };
 
   getOption = list => {
@@ -55,10 +61,14 @@ class GeographicView extends PureComponent {
 
   selectProvinceItem = item => {
     const { onChange } = this.props;
-    console.log(`dispatch({
-      type: 'geographic/fetchCity',
-      payload: item.key
-    });`);
+    console.log(item)
+    stateFetch({
+      namespace: `common/city`,
+      api: `getCity`,
+      params: {
+        key: item.key
+      }
+    });
     onChange({
       province: item,
       city: nullSlectItem
@@ -75,7 +85,6 @@ class GeographicView extends PureComponent {
 
   conversionObject() {
     const { value } = this.props;
-    console.log(value);
     if (!value) {
       return {
         province: nullSlectItem,
@@ -90,40 +99,51 @@ class GeographicView extends PureComponent {
   }
 
   render() {
+    const {
+      province: { loading: provinceLoading },
+      city: { loading: cityLoading }
+    } = this.props;
     const { province, city } = this.conversionObject();
-    const { loading } = this.props;
     return (
-      <Spin spinning={loading} wrapperClassName={styles.row}>
-        <Select
-          className={styles.item}
-          value={province}
-          labelInValue
-          showSearch
-          onSelect={this.selectProvinceItem}
-        >
-          {this.getProvinceOption()}
-        </Select>
-        <Select
-          className={styles.item}
-          value={city}
-          labelInValue
-          showSearch
-          onSelect={this.selectCityItem}
-        >
-          {this.getCityOption()}
-        </Select>
-      </Spin>
+      <div className={styles.row}>
+        <Spin spinning={provinceLoading} wrapperClassName={styles.item}>
+          <Select
+            value={province}
+            labelInValue
+            showSearch
+            onSelect={this.selectProvinceItem}
+          >
+            {this.getProvinceOption()}
+          </Select>
+        </Spin>
+        <Spin spinning={cityLoading} wrapperClassName={styles.item}>
+          <Select
+            value={city}
+            labelInValue
+            showSearch
+            onSelect={this.selectCityItem}
+          >
+            {this.getCityOption()}
+          </Select>
+        </Spin>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  accountsettings: state.root.accountsettings
+  accountsettings: state.root.accountsettings,
+  province: state.root.common.province,
+  city: state.root.common.province
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { stateFetch };
 
-export default connect(
+const ConnectGeographicView = connect(
   mapStateToProps,
   mapDispatchToProps
 )(GeographicView);
+
+export default forwardRef((props, ref) => (
+  <ConnectGeographicView {...props} geographicViewRef={ref} />
+));

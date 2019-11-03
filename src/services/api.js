@@ -1,4 +1,14 @@
 const Api = [
+  // common
+  {
+    fn: 'getProvince',
+    url: '/common/province'
+  },
+  {
+    fn: 'getCity',
+    url: '/common/city'
+  },
+  // user
   {
     fn: 'login',
     url: '/user/login',

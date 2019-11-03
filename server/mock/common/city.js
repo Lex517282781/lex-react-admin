@@ -12,4 +12,4 @@ const city = [
   { province: '浙江省', name: '丽水市', id: '331100' }
 ];
 
-export default city;
+module.exports = city;

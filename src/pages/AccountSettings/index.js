@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Menu } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
-import { province, city } from '@/mock/custom/AccountSettings';
-import { stateSuccess } from '@/store/actionCreators';
 import styles from './style.less';
 
 const { Item } = Menu;
@@ -46,18 +44,6 @@ class AccountSettings extends Component {
       menuMap,
       selectKey: menuMap[key] ? key : 'base'
     };
-  }
-
-  UNSAFE_componentWillMount() {
-    const { stateSuccess } = this.props;
-    stateSuccess({
-      namespace: 'accountsettings/province',
-      data: province
-    });
-    stateSuccess({
-      namespace: 'accountsettings/city',
-      data: city
-    });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -232,7 +218,7 @@ const mapStateToProps = state => ({
   menuData: state.root.common.menu.menuData
 });
 
-const mapDispatchToProps = { stateSuccess };
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

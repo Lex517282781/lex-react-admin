@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('./config');
 
+const commonRouter = require('./routers/common');
 const userRouter = require('./routers/user');
 const dashboardanalysisRouter = require('./routers/dashboardanalysis');
 const dashboardmonitorRouter = require('./routers/dashboardmonitor');
@@ -30,6 +31,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use('/common', commonRouter);
 app.use('/user', userRouter);
 app.use('/dashboardanalysis', dashboardanalysisRouter);
 app.use('/dashboardmonitor', dashboardmonitorRouter);

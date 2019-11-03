@@ -35,4 +35,4 @@ const province = [
   { name: '澳门特别行政区', id: '820000' }
 ];
 
-export default province;
+module.exports =province;

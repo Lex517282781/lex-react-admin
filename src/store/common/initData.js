@@ -15,17 +15,42 @@ const breadcrumbNameMap = AUTHORITYOPEN
   ? getRouterMap(menuData)
   : originalBreadcrumbNameMap;
 
-const initData = {
-  setting,
-  global: {
-    collapsed: false,
-    notices,
-    loadedAllNotices: false
-  },
-  menu: {
-    menuData,
-    breadcrumbNameMap
-  }
+const global = {
+  collapsed: false,
+  notices,
+  loadedAllNotices: false
 };
+const menu = {
+  menuData,
+  breadcrumbNameMap
+};
+const province = [];
+const city = [];
 
-export default initData;
+export default [
+  {
+    name: 'setting',
+    init: setting,
+    action: 'stateUpdate'
+  },
+  {
+    name: 'global',
+    init: global,
+    action: 'stateUpdate'
+  },
+  {
+    name: 'menu',
+    init: menu,
+    action: 'stateUpdate'
+  },
+  {
+    name: 'province',
+    init: province,
+    action: 'stateSuccess'
+  },
+  {
+    name: 'city',
+    init: city,
+    action: 'stateSuccess'
+  }
+];

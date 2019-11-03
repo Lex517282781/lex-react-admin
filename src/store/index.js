@@ -3,8 +3,8 @@ import thunk from 'redux-thunk';
 import reduxReset from 'redux-reset';
 // import { createLogger } from 'redux-logger';
 import reducer from './rootReducer';
-import initData from './common/initData';
-import { stateUpdate } from './actionCreators';
+import initDatas from './common/initData';
+import * as actionCreators from './actionCreators';
 
 const middlewares = [thunk];
 
@@ -29,12 +29,11 @@ if (module.hot) {
   });
 }
 
-// 初始化应用设置
-Object.entries(initData).forEach(([key, val]) => {
+initDatas.forEach(item => {
   store.dispatch(
-    stateUpdate({
-      namespace: `common/${key}`,
-      data: val
+    actionCreators[item.action]({
+      namespace: `common/${item.name}`,
+      data: item.init
     })
   );
 });
