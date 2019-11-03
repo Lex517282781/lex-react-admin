@@ -1,5 +1,5 @@
 import setting from '@/config/defaultSettings';
-import { notices, menuData as mockMenuData } from '@/mock/common';
+import { menuData as mockMenuData } from '@/mock/common';
 import appRouter from '@/config/appRouter';
 import getRouterMenu from '@/utils/getRouterMenu';
 import getRouterMap from '@/utils/getRouterMap';
@@ -15,17 +15,15 @@ const breadcrumbNameMap = AUTHORITYOPEN
   ? getRouterMap(menuData)
   : originalBreadcrumbNameMap;
 
-const global = {
-  collapsed: false,
-  notices,
-  loadedAllNotices: false
+export const global = {
+  collapsed: false
 };
-const menu = {
+export const menu = {
   menuData,
   breadcrumbNameMap
 };
-const province = [];
-const city = [];
+export const province = [];
+export const city = [];
 
 export default [
   {
