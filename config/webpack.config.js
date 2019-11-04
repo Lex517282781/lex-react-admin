@@ -25,7 +25,8 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const eslint = require('eslint');
+// const eslint = require('eslint');
+// const slash = require('slash');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -42,12 +43,12 @@ const appPackageJson = require(paths.appPackageJson);
 //   }
 //   const match = context.resourcePath.match(/src(.*)/);
 //   if (match && match[1]) {
-//     const antdProPath = match[1].replace('.less', '');
-//     const arr = slash(antdProPath)
+//     const path = match[1].replace('.less', '');
+//     const arr = slash(path)
 //       .split('/')
 //       .map(a => a.replace(/([A-Z])/g, '-$1'))
 //       .map(a => a.toLowerCase());
-//     return `antd-pro${arr.join('-')}-${localName}`.replace(/--/g, '-');
+//     return `${arr.join('-')}-${localName}`.replace(/--/g, '-');
 //   }
 //   return localName;
 // };

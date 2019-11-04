@@ -56,7 +56,7 @@ const ajax = async ({
 
     if (res.code === LOGIN_SIGN_TIMEOUT) {
       confirm({
-        title: res.errorMessage,
+        title: res.msg,
         content: '需要回到登录页重新登录！',
         onOk() {
           store.clearAll();
@@ -76,14 +76,14 @@ const ajax = async ({
     if (error) {
       await error(res);
     } else {
-      message.error(res.errorMessage);
+      message.error(res.msg);
     }
 
     return false;
   } catch (err) {
     error &&
       error({
-        errorMessage: 'Sorry, 网络发生了错误~'
+        msg: 'Sorry, 网络发生了错误~'
       });
     hide && hide();
     return false;

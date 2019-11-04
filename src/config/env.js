@@ -6,7 +6,7 @@ const LOGIN_SIGN_TIMEOUT = 'LOGIN_SIGN_TIMEOUT'; // 接口返回CODE: 登录过�
 const LOGIN_SIGN_OK = 'OK'; // 接口返回CODE: 登录OK
 const LOGIN_SIGN_ERROR = 'ERROR'; // 接口返回CODE: 登录ERROR
 
-const AUTHORITYOPEN = false;
+const AUTHORITYOPEN = true;
 
 export {
   BASEURL,

@@ -66,7 +66,10 @@ const getRouterMenu = (routers, routerMap, norMatch) => {
           // 需要对配置错误的路由作兼容处理 直到取到有效的路由
           const isMatch = router.children.some(item => {
             const childPath = `${router.path}/${item.key}`;
-            if (routerMap && routerMap[childPath]) {
+            const routerComponent = routerMap[router.path].component;
+            if (routerComponent) return true;
+            // 路由本身没有组件需要跳转的时候 做以下处理
+            if (routerMap[childPath]) {
               router.redirect = childPath;
               return true;
             } else {
