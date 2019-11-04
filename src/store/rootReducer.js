@@ -15,7 +15,7 @@ const handleData = (state = { loading: false, data: null }, action) => {
 };
 
 const root = (state = {}, action) => {
-  const type = action.type.match('[^/]+(?!.*/)')[0];
+  const type = action.type.match('[^/]+(?!.*/)')[0]; // 获取最后一个/之后的值
   if (!action.state) return state;
   let [pagekey, modulekey] = (action.state || '').split('/');
 
