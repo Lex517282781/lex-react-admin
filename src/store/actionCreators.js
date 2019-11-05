@@ -43,18 +43,14 @@ export const stateUpdate = ({ namespace, data, extend = false }) => {
   };
 };
 
-export const stateFetch = ({ namespace, api, data, params, intercept }) => {
-  return (dispatch, getState) => {
-    // 请求拦截
-    intercept && intercept.call(null, { dispatch, getState, data, params });
-
+export const stateFetch = ({ namespace, api, data, params }) => {
+  return dispatch => {
     dispatch(stateRequest(namespace));
 
     return new Promise(async (resolve, reject) => {
       let res = await Service[api]({
         data, // post 参数
         params, // get delete 参数
-        waitting: () => {},
         error: err => {
           reject({ data, params, err });
           message.error(err.msg);

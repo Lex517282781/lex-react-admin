@@ -15,7 +15,6 @@ Api.forEach(
     Service[fn] = ({
       data, // method为post的情况下使用data
       params, // method为get的情况下使用params
-      waitting, // 自定义加载状态
       error, // 错误状态
       aimid = '',
       query, // method为get的情况下使用query query一般为复杂数据下使用 如 query: { ids: [1, 2, 3] }
@@ -49,7 +48,6 @@ Api.forEach(
         headers,
         data,
         params,
-        waitting,
         error,
         cash,
         isNeedEmpty

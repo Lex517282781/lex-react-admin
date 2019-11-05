@@ -7,52 +7,25 @@ import { getValidParam } from '@/utils/tools';
 
 const confirm = Modal.confirm;
 
-let hide = null;
-const ajax = async ({
-  headers,
-  method,
-  url,
-  data,
-  params,
-  waitting,
-  error,
-  cash = false,
-  isNeedEmpty
-}) => {
-  if (waitting) {
-    // 自定义请求等待状态
-    waitting();
-  } else {
-    hide = message.loading('加载中..', 0);
-  }
-  try {
+// 请求前拦截
+axios.interceptors.request.use(
+  function(config) {
     const user = store.get(STOREKEY);
-    let headersVal = {
-      ...headers
-    };
-    if (user) headersVal.token = user.id;
-
-    let config = {
-      method,
-      url: cash ? url + '?' + +new Date() : BASEURL + url,
-      headers: headersVal,
-      data: getValidParam(data, isNeedEmpty),
-      params: getValidParam(params, isNeedEmpty)
-    };
-
-    if (headersVal['Content-Type'] === 'application/x-www-form-urlencoded') {
+    if (user) config.headers.token = user.userid;
+    if (config.headers['Content-Type'] === 'application/x-www-form-urlencoded')
       config.data = stringify(config.data);
-    }
 
-    const { data: res } = await axios(config);
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
 
-    if (cash) return res;
-
-    if (res.success) {
-      // 成功返回
-      if (!waitting) hide();
-      return res.data === undefined ? res : res.data;
-    }
+// 请求响应拦截
+axios.interceptors.response.use(
+  function(response) {
+    const { data: res } = response;
 
     if (res.code === LOGIN_SIGN_TIMEOUT) {
       confirm({
@@ -70,8 +43,40 @@ const ajax = async ({
         onCancel() {}
       });
     }
+    return response;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
 
-    if (!waitting) hide();
+const ajax = async ({
+  headers,
+  method,
+  url,
+  data,
+  params,
+  error,
+  cash = false,
+  isNeedEmpty
+}) => {
+  try {
+    let config = {
+      method,
+      url: cash ? url + '?' + +new Date() : BASEURL + url,
+      headers,
+      data: getValidParam(data, isNeedEmpty),
+      params: getValidParam(params, isNeedEmpty)
+    };
+
+    const { data: res } = await axios(config);
+
+    if (cash) return res;
+
+    if (res.success) {
+      // 成功返回
+      return res.data === undefined ? res : res.data;
+    }
 
     if (error) {
       await error(res);
@@ -85,7 +90,6 @@ const ajax = async ({
       error({
         msg: 'Sorry, 网络发生了错误~'
       });
-    hide && hide();
     return false;
   }
 };
