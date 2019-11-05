@@ -1,9 +1,37 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { Button, Spin, Card } from 'antd';
+import styles from './style.less';
 
-class ExceptionTrigger extends Component {
+class TriggerException extends PureComponent {
+  state = {
+    isloading: false
+  };
+
+  triggerError = code => {
+    console.log(code)
+  };
+
   render() {
-    return <div>ExceptionTrigger</div>;
+    const { isloading } = this.state;
+    return (
+      <Card>
+        <Spin spinning={isloading} wrapperClassName={styles.trigger}>
+          <Button type="danger" onClick={() => this.triggerError(401)}>
+            触发401
+          </Button>
+          <Button type="danger" onClick={() => this.triggerError(403)}>
+            触发403
+          </Button>
+          <Button type="danger" onClick={() => this.triggerError(500)}>
+            触发500
+          </Button>
+          <Button type="danger" onClick={() => this.triggerError(404)}>
+            触发404
+          </Button>
+        </Spin>
+      </Card>
+    );
   }
 }
 
-export default ExceptionTrigger;
+export default TriggerException;
