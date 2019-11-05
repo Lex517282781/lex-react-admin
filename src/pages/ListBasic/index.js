@@ -214,8 +214,8 @@ class ListBasic extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  listbasic: state.root.listbasic
+const mapStateToProps = rootState => ({
+  listbasic: rootState.listbasic
 });
 
 const mapDispatchToProps = {

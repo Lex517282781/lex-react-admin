@@ -149,9 +149,9 @@ const PageHeaderWrapper = ({
   );
 };
 
-const mapStateToProps = state => ({
-  contentWidth: state.root.common.setting.contentWidth,
-  breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap
+const mapStateToProps = rootState => ({
+  contentWidth: rootState.common.setting.contentWidth,
+  breadcrumbNameMap: rootState.common.menu.breadcrumbNameMap
 });
 
 export default withRouter(

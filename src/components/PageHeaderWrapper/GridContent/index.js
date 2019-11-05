@@ -13,8 +13,8 @@ class GridContent extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  contentWidth: state.root.common.setting.contentWidth
+const mapStateToProps = rootState => ({
+  contentWidth: rootState.common.setting.contentWidth
 });
 
 export default connect(mapStateToProps)(GridContent);

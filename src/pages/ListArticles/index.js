@@ -261,8 +261,8 @@ class ListArticles extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  listarticles: state.root.listarticles
+const mapStateToProps = rootState => ({
+  listarticles: rootState.listarticles
 });
 
 const mapDispatchToProps = {

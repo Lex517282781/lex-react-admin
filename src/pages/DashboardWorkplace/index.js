@@ -253,10 +253,10 @@ class DashboardWorkplace extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.root.common.user,
-  dashboardworkplace: state.root.dashboardworkplace,
-  dashboardanalysis: state.root.dashboardanalysis
+const mapStateToProps = rootState => ({
+  user: rootState.common.user,
+  dashboardworkplace: rootState.dashboardworkplace,
+  dashboardanalysis: rootState.dashboardanalysis
 });
 
 const mapDispatchToProps = {

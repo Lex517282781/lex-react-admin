@@ -274,8 +274,8 @@ class DashboardMonitor extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  dashboardmonitor: state.root.dashboardmonitor
+const mapStateToProps = rootState => ({
+  dashboardmonitor: rootState.dashboardmonitor
 });
 
 const mapDispatchToProps = {

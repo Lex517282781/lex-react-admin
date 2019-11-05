@@ -227,8 +227,8 @@ class ListApplications extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  listapplications: state.root.listapplications
+const mapStateToProps = rootState => ({
+  listapplications: rootState.listapplications
 });
 
 const mapDispatchToProps = {

@@ -196,8 +196,8 @@ class DashboardAnalysis extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  dashboardanalysis: state.root.dashboardanalysis
+const mapStateToProps = rootState => ({
+  dashboardanalysis: rootState.dashboardanalysis
 });
 
 const mapDispatchToProps = {

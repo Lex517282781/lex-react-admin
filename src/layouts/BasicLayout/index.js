@@ -250,13 +250,13 @@ class BasicLayout extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.root.common.user,
-  collapsed: state.root.common.global.collapsed,
-  layout: state.root.common.setting.layout,
-  menuData: state.root.common.menu.menuData,
-  breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap,
-  ...state.root.common.setting
+const mapStateToProps = rootState => ({
+  user: rootState.common.user,
+  collapsed: rootState.common.global.collapsed,
+  layout: rootState.common.setting.layout,
+  menuData: rootState.common.menu.menuData,
+  breadcrumbNameMap: rootState.common.menu.breadcrumbNameMap,
+  ...rootState.common.setting
 });
 
 const mapDispatchToProps = {

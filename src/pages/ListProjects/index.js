@@ -171,8 +171,8 @@ class ListProjects extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  listprojects: state.root.listprojects
+const mapStateToProps = rootState => ({
+  listprojects: rootState.listprojects
 });
 
 const mapDispatchToProps = {

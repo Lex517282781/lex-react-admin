@@ -227,8 +227,8 @@ class SettingBase extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentUser: state.root.common.user.data
+const mapStateToProps = rootState => ({
+  currentUser: rootState.common.user.data
 });
 
 const mapDispatchToProps = {};

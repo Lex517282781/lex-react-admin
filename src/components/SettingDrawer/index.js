@@ -291,8 +291,8 @@ class SettingDrawer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  setting: state.root.common.setting
+const mapStateToProps = rootState => ({
+  setting: rootState.common.setting
 });
 
 const mapDispatchToProps = {

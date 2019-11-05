@@ -125,8 +125,8 @@ class ListCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  listcard: state.root.listcard
+const mapStateToProps = rootState => ({
+  listcard: rootState.listcard
 });
 
 const mapDispatchToProps = {

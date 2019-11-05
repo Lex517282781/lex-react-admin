@@ -44,8 +44,8 @@ class CreateForm extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  listsearch: state.root.listsearch
+const mapStateToProps = rootState => ({
+  listsearch: rootState.listsearch
 });
 
 const mapDispatchToProps = {

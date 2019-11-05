@@ -212,10 +212,10 @@ class AccountSettings extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.root.common.user,
-  breadcrumbNameMap: state.root.common.menu.breadcrumbNameMap,
-  menuData: state.root.common.menu.menuData
+const mapStateToProps = rootState => ({
+  user: rootState.common.user,
+  breadcrumbNameMap: rootState.common.menu.breadcrumbNameMap,
+  menuData: rootState.common.menu.menuData
 });
 
 const mapDispatchToProps = {};

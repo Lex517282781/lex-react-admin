@@ -297,8 +297,8 @@ class FormBasic extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  formbasic: state.root.formbasic
+const mapStateToProps = rootState => ({
+  formbasic: rootState.formbasic
 });
 
 const mapDispatchToProps = {

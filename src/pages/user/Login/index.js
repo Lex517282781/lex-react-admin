@@ -246,8 +246,8 @@ class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.root.common.user
+const mapStateToProps = rootState => ({
+  user: rootState.common.user
 });
 
 const mapDispatchToProps = {

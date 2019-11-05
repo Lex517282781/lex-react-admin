@@ -374,8 +374,8 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.common.user
+const mapStateToProps = rootState => ({
+  user: rootState.common.user
 });
 
 const mapDispatchToProps = {};

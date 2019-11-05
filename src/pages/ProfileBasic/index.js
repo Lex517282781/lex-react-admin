@@ -206,8 +206,8 @@ class ProfileBasic extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  profilebasic: state.root.profilebasic
+const mapStateToProps = rootState => ({
+  profilebasic: rootState.profilebasic
 });
 
 const mapDispatchToProps = {

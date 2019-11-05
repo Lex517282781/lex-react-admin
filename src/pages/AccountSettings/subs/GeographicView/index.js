@@ -131,10 +131,10 @@ class GeographicView extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  accountsettings: state.root.accountsettings,
-  province: state.root.common.province,
-  city: state.root.common.province
+const mapStateToProps = rootState => ({
+  accountsettings: rootState.accountsettings,
+  province: rootState.common.province,
+  city: rootState.common.province
 });
 
 const mapDispatchToProps = { stateFetch };

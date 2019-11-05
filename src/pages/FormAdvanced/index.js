@@ -384,8 +384,8 @@ class FormAdvanced extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  formadvanced: state.root.formadvanced
+const mapStateToProps = rootState => ({
+  formadvanced: rootState.formadvanced
 });
 
 const mapDispatchToProps = {

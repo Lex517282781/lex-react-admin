@@ -171,11 +171,11 @@ class HeaderView extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.root.common.user,
-  collapsed: state.root.common.global.collapsed,
-  notices: state.root.common.global.notices,
-  setting: state.root.common.setting
+const mapStateToProps = rootState => ({
+  user: rootState.common.user,
+  collapsed: rootState.common.global.collapsed,
+  notices: rootState.common.global.notices,
+  setting: rootState.common.setting
 });
 
 export default connect(mapStateToProps)(injectIntl(HeaderView));

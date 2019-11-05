@@ -154,8 +154,8 @@ class UserLayout extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.root.common.user
+const mapStateToProps = rootState => ({
+  user: rootState.common.user
 });
 
 const mapDispatchToProps = {

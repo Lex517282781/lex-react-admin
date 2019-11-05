@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 import { REQUEST, SUCCESS, FAILURE, UPDATE } from './types';
 
 const handleData = (state = { loading: false, data: null }, action) => {
@@ -14,7 +14,8 @@ const handleData = (state = { loading: false, data: null }, action) => {
   }
 };
 
-const root = (state = {}, action) => {
+//  这里自定义reducers的分发 不需要redux提供的combineReducers
+const rootReducers = (state = {}, action) => {
   const type = action.type.match('[^/]+(?!.*/)')[0]; // 获取最后一个/之后的值
   if (!action.state) return state;
   let [pagekey, modulekey] = (action.state || '').split('/');
@@ -54,6 +55,8 @@ const root = (state = {}, action) => {
   }
 };
 
-export default combineReducers({
-  root
-});
+// export default combineReducers({
+//   root
+// });
+
+export default rootReducers;

@@ -133,8 +133,8 @@ class FormStepConfirm extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  formstep: state.root.formstep
+const mapStateToProps = rootState => ({
+  formstep: rootState.formstep
 });
 
 const mapDispatchToProps = {};

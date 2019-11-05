@@ -380,8 +380,8 @@ class ProfileAdvanced extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  profileadvanced: state.root.profileadvanced
+const mapStateToProps = rootState => ({
+  profileadvanced: rootState.profileadvanced
 });
 
 const mapDispatchToProps = {

@@ -66,8 +66,8 @@ class Articles extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  accountcenter: state.root.accountcenter
+const mapStateToProps = rootState => ({
+  accountcenter: rootState.accountcenter
 });
 
 const mapDispatchToProps = {
