@@ -3,8 +3,6 @@ import thunk from 'redux-thunk';
 import reduxReset from 'redux-reset';
 // import { createLogger } from 'redux-logger';
 import reducer from './rootReducer';
-import initDatas from './common/initData';
-import * as actionCreators from './actionCreators';
 
 const middlewares = [thunk];
 
@@ -28,14 +26,5 @@ if (module.hot) {
     store.replaceReducer(nextRootReducer);
   });
 }
-
-initDatas.forEach(item => {
-  store.dispatch(
-    actionCreators[item.action]({
-      namespace: `common/${item.name}`,
-      data: item.init
-    })
-  );
-});
 
 export default store;
