@@ -1,5 +1,5 @@
 import * as actionCreators from '@/store/actionCreators';
-import initDatas, * as initData from './initData';
+import initDatas from './initData';
 
 const { stateUpdate, stateFetch } = actionCreators;
 
@@ -23,6 +23,13 @@ export const tableDataUpdate = () => {
   });
 };
 
+export const createFormUpdate = data => {
+  return stateUpdate({
+    namespace: `listsearch/createForm`,
+    data
+  });
+};
+
 export const tableDataDelete = data => {
   return dispatch => {
     dispatch(
@@ -31,18 +38,14 @@ export const tableDataDelete = data => {
         api: `listsearchDelete`,
         data
       })
-    )
-      .then(() => {
-        dispatch(tableDataUpdate());
-        dispatch(
-          stateUpdate({
-            namespace: 'listsearch/selectedRows',
-            data: initData.selectedRows
-          })
-        );
-      })
-      .catch(res => {
-        console.log(res);
-      });
+    ).then(() => {
+      dispatch(tableDataUpdate());
+      dispatch(
+        stateUpdate({
+          namespace: 'listsearch/selectedRows',
+          data: []
+        })
+      );
+    });
   };
 };

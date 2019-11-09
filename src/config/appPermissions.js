@@ -9,7 +9,8 @@ const appPermissions = [
 
   'SettingDrawer', // 是否支持系统设置
   'HeaderSearch', // 是否支持顶部搜索
-  'HeaderHelp' // 是否支持顶部帮助
+  'HeaderHelp', // 是否支持顶部帮助
+  'HeaderNoticeIcon', // 是否支持顶部通知
 ];
 
 export default appPermissions;

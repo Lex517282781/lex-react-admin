@@ -158,7 +158,10 @@ class ListSearch extends PureComponent {
     });
   };
 
-  handleAdd = () => {};
+  handleAdd = () => {
+    const { createFormUpdate } = this.props;
+    createFormUpdate({ visible: true });
+  };
 
   render() {
     const { listsearch } = this.props;
@@ -227,7 +230,8 @@ const mapDispatchToProps = {
   stateFetch,
   initializeData: listsearchActions.initializeData,
   tableDataUpdate: listsearchActions.tableDataUpdate,
-  tableDataDelete: listsearchActions.tableDataDelete
+  tableDataDelete: listsearchActions.tableDataDelete,
+  createFormUpdate: listsearchActions.createFormUpdate
 };
 
 export default connect(

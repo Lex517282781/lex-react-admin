@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Form, Input, Modal } from 'antd';
 import { connect } from 'react-redux';
-import { stateSuccess, stateUpdate } from '@/store/actionCreators';
+import { stateSuccess } from '@/store/actionCreators';
+import * as listsearchActions from '../effects';
 
 const FormItem = Form.Item;
 
@@ -15,21 +16,29 @@ class CreateForm extends PureComponent {
     });
   };
 
-  handleCancel = () => {};
+  handleCancel = () => {
+    const { createFormUpdate } = this.props;
+    createFormUpdate({
+      visible: false
+    });
+  };
 
   render() {
-    const { modalVisible, form } = this.props;
+    const {
+      form: { getFieldDecorator },
+      createForm
+    } = this.props;
 
     return (
       <Modal
         destroyOnClose
         title="新建规则"
-        visible={modalVisible}
+        visible={createForm.visible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-          {form.getFieldDecorator('desc', {
+          {getFieldDecorator('desc', {
             rules: [
               {
                 required: true,
@@ -45,12 +54,12 @@ class CreateForm extends PureComponent {
 }
 
 const mapStateToProps = rootState => ({
-  listsearch: rootState.listsearch
+  createForm: rootState.listsearch.createForm
 });
 
 const mapDispatchToProps = {
   stateSuccess,
-  stateUpdate
+  createFormUpdate: listsearchActions.createFormUpdate
 };
 
 export default connect(

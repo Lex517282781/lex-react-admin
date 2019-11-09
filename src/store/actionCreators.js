@@ -3,6 +3,9 @@ import { message } from 'antd';
 import Service from '@/services';
 
 const generateState = (namespace, action) => {
+  if (namespace === undefined || typeof namespace !== 'string') {
+    throw new Error(`请传入 namespace 参数, 格式如: 'page/state'`);
+  }
   let [page, state] = namespace.split('/');
   let type = '';
   if (state) {

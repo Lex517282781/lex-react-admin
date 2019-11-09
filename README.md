@@ -21,6 +21,42 @@
 
 1. 建议安装 nodemon: npm i nodemon -g
 
+## redux 数据状态管理
+
+每个页面路由都单独动态会生成一个 reducer
+
+1. 路由 state 由 namespace 参数动态生成 namespace 格式如: `page/state`
+2. 数据参数化由 data 传入
+3. 同步数据建议使用 stateUpdate action
+4. 异步数据建议使用 stateFetch 由 stateRequest stateSuccess stateFailure 组合生成
+5. 异步数据在复杂应用的时候 建议在路由文件下新建 effects 文件 里面包含组合 action
+   5.1. 组合 action 格式如:
+   ```js
+   /*
+   * 如: 删除数据之后需要重新获取数据的场景
+   * 假设删除数据 delete 获取数据 get
+   */
+   const delete = data => {
+     return dispatch => {
+       dispatch(
+         stateFetch({
+           namespace: `table/btn`,
+           api: `tableRowDelete`,
+           data
+         })
+       )
+         .then(() => {
+           dispatch(get());
+         })
+         .catch(() => {
+           console.log('这里可追加错误处理');
+         });
+     };
+   };
+   ```
+6. 路由文件的初始化 state 需提前在每个路由根文件下的 constructor 生成 以防止页面中数据为空的 undefined 现象
+7. 所有的 action 可重新在 effects 里面再包装一层再给外部使用, 或在文件中直接使用 stateRequest stateSuccess stateFailure stateFetch stateUpdate
+
 ## 问题
 
 ### antd 按需加载

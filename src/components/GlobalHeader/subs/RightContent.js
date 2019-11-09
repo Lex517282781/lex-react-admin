@@ -128,6 +128,7 @@ class GlobalHeaderRight extends PureComponent {
     const HeaderSearchWrap = appWrapAuth(HeaderSearch);
     const HeaderHelpWrap = appWrapAuth(Tooltip);
     const InternationalWrap = appWrapAuth(SelectLang);
+    const NoticeIconWrap = appWrapAuth(NoticeIcon);
 
     const noticeData = this.getNoticeData();
     const unreadMsg = this.getUnreadData(noticeData);
@@ -166,7 +167,8 @@ class GlobalHeaderRight extends PureComponent {
             <Icon type="question-circle-o" />
           </a>
         </HeaderHelpWrap>
-        <NoticeIcon
+        <NoticeIconWrap
+          auth="HeaderNoticeIcon"
           className={styles.action}
           count={currentUser.unreadCount}
           onItemClick={(item, tabProps) => {
@@ -219,7 +221,7 @@ class GlobalHeaderRight extends PureComponent {
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
             showViewMore
           />
-        </NoticeIcon>
+        </NoticeIconWrap>
         {currentUser.name ? (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>

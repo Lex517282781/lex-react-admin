@@ -1,13 +1,15 @@
 const express = require('express');
-// const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 const config = require('./config');
 
 const resolvePath = pathStr => path.join(__dirname, pathStr);
 
-console.log(resolvePath);
+const routers = fs
+  .readdirSync(resolvePath('routers'))
+  .map(item => path.basename(item, '.js'));
 
-const { PORT, routers } = config;
+const { PORT } = config;
 
 const app = express();
 

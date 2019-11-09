@@ -4,10 +4,11 @@ import SiderMenu from './subs/SiderMenu';
 import { getFlatMenuKeys } from './tools';
 
 const SiderMenuWrapper = React.memo(props => {
-  const { isMobile, menuData, collapsed, onCollapse } = props;
+  const { isMobile, menuData, collapsed, onCollapse, siderWidth } = props;
   const flatMenuKeys = getFlatMenuKeys(menuData);
   return isMobile ? (
     <Drawer
+      width={siderWidth}
       visible={!collapsed}
       placement="left"
       onClose={() =>
