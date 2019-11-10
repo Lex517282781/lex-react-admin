@@ -3,6 +3,7 @@ import initDatas from './initData';
 
 const { stateUpdate, stateFetch } = actionCreators;
 
+// 初始化数据
 export const initializeData = () => {
   return dispatch => {
     initDatas.forEach(item => {
@@ -16,13 +17,7 @@ export const initializeData = () => {
   };
 };
 
-export const tableDataUpdate = () => {
-  return stateFetch({
-    namespace: `listsearch/tableData`,
-    api: `listsearchTableData`
-  });
-};
-
+// 新建模态框
 export const createFormUpdate = data => {
   return stateUpdate({
     namespace: `listsearch/createForm`,
@@ -30,6 +25,30 @@ export const createFormUpdate = data => {
   });
 };
 
+// 更新模态框
+export const updateFormUpdate = data => {
+  return stateUpdate({
+    namespace: `listsearch/updateForm`,
+    data
+  });
+};
+
+export const selectedRowsUpdate = data => {
+  return stateUpdate({
+    namespace: `listsearch/selectedRows`,
+    data
+  });
+};
+
+// table数据获取
+export const tableDataUpdate = () => {
+  return stateFetch({
+    namespace: `listsearch/tableData`,
+    api: `listsearchTableData`
+  });
+};
+
+// 表格行数据删除
 export const tableDataDelete = data => {
   return dispatch => {
     dispatch(

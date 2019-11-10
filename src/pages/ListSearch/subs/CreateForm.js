@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Form, Input, Modal } from 'antd';
 import { connect } from 'react-redux';
-import { stateSuccess } from '@/store/actionCreators';
 import * as listsearchActions from '../effects';
 
 const FormItem = Form.Item;
@@ -58,7 +57,6 @@ const mapStateToProps = rootState => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess,
   createFormUpdate: listsearchActions.createFormUpdate
 };
 

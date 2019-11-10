@@ -8,7 +8,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import CreateForm from './subs/CreateForm';
 import UpdateForm from './subs/UpdateForm';
 import QueryForm from './subs/QueryForm';
-import { stateSuccess, stateUpdate, stateFetch } from '@/store/actionCreators';
 import * as listsearchActions from './effects';
 import styles from './style.less';
 
@@ -133,17 +132,6 @@ class ListSearch extends PureComponent {
         tableDataDelete({
           keys: selectedRows.map(row => row.key)
         });
-        // console.log(`dispatch({
-        //   type: 'rule/remove',
-        //   payload: {
-        //     key: selectedRows.map(row => row.key)
-        //   },
-        //   callback: () => {
-        //     this.setState({
-        //       selectedRows: []
-        //     });
-        //   }
-        // });`);
         break;
       default:
         break;
@@ -151,16 +139,18 @@ class ListSearch extends PureComponent {
   };
 
   handleSelectRows = data => {
-    const { stateUpdate } = this.props;
-    stateUpdate({
-      namespace: `listsearch/selectedRows`,
-      data
-    });
+    const { selectedRowsUpdate } = this.props;
+    selectedRowsUpdate(data);
   };
 
   handleAdd = () => {
     const { createFormUpdate } = this.props;
     createFormUpdate({ visible: true });
+  };
+
+  handleUpdateModalVisible = () => {
+    const { updateFormUpdate } = this.props;
+    updateFormUpdate({ visible: true });
   };
 
   render() {
@@ -170,8 +160,7 @@ class ListSearch extends PureComponent {
 
     const {
       tableData: { loading: tableDataLoading, data: tableResource },
-      selectedRows,
-      current
+      selectedRows
     } = listsearch;
 
     const menu = (
@@ -214,7 +203,7 @@ class ListSearch extends PureComponent {
           </div>
         </Card>
         <CreateForm />
-        {current ? <UpdateForm /> : null}
+        <UpdateForm />
       </PageHeaderWrapper>
     );
   }
@@ -225,13 +214,12 @@ const mapStateToProps = rootState => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess,
-  stateUpdate,
-  stateFetch,
   initializeData: listsearchActions.initializeData,
+  createFormUpdate: listsearchActions.createFormUpdate,
+  updateFormUpdate: listsearchActions.updateFormUpdate,
+  selectedRowsUpdate: listsearchActions.selectedRowsUpdate,
   tableDataUpdate: listsearchActions.tableDataUpdate,
-  tableDataDelete: listsearchActions.tableDataDelete,
-  createFormUpdate: listsearchActions.createFormUpdate
+  tableDataDelete: listsearchActions.tableDataDelete
 };
 
 export default connect(

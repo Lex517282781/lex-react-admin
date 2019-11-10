@@ -9,6 +9,8 @@ import {
   Steps,
   Radio
 } from 'antd';
+import { connect } from 'react-redux';
+import * as listsearchActions from '../effects';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -19,7 +21,6 @@ const { TextArea } = Input;
 class UpdateForm extends PureComponent {
   static defaultProps = {
     handleUpdate: () => {},
-    handleUpdateModalVisible: () => {},
     values: {}
   };
 
@@ -166,16 +167,12 @@ class UpdateForm extends PureComponent {
   };
 
   renderFooter = currentStep => {
-    const { handleUpdateModalVisible, values } = this.props;
     if (currentStep === 1) {
       return [
         <Button key="back" style={{ float: 'left' }} onClick={this.backward}>
           上一步
         </Button>,
-        <Button
-          key="cancel"
-          onClick={() => handleUpdateModalVisible(false, values)}
-        >
+        <Button key="cancel" onClick={this.handleCancel}>
           取消
         </Button>,
         <Button
@@ -192,10 +189,7 @@ class UpdateForm extends PureComponent {
         <Button key="back" style={{ float: 'left' }} onClick={this.backward}>
           上一步
         </Button>,
-        <Button
-          key="cancel"
-          onClick={() => handleUpdateModalVisible(false, values)}
-        >
+        <Button key="cancel" onClick={this.handleCancel}>
           取消
         </Button>,
         <Button
@@ -208,10 +202,7 @@ class UpdateForm extends PureComponent {
       ];
     }
     return [
-      <Button
-        key="cancel"
-        onClick={() => handleUpdateModalVisible(false, values)}
-      >
+      <Button key="cancel" onClick={this.handleCancel}>
         取消
       </Button>,
       <Button
@@ -224,8 +215,17 @@ class UpdateForm extends PureComponent {
     ];
   };
 
+  handleCancel = () => {
+    const { updateFormUpdate } = this.props;
+    updateFormUpdate({
+      visible: false
+    });
+  };
+
+  handleAfterClose = () => {};
+
   render() {
-    const { updateModalVisible, handleUpdateModalVisible, values } = this.props;
+    const { updateForm } = this.props;
     const { currentStep, formVals } = this.state;
 
     return (
@@ -234,10 +234,10 @@ class UpdateForm extends PureComponent {
         bodyStyle={{ padding: '32px 40px 48px' }}
         destroyOnClose
         title="规则配置"
-        visible={updateModalVisible}
+        visible={updateForm.visible}
         footer={this.renderFooter(currentStep)}
-        onCancel={() => handleUpdateModalVisible(false, values)}
-        afterClose={() => handleUpdateModalVisible()}
+        onCancel={this.handleCancel}
+        afterClose={this.handleAfterClose}
       >
         <Steps style={{ marginBottom: 28 }} size="small" current={currentStep}>
           <Step title="基本信息" />
@@ -250,4 +250,15 @@ class UpdateForm extends PureComponent {
   }
 }
 
-export default Form.create()(UpdateForm);
+const mapStateToProps = rootState => ({
+  updateForm: rootState.listsearch.updateForm
+});
+
+const mapDispatchToProps = {
+  updateFormUpdate: listsearchActions.updateFormUpdate
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form.create()(UpdateForm));
