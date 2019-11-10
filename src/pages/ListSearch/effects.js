@@ -33,6 +33,14 @@ export const updateFormUpdate = data => {
   });
 };
 
+// 更新当前对象
+export const currentUpdate = data => {
+  return stateUpdate({
+    namespace: `listsearch/current`,
+    data
+  });
+};
+
 export const selectedRowsUpdate = data => {
   return stateUpdate({
     namespace: `listsearch/selectedRows`,

@@ -17,7 +17,6 @@ import {
   Avatar,
   Modal
 } from 'antd';
-import { stateSuccess, stateUpdate } from '@/store/actionCreators';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import UpdateForm from './subs/UpdateForm';
 import * as listbasicActions from './effects';
@@ -39,11 +38,19 @@ class ListBasic extends PureComponent {
     tableDataUpdate();
   }
 
+  showEditModal = current => {
+    const { currentUpdate, updateFormUpdate } = this.props;
+    currentUpdate(current);
+    updateFormUpdate({
+      visible: true
+    });
+  };
+
   deleteItem = id => {
-    console.log(`dispatch({
-      type: 'list/submit',
-      payload: { ${id} },
-    });`);
+    const { tableDataDelete } = this.props;
+    tableDataDelete({
+      id
+    });
   };
 
   render() {
@@ -219,10 +226,11 @@ const mapStateToProps = rootState => ({
 });
 
 const mapDispatchToProps = {
-  stateSuccess,
-  stateUpdate,
   initializeData: listbasicActions.initializeData,
-  tableDataUpdate: listbasicActions.tableDataUpdate
+  currentUpdate: listbasicActions.currentUpdate,
+  tableDataUpdate: listbasicActions.tableDataUpdate,
+  tableDataDelete: listbasicActions.tableDataDelete,
+  updateFormUpdate: listbasicActions.updateFormUpdate
 };
 
 export default connect(
