@@ -61,7 +61,28 @@
 
 1. 权限组件 ——> 'src/components/WrapAuth'
 
--
+- wrapAuth 是基础组件
+- appWrapAuth 是基于该应用所有最小权限池的高阶组件
+- AppWrap 是基于 appWrapAuth 上层的组件 即元素默认组件
+- 也可向 wrapAuth 组件传入自己的权限 生成基于自定义权限范围封装的组件
+- 也可向 appWrapAuth 组件传入自己的组件 生成基于应用权限范围的自定义组件
+
+- 如应用的权限范围组件
+  -- 默认为 div, 如:
+
+  ```js
+  // 使用权限组件 是否有新建功能
+  <AppWrap auth="add">新建</AppWrap>
+  ```
+
+  -- 自定义组件 如 Button 则使用:
+
+  ```js
+  // 定义权限组件
+  const ButtonWrap = appWrapAuth(Button);
+  // 使用权限组件 是否有新建功能
+  <ButtonWrap auth="add">新建</ButtonWrap>;
+  ```
 
 ## 问题
 

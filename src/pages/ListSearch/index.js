@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Card, Icon, Button, Dropdown, Menu, Badge, Divider } from 'antd';
+import { appWrapAuth } from '@/components/WrapAuth';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import CreateForm from './subs/CreateForm';
 import UpdateForm from './subs/UpdateForm';
 import QueryForm from './subs/QueryForm';
+import { getFormatAuth } from '@/utils/tools';
 import * as listsearchActions from './effects';
 import styles from './style.less';
 
@@ -154,9 +156,13 @@ class ListSearch extends PureComponent {
   };
 
   render() {
-    const { listsearch } = this.props;
+    const { listsearch, location, breadcrumbNameMap } = this.props;
 
     if (!listsearch) return null;
+
+    const currentPageAuths = breadcrumbNameMap[location.pathname].auths || [];
+    const currentPageGetAuth = getFormatAuth(location.pathname, 'get');
+    const hasGetAuth = currentPageAuths.includes(currentPageGetAuth);
 
     const {
       tableData: { loading: tableDataLoading, data: tableResource },
@@ -170,6 +176,8 @@ class ListSearch extends PureComponent {
       </Menu>
     );
 
+    const ButtonWrap = appWrapAuth(Button);
+
     return (
       <PageHeaderWrapper title="查询表格">
         <Card bordered={false}>
@@ -178,9 +186,14 @@ class ListSearch extends PureComponent {
               <QueryForm />
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={this.handleAdd}>
+              <ButtonWrap
+                auth={hasGetAuth}
+                icon="plus"
+                type="primary"
+                onClick={this.handleAdd}
+              >
                 新建
-              </Button>
+              </ButtonWrap>
               {selectedRows.length > 0 && (
                 <span>
                   <Button>批量操作</Button>
@@ -210,7 +223,8 @@ class ListSearch extends PureComponent {
 }
 
 const mapStateToProps = rootState => ({
-  listsearch: rootState.listsearch
+  listsearch: rootState.listsearch,
+  breadcrumbNameMap: rootState.common.menu.breadcrumbNameMap
 });
 
 const mapDispatchToProps = {
