@@ -8,10 +8,11 @@ const wrapAuth = authority => Component => {
     };
 
     render() {
-      if (authority.includes(this.props.auth)) {
-        return <Component key="account" {...this.props} />;
+      const { auth, exception, ...rest } = this.props;
+      if (authority.includes(auth)) {
+        return <Component {...rest} />;
       } else {
-        return null;
+        return exception || null;
       }
     }
   };

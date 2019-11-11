@@ -57,6 +57,12 @@
 6. 路由文件的初始化 state 需提前在每个路由根文件下的 constructor 生成 以防止页面中数据为空的 undefined 现象
 7. 所有的 action 可重新在 effects 里面再包装一层再给外部使用, 或在文件中直接使用 stateRequest stateSuccess stateFailure stateFetch stateUpdate
 
+## 权限
+
+1. 权限组件 ——> 'src/components/WrapAuth'
+
+-
+
 ## 问题
 
 ### antd 按需加载

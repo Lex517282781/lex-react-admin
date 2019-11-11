@@ -205,3 +205,8 @@ export function getValidParam(obj, isNeedEmpty = false) {
 
   return param;
 }
+
+export function getFormatAuth(path, auth) {
+  const presetKey = path.replace(/\//g, '.');
+  return `auth${presetKey}.${auth}`;
+}

@@ -65,7 +65,8 @@ const router = [
     children: [
       {
         key: 'search',
-        component: asyncComponent(() => import('@/pages/ListSearch'))
+        component: asyncComponent(() => import('@/pages/ListSearch')),
+        auths: ['get', 'update', 'add', 'delete']
       },
       {
         key: 'basic',

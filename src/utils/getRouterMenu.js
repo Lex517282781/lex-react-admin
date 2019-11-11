@@ -42,6 +42,12 @@ const getRouterMenu = (routers, routerMap, norMatch) => {
       let presetKey = path.replace(/\//g, '.');
       router.path = path;
       router.parentPath = parent ? parent.path : '/';
+
+      if (router.auths) {
+        // 有权限的时候 组合权限
+        router.auths = router.auths.map(item => `auth${presetKey}.${item}`);
+      }
+
       if (routerMap) {
         if (routerMap[router.path]) {
           // 因为之后的递归业务和children, redirect 两个元素有关 所以要把children, redirect 这两个元素剔除
