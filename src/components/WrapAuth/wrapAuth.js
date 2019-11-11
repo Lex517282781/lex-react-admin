@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { UNITAUTHORITYOPEN } from '@/config/env';
 
 const wrapAuth = authority => Component => {
   return class WrapComponent extends React.Component {
@@ -11,7 +12,8 @@ const wrapAuth = authority => Component => {
       const { auth, exception, ...rest } = this.props;
       if (
         (typeof auth === 'boolean' && auth) ||
-        (typeof auth === 'string' && authority.includes(auth))
+        (typeof auth === 'string' && authority.includes(auth)) ||
+        !UNITAUTHORITYOPEN
       ) {
         return <Component {...rest} />;
       } else {
