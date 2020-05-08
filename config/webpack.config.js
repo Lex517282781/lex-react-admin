@@ -107,7 +107,9 @@ module.exports = function(webpackEnv) {
   const env = getClientEnvironment(publicUrl);
 
   // common function to get style loaders
-  const getStyleLoaders = (cssOptions, preProcessor) => {
+  const getStyleLoaders = ({ getLocalIdent, ...rest }, preProcessor) => {
+    // cssOptions
+    const cssModuleOption = isEnvDevelopment ? { ...rest, localIdentName: '[name]_[local]___[hash:base64:5]'} : { getLocalIdent, ...rest } // 新加
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
       isEnvProduction && {
@@ -116,7 +118,8 @@ module.exports = function(webpackEnv) {
       },
       {
         loader: require.resolve('css-loader'),
-        options: cssOptions
+        // options: cssOptions
+        options: cssModuleOption
       },
       {
         // Options for PostCSS as we reference these options twice
