@@ -151,6 +151,7 @@ class BaseMenu extends PureComponent {
       'top-nav-menu': mode === 'horizontal'
     });
 
+    console.log(menuData)
     return (
       <Menu
         key="Menu"

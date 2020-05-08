@@ -1,4 +1,4 @@
-const BASEURL = 'http://localhost:9093'; // 接口域名统一前缀
+const BASEURL = 'http://localhost:9091'; // 接口域名统一前缀
 
 const STOREKEY = 'LEX_REACT_ADMIN'; // 本地储存KEY
 

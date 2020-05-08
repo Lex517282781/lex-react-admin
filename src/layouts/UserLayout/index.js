@@ -26,10 +26,10 @@ const copyright = (
 
 class UserLayout extends PureComponent {
   UNSAFE_componentWillMount() {
-    this.props.stateSuccess({
-      namespace: 'common/user',
-      data: null
-    });
+    // this.props.stateSuccess({
+    //   namespace: 'common/user',
+    //   data: null
+    // });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {

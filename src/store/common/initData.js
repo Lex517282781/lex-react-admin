@@ -16,6 +16,10 @@ const breadcrumbNameMap = AUTHORITYOPEN
   : originalBreadcrumbNameMap;
 
 const commonData = {
+  user: {
+    loading: false,
+    data: {}
+  },
   setting,
   global: {
     collapsed: false
